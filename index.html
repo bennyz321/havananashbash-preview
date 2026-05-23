@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no" />
 <title>Havana Nash Bash · Jess's 40th · Nashville Jun 18–21</title>
 <meta name="description" content="Jess's 40th Birthday Bash — a Havana-meets-Nashville long weekend itinerary. June 18–21, 2026." />
 
@@ -31,8 +31,8 @@
 
 <style>
   :root { --pink:#FF2D6F; --coral:#FF5A3C; --orange:#FF9A2E; --teal:#19C2A8; --gold:#F4CE7A; }
-  html { scroll-behavior: smooth; background:#110a18; }
-  body { background:#150d1f; color:#F7ECDD; -webkit-font-smoothing:antialiased; overflow-x:hidden; position:relative; }
+  html { scroll-behavior: smooth; background:#110a18; overflow-x:hidden; max-width:100vw; }
+  body { background:#150d1f; color:#F7ECDD; -webkit-font-smoothing:antialiased; overflow-x:hidden; max-width:100vw; position:relative; }
 
   .grad-text { background:linear-gradient(100deg,var(--pink) 0%,var(--coral) 45%,var(--orange) 100%);
     -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent; color:transparent; }
@@ -90,13 +90,13 @@
     background: linear-gradient(180deg, rgba(21,13,31,0) 0%, rgba(21,13,31,.35) 35%, rgba(21,13,31,.75) 70%, #150d1f 100%); }
 
   /* HERO FLANKS — text-CTA on LEFT, marquee 4-0 logo on RIGHT; reserve middle column for Jess in the photo.
-     Mobile (Ben spec 2026-05-22 v5.5): small 4-0 logo ABOVE Jess's head, text block BELOW (where logo was). */
-  .hero-flanks { display:flex; flex-direction:column; min-height: calc(min(100svh, 1000px) - 1rem); padding:1.5rem 0 2.5rem; margin:0 auto; }
+     Mobile (Ben spec 2026-05-22 v5.6): small 4-0 logo FULLY ABOVE Jess's head (no overlap), text block at bottom. */
+  .hero-flanks { display:flex; flex-direction:column; min-height: calc(min(100svh, 1000px) - 1rem); padding:0.25rem 0 2.5rem; margin:0 auto; }
   .hero-flanks .hero-left, .hero-flanks .hero-right { width:100%; }
   .hero-flanks .hero-spacer { display:none; }
   .hero-flanks .hero-right { order:1; }
   .hero-flanks .hero-left  { order:2; margin-top:auto; }
-  .hero-flanks .hero-logo { width:min(44vw, 200px); height:auto; margin-left:auto; margin-right:auto; }
+  .hero-flanks .hero-logo { width:min(26vw, 108px); height:auto; margin-left:auto; margin-right:auto; }
   @media (min-width: 768px) {
     .hero-flanks { grid-template-columns: minmax(0, 1.05fr) minmax(0, .85fr) minmax(0, 1.05fr); gap:1rem; padding:5.5rem 1rem 4rem; align-items:start; }
     .hero-flanks .hero-spacer { display:block; }
@@ -160,8 +160,8 @@
     .day-flank.is-eric { object-position: center -10%; }
     .day-content { position: relative; z-index: 2; width: 100%; }
     .tl, .ev-card { position: relative; z-index: 2; }
-    .daynav { position: fixed; left: 0; right: 0; top: 0; }
-    body { padding-top: 3rem; }
+    nav.daynav { position: fixed; left: 0; right: 0; top: 0; z-index: 50; }
+    body { padding-top: 2.6rem; margin: 0; }
   }
   .day-content { min-width:0; align-self:center; }
   @keyframes cutsway {
@@ -587,7 +587,7 @@
     "monells":["01-4207378f90.jpg","02-9bf9a61cfd.jpg","03-7c5602671d.jpg","04-4207378f90.jpg","05-9bf9a61cfd.jpg"],
     "nashville-tractor":["01-65e2f7e80b.jpg","02-65e2f7e80b.jpg"],
     "nashville-underground":["01-ad51cc754b.jpg","02-3504aa3b34.jpg","03-272db98c2e.jpg","04-5ff3967309.jpg","05-77fde6328b.jpg"],
-    "opry":["01-67f0d2c47b.jpg","02-1e502ff391.jpg","03-24bd2927f2.jpg"],
+    "opry":["01-opry-0a197b3da2.jpg","02-opry-b85ba9d83b.jpg","03-opry-c1b4b436f6.jpg","04-opry-b5145c27cb.jpg","05-opry-d8db20986c.jpg","06-opry-77fd5228ef.jpg"],
     "patterson-house":["01-2e62ff6c62.jpg","02-a2c9ac6f94.jpg","03-dd9f6f9ff0.jpg","04-4dca8426c4.jpg","05-a03696248e.jpg"],
     "pinewood-social":["01-b41bfee145.jpg","02-e85e99804b.jpg","03-5f39c23336.jpg","04-d150200a3c.jpg","05-b53fd3cf42.jpg"],
     "sixty-vines":["01-04dcda2d38.jpg","02-04dcda2d38.jpg"],
@@ -697,14 +697,15 @@
       {time:"8:00 PM", title:"Welcome Dinner", confirmed:true, anchor:"casa-rosa", conf:"7V42YH4CWVEE", note:"Casa Rosa · \"Cowgirl Dinner\" · party of 10 · under Ben Zierten", start:"20260618T200000", end:"20260618T213000", options:[
         {name:"Casa Rosa", url:U.casaRosa, tag:"Miranda Lambert's cantina", slug:"casa-rosa",
          desc:"A celebrity-owned Tex-Mex spot with that famous rhinestone saddle—perfect for birthday photos.",
-         celeb:{file:"miranda-lambert.jpg", name:"Miranda Lambert"}},
-        {name:"Printer's Alley", url:U.printersAlley, tag:"historic nightlife district", slug:"printers-alley", alt:true,
+         celeb:{file:"miranda-lambert.jpg", name:"Miranda Lambert"}}
+      ]},
+      {time:"9:30 PM", title:"Late Night Drinks", pick:true, start:"20260618T213000", end:"20260618T235900", options:[
+        {name:"Printer's Alley", url:U.printersAlley, tag:"historic nightlife district", slug:"printers-alley",
          desc:"Explore the historic, walkable area with speakeasies and a more refined, cool vibe."},
-        {name:"Chief's on Broadway", url:U.chiefs, tag:"Eric Church's 6-story honky-tonk", slug:"chiefs", alt:true,
+        {name:"Chief's on Broadway", url:U.chiefs, tag:"Eric Church's 6-story honky-tonk", slug:"chiefs",
          desc:"Eric Church's 6-story bar. Sophisticated, high-energy, and featuring incredible whole-hog BBQ.",
          celeb:{file:"eric-church.jpg", name:"Eric Church"}}
-      ]},
-      {time:"Late", title:"Nightcap on Broadway", buffer:true, note:"Wander the neon — late drinks wherever the night takes us."}
+      ]}
     ]},
     { id:"day-fri", dow:"Friday", date:"June 19", theme:"Jess's Big 4-0", sub:"The main event of the year.",
       couple:{ left:"jess", right:"ben" }, events:[
