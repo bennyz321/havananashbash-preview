@@ -96,10 +96,10 @@
   .hero-flanks .hero-spacer { display:none; }
   .hero-flanks .hero-logo { width:min(74vw, 360px); height:auto; }
   @media (min-width: 768px) {
-    .hero-flanks { grid-template-columns: minmax(0, 1.05fr) minmax(0, .85fr) minmax(0, 1.05fr); gap:1rem; padding:5.5rem 1rem 4rem; }
+    .hero-flanks { grid-template-columns: minmax(0, 1.05fr) minmax(0, .85fr) minmax(0, 1.05fr); gap:1rem; padding:5.5rem 1rem 4rem; align-items:start; }
     .hero-flanks .hero-spacer { display:block; }
     .hero-flanks .hero-left  { padding-right:.5rem; }
-    .hero-flanks .hero-right { padding-left:.5rem; display:flex; align-items:center; justify-content:center; }
+    .hero-flanks .hero-right { padding-left:.5rem; display:flex; align-items:flex-start; justify-content:center; padding-top:.5rem; }
     .hero-flanks .hero-logo { width:min(28vw, 440px); }
   }
   @media (min-width: 1280px) {
@@ -285,6 +285,16 @@
   .venue-desc { font-family:"Outfit",system-ui,sans-serif; color:rgba(247,236,221,.78);
     font-size:.92rem; line-height:1.5; margin-top:.5rem; }
 
+  /* per-option confirmation # — gold pill + optional sub-note */
+  .venue-conf { display:flex; flex-wrap:wrap; align-items:center; gap:.55rem .7rem; margin-top:.55rem; }
+  .conf-pill { display:inline-flex; align-items:center;
+    font-family:"Bebas Neue","Outfit",system-ui,sans-serif; letter-spacing:.13em;
+    font-size:.78rem; padding:.28rem .65rem; border-radius:9999px;
+    color:#0f0a06; background:linear-gradient(180deg, #F5D27B 0%, #D9A24E 100%);
+    box-shadow: 0 1px 0 rgba(255,255,255,.35) inset, 0 0 12px rgba(245,210,123,.28); }
+  .conf-note { font-family:"Outfit",system-ui,sans-serif; color:rgba(247,236,221,.62);
+    font-size:.78rem; }
+
   /* per-venue 2-col row: carousel LEFT (~55%), name+desc+buttons RIGHT (Ben spec 2026-05-22, widened 22:30) */
   .venue-row { display:grid; gap:1.6rem; margin-top:1rem; padding-top:1rem;
     border-top:1px dashed rgba(255,255,255,.10);
@@ -341,7 +351,21 @@
   .nb-20 { top:316vh; left:4vw;   width:34vw; max-width:480px; aspect-ratio:3/2;   transform:rotate(3deg);   opacity:.10; }
   .nb-21 { top:334vh; right:12vw; width:32vw; max-width:460px; aspect-ratio:4/3;   transform:rotate(-5deg);  opacity:.11; }
   .nb-22 { top:352vh; left:-4vw;  width:38vw; max-width:520px; aspect-ratio:5/3;   transform:rotate(4deg);   opacity:.09; }
-  /* Collage range: hero → start of 'A Preview of the Mayhem' section (Ben spec 2026-05-22 v5.2). */
+  /* Collage range: hero → start of 'A Preview of the Mayhem' section (Ben spec v5.4: cover Thu/Fri/Sat/Sun all 4 day sections). */
+  .nb-23 { top:370vh; right:6vw;  width:34vw; max-width:480px; aspect-ratio:16/10; transform:rotate(-3deg);  opacity:.11; }
+  .nb-24 { top:388vh; left:14vw;  width:32vw; max-width:460px; aspect-ratio:3/2;   transform:rotate(5deg);   opacity:.10; }
+  .nb-25 { top:408vh; right:-5vw; width:40vw; max-width:560px; aspect-ratio:4/3;   transform:rotate(-4deg);  opacity:.12; }
+  .nb-26 { top:426vh; left:-6vw;  width:38vw; max-width:520px; aspect-ratio:5/3;   transform:rotate(3deg);   opacity:.10; }
+  .nb-27 { top:444vh; right:10vw; width:32vw; max-width:460px; aspect-ratio:16/9;  transform:rotate(-2deg);  opacity:.11; }
+  .nb-28 { top:462vh; left:2vw;   width:34vw; max-width:480px; aspect-ratio:3/2;   transform:rotate(6deg);   opacity:.09; }
+  .nb-29 { top:480vh; right:-4vw; width:36vw; max-width:500px; aspect-ratio:5/3;   transform:rotate(-5deg);  opacity:.12; }
+  .nb-30 { top:498vh; left:8vw;   width:30vw; max-width:440px; aspect-ratio:16/10; transform:rotate(4deg);   opacity:.10; }
+  .nb-31 { top:516vh; right:8vw;  width:34vw; max-width:480px; aspect-ratio:3/2;   transform:rotate(-3deg);  opacity:.11; }
+  .nb-32 { top:534vh; left:-5vw;  width:40vw; max-width:560px; aspect-ratio:4/3;   transform:rotate(5deg);   opacity:.09; }
+  .nb-33 { top:552vh; right:14vw; width:30vw; max-width:440px; aspect-ratio:5/3;   transform:rotate(-2deg);  opacity:.12; }
+  .nb-34 { top:570vh; left:18vw;  width:32vw; max-width:460px; aspect-ratio:16/9;  transform:rotate(4deg);   opacity:.10; }
+  .nb-35 { top:588vh; right:-6vw; width:38vw; max-width:520px; aspect-ratio:3/2;   transform:rotate(-4deg);  opacity:.11; }
+  .nb-36 { top:606vh; left:-4vw;  width:36vw; max-width:500px; aspect-ratio:4/3;   transform:rotate(6deg);   opacity:.09; }
   @media (max-width: 640px) {
     .nb-photo { opacity:.10 !important; width:78vw !important; max-width:none !important; }
   }
@@ -515,7 +539,8 @@
     "white-limozeen":["01-4ba770b412.jpg","02-d50bc5efd7.jpg","03-0c75f7475d.jpg","04-e09315c47f.jpg","05-bcc35af990.jpg"],
     "zanies":["01-74f2d6130a.jpg","02-daca0b3362.jpg","03-a0e4df8d82.jpg","04-917b18600c.jpg","05-3be3001ce9.jpg"],
     "the-gulch":["01-the-gulch-55d2bac4f7.jpg","02-the-gulch-b4066656b9.jpg","03-the-gulch-cab9b3fd54.jpg","04-the-gulch-a592677fcd.jpg","05-the-gulch-56e9f79b06.jpg"],
-    "printers-alley":["01-printers-alley-50591acc93.jpg","02-printers-alley-d1e3012ddd.jpg","03-printers-alley-07e3745666.jpg","04-printers-alley-fee98284df.jpg","05-printers-alley-b44221879c.jpg"]
+    "printers-alley":["01-printers-alley-50591acc93.jpg","02-printers-alley-d1e3012ddd.jpg","03-printers-alley-07e3745666.jpg","04-printers-alley-fee98284df.jpg","05-printers-alley-b44221879c.jpg"],
+    "peg-leg-porker":["01-peg-leg-porker-8d288d74c4.jpg","02-peg-leg-porker-9190475091.jpg","03-peg-leg-porker-1d7db968b6.jpg","04-peg-leg-porker-60b7878b3d.jpg","05-peg-leg-porker-f688af72fd.jpg"]
   };
   function venueCarousel(slug, label){
     var files = VENUE_IMG[slug];
@@ -613,6 +638,7 @@
       {time:"6:45 PM", title:"Check in — Bode Nashville", conf:"145200", note:"The Gulch · home base all weekend", start:"20260618T184500", end:"20260618T193000", options:[{name:"Bode Nashville", url:U.bode, slug:"bode", desc:"Boutique home-base in The Gulch — modern lofts, walking distance to nearly everything on the itinerary."}]},
       {time:"8:00 PM", title:"Welcome Dinner", pick:true, start:"20260618T200000", end:"20260618T213000", options:[
         {name:"Casa Rosa", url:U.casaRosa, tag:"Miranda Lambert's cantina", slug:"casa-rosa",
+         conf:"7V42YH4CWVEE", confNote:"\"Cowgirl Dinner\" · party of 10 · 8:00 PM · under Ben Zierten",
          desc:"A celebrity-owned Tex-Mex spot with that famous rhinestone saddle—perfect for birthday photos.",
          celeb:{file:"miranda-lambert.jpg", name:"Miranda Lambert"}},
         {name:"Printer's Alley", url:U.printersAlley, tag:"historic nightlife district", slug:"printers-alley",
@@ -881,6 +907,13 @@
         }
         if (opt.tag) nameHtml += '<p class="venue-tag">'+opt.tag+'</p>';
         right.innerHTML = nameHtml;
+        if (opt.conf){
+          var cf = document.createElement("p");
+          cf.className = "venue-conf";
+          cf.innerHTML = '<span class="conf-pill">CONF #' + opt.conf + '</span>' +
+            (opt.confNote ? '<span class="conf-note">' + opt.confNote + '</span>' : '');
+          right.appendChild(cf);
+        }
         if (opt.desc){
           var dsc = document.createElement("p");
           dsc.className = "venue-desc";
