@@ -134,9 +134,7 @@
      both L+R share animation-delay so vertical translateY is identical at every t. */
   .day-flank.left  { --rot:-3deg; animation-delay:-1.2s; transform:rotate(-3deg); }
   .day-flank.right { --rot:3deg;  animation-delay:-1.2s; transform:rotate(3deg);  }
-  /* Eric PNG has a mid-thigh cut on the source — push it well below visible frame
-     (no mask/dissolve allowed per v5.3 hard-alpha spec). */
-  .day-flank.is-eric { object-position: center 130%; }
+  /* Eric: new image (v5.11 2026-05-23) has full-body including boots — use default object-position. */
 
   /* MOBILE-ONLY overrides (Ben spec 2026-05-22 v5.5):
      - cutouts WAY BIGGER via absolute positioning (escape grid); body bleeds off-screen edges
@@ -162,16 +160,13 @@
     }
     .day-flank.left  { left: -14vw;  transform: rotate(-3deg); }
     .day-flank.right { right: -14vw; transform: rotate(3deg);  }
-    .day-flank.is-eric { object-position: center -10%; }
     .day-content { position: relative; z-index: 2; width: 100%; }
     .tl, .ev-card { position: relative; z-index: 2; }
   }
 
-  /* Mobile-landscape (v5.7, threshold-widened v5.10): use desktop-like split (logo right of Jess),
-     itinerary edge-to-edge, no flank cutouts (would bleed in landscape).
-     v5.10: width-threshold (max-width:767px) missed modern phones in landscape (iPhone Pro Max = 932w);
-     switched to height-threshold (max-height:500px) which catches all phone-in-landscape
-     and excludes tablets (iPad mini landscape height ~744px) + laptops. */
+  /* PHONE-landscape ONLY (height-bound): tight hero with small logo for vertical-crunch.
+     iPads in landscape have plenty of height (744+) and keep the desktop hero (taller logo,
+     more breathing room). Only phones (height 375-430 in landscape) get this compressed hero. */
   @media (orientation: landscape) and (max-height: 500px) {
     .hero-flanks {
       display: grid !important;
@@ -185,7 +180,15 @@
     .hero-flanks .hero-left  { padding-right:.3rem; padding-top:0; margin-top:0; order:initial; }
     .hero-flanks .hero-right { padding-left:.3rem; display:flex; align-items:flex-start; justify-content:center; padding-top:.4rem; order:initial; }
     .hero-flanks .hero-logo  { width:min(34vw, 260px); margin-left:0; margin-right:0; }
+  }
 
+  /* ITINERARY edge-to-edge for phones+iPads in landscape (width-bound).
+     v5.10 used max-height:500px (phones only) — MISSED iPads in landscape (height 744-1024).
+     v5.11 trigger: orientation:landscape + max-width:1366px catches ALL phones (375-932w) +
+     ALL iPads in landscape (1133-1366w). Excludes laptops 1400+ and desktops.
+     Drops cutout-flank cols (would bleed in landscape anyway), expands content to viewport.
+     Per cascade-loss memory N=3: verified on actual viewport via DevTools matrix below. */
+  @media (orientation: landscape) and (max-width: 1366px) {
     .day-flank { display: none; }
     .day-grid { display: block; padding: 0; }
     main#itinerary > section .max-w-5xl,
