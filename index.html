@@ -81,9 +81,8 @@
             mask-image: linear-gradient(to bottom, #000 0%, #000 60%, rgba(0,0,0,.72) 78%, rgba(0,0,0,.32) 90%, transparent 100%); }
   .hero-scrim { position:absolute; inset:0; z-index:2; pointer-events:none;
     background:
-      linear-gradient(180deg, rgba(21,13,31,.45) 0%, rgba(21,13,31,.18) 28%, rgba(21,13,31,.22) 55%, rgba(21,13,31,.65) 75%, rgba(21,13,31,.92) 90%, rgba(21,13,31,1) 100%),
-      linear-gradient(90deg, rgba(21,13,31,.55) 0%, rgba(21,13,31,.28) 22%, rgba(21,13,31,0) 40%, rgba(21,13,31,0) 60%, rgba(21,13,31,.28) 78%, rgba(21,13,31,.55) 100%),
-      radial-gradient(120% 70% at 50% 110%, rgba(255,45,111,.28), transparent 60%); }
+      linear-gradient(180deg, rgba(21,13,31,.30) 0%, rgba(21,13,31,.10) 28%, rgba(21,13,31,.15) 55%, rgba(21,13,31,.60) 75%, rgba(21,13,31,.92) 90%, rgba(21,13,31,1) 100%),
+      radial-gradient(120% 70% at 50% 110%, rgba(255,45,111,.22), transparent 60%); }
   .hero-vignette { position:absolute; inset:0; z-index:2; pointer-events:none;
     box-shadow: inset 0 0 220px 30px rgba(0,0,0,.55); }
   /* extra cross-fade band sitting AT the hero/body junction so any micro color-step disappears */
@@ -107,10 +106,8 @@
     .hero-flanks .hero-logo { width:min(26vw, 520px); }
   }
 
-  /* COUPLE FLANKS — one partner LEFT, other RIGHT, content between (v3 layout)
-     CSS-grid approach: each section is a 3-column grid [cutout | content | cutout].
-     Cutouts grow on desktop (up to 320px wide) and shrink-but-stay-visible on mobile (min 70px).
-     Each couple appears exactly ONCE down the page; Papo+Yari flank the slideshow header. */
+  /* COUPLE FLANKS — clean hard-alpha edges only (no mask/fade) per Ben spec 2026-05-22 v5.3.
+     CSS-grid approach: each section is a 3-column grid [cutout | content | cutout]. */
   /* Mobile: narrow flanks so the timeline-card column stays readable + stacked (Ben spec 2026-05-22) */
   .day-grid { display:grid; gap:.35rem; align-items:start; max-width:108rem; margin:0 auto;
     grid-template-columns: clamp(72px, 15vw, 120px) minmax(0,1fr) clamp(72px, 15vw, 120px); }
@@ -126,20 +123,16 @@
   .day-flank { width:100%; aspect-ratio: 5/9; height:auto; display:block; pointer-events:none;
     object-fit: contain; object-position: center bottom;
     filter: drop-shadow(0 18px 36px rgba(0,0,0,.65)) drop-shadow(0 0 22px rgba(255,90,60,.22));
-    opacity:.96; will-change:transform;
-    -webkit-mask-image: linear-gradient(to bottom, #000 86%, transparent 99%);
-            mask-image: linear-gradient(to bottom, #000 86%, transparent 99%);
+    will-change:transform;
     animation: cutsway 9s ease-in-out infinite;
   }
   /* Couples sway IN SYNC so they read as straight-across (Ben spec 2026-05-22):
      both L+R share animation-delay so vertical translateY is identical at every t. */
   .day-flank.left  { --rot:-3deg; animation-delay:-1.2s; transform:rotate(-3deg); }
   .day-flank.right { --rot:3deg;  animation-delay:-1.2s; transform:rotate(3deg);  }
-  /* Eric PNG has a visible mid-thigh leg-cut. Pull him slightly down so the cut sinks below
-     visible frame AND extend the bottom mask fade so the cut-edge dissolves smoothly. */
-  .day-flank.is-eric { object-position: center 112%;
-    -webkit-mask-image: linear-gradient(to bottom, #000 60%, transparent 88%);
-            mask-image: linear-gradient(to bottom, #000 60%, transparent 88%); }
+  /* Eric PNG has a mid-thigh cut on the source — push it well below visible frame
+     (no mask/dissolve allowed per v5.3 hard-alpha spec). */
+  .day-flank.is-eric { object-position: center 130%; }
   .day-content { min-width:0; align-self:center; }
   @keyframes cutsway {
     0%,100% { transform: translateY(0) rotate(var(--rot,0deg)); }
@@ -427,13 +420,13 @@
 </nav>
 
 <!-- ============ HERO — PHOTO BANNER ============ -->
-<header id="top" class="relative flex flex-col items-center justify-center px-4 sm:px-6 overflow-hidden" style="min-height:min(100svh, 1000px); height:min(100svh, 1000px);">
+<header id="top" class="relative flex flex-col items-center justify-center overflow-hidden" style="min-height:min(100svh, 1000px); height:min(100svh, 1000px); width:100vw; margin-left:calc(50% - 50vw);">
   <img class="hero-photo" src="photos/web/hero-jbanner.jpg" alt="Jess on a Nashville rooftop with marquee 40 letters, pink 40 balloons, and Nashville skyline" />
   <div class="hero-scrim"></div>
   <div class="hero-vignette"></div>
   <div class="hero-fadeout"></div>
 
-  <div class="hero-flanks relative z-10 w-full max-w-[1500px] reveal">
+  <div class="hero-flanks relative z-10 w-full max-w-[1500px] px-4 sm:px-6 reveal">
     <!-- LEFT flank: dates · script title · spanish tagline · CTA -->
     <div class="hero-left text-center md:text-left">
       <p class="font-marquee tracking-[.4em] text-gold text-xs sm:text-sm md:text-base mb-4 neon-strong">NASHVILLE · JUNE 18–21, 2026</p>
@@ -520,7 +513,9 @@
     "twelve-thirty":["01-85522262e9.jpg","02-85522262e9.jpg","03-4fa9ec6ca0.jpg"],
     "von-elrods":["01-5c170c3eb9.jpg","02-0a7a4c80bf.jpg","03-fe5e0bd610.jpg","04-25d5dc84aa.jpg","05-5f630290e5.jpg"],
     "white-limozeen":["01-4ba770b412.jpg","02-d50bc5efd7.jpg","03-0c75f7475d.jpg","04-e09315c47f.jpg","05-bcc35af990.jpg"],
-    "zanies":["01-74f2d6130a.jpg","02-daca0b3362.jpg","03-a0e4df8d82.jpg","04-917b18600c.jpg","05-3be3001ce9.jpg"]
+    "zanies":["01-74f2d6130a.jpg","02-daca0b3362.jpg","03-a0e4df8d82.jpg","04-917b18600c.jpg","05-3be3001ce9.jpg"],
+    "the-gulch":["01-the-gulch-55d2bac4f7.jpg","02-the-gulch-b4066656b9.jpg","03-the-gulch-cab9b3fd54.jpg","04-the-gulch-a592677fcd.jpg","05-the-gulch-56e9f79b06.jpg"],
+    "printers-alley":["01-printers-alley-50591acc93.jpg","02-printers-alley-d1e3012ddd.jpg","03-printers-alley-07e3745666.jpg","04-printers-alley-fee98284df.jpg","05-printers-alley-b44221879c.jpg"]
   };
   function venueCarousel(slug, label){
     var files = VENUE_IMG[slug];
@@ -616,11 +611,11 @@
       couple:{ left:"eric", right:"Jenny" }, events:[
       {time:"4:25 PM", title:"Flight — Miami → Nashville", note:"MIA → BNA · lands 5:56 PM CT", start:"20260618T162500", end:"20260618T175600"},
       {time:"6:45 PM", title:"Check in — Bode Nashville", conf:"145200", note:"The Gulch · home base all weekend", start:"20260618T184500", end:"20260618T193000", options:[{name:"Bode Nashville", url:U.bode, slug:"bode", desc:"Boutique home-base in The Gulch — modern lofts, walking distance to nearly everything on the itinerary."}]},
-      {time:"7:45 PM", title:"Welcome Dinner", pick:true, start:"20260618T194500", end:"20260618T213000", options:[
+      {time:"8:00 PM", title:"Welcome Dinner", pick:true, start:"20260618T200000", end:"20260618T213000", options:[
         {name:"Casa Rosa", url:U.casaRosa, tag:"Miranda Lambert's cantina", slug:"casa-rosa",
          desc:"A celebrity-owned Tex-Mex spot with that famous rhinestone saddle—perfect for birthday photos.",
          celeb:{file:"miranda-lambert.jpg", name:"Miranda Lambert"}},
-        {name:"Printer's Alley", url:U.printersAlley, tag:"historic nightlife district",
+        {name:"Printer's Alley", url:U.printersAlley, tag:"historic nightlife district", slug:"printers-alley",
          desc:"Explore the historic, walkable area with speakeasies and a more refined, cool vibe."},
         {name:"Chief's on Broadway", url:U.chiefs, tag:"Eric Church's 6-story honky-tonk", slug:"chiefs",
          desc:"Eric Church's 6-story bar. Sophisticated, high-energy, and featuring incredible whole-hog BBQ.",
@@ -673,7 +668,7 @@
       {time:"1:00 PM", title:"Afternoon", pick:true, start:"20260620T130000", end:"20260620T153000", options:[
         {name:"Arrington Vineyards", url:U.arrington, tag:"winery · Kix Brooks co-owns", slug:"arrington",
          desc:"The top pick for beautiful hilltop views and a relaxed atmosphere."},
-        {name:"The Gulch", url:U.theGulch, tag:"shop & stroll the district",
+        {name:"The Gulch", url:U.theGulch, tag:"shop & stroll the district", slug:"the-gulch",
          desc:"Trendy neighborhood perfect for upscale shopping and rooftop drinks."}
       ]},
       {time:"4:00–6:30 PM", title:"Get-ready buffer", buffer:true, note:"Glam, round two."},
