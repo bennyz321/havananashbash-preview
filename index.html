@@ -167,9 +167,12 @@
     .tl, .ev-card { position: relative; z-index: 2; }
   }
 
-  /* Mobile-landscape (v5.7): use desktop-like split (logo right of Jess),
-     itinerary edge-to-edge, no flank cutouts (would bleed in landscape). */
-  @media (max-width: 767px) and (orientation: landscape) {
+  /* Mobile-landscape (v5.7, threshold-widened v5.10): use desktop-like split (logo right of Jess),
+     itinerary edge-to-edge, no flank cutouts (would bleed in landscape).
+     v5.10: width-threshold (max-width:767px) missed modern phones in landscape (iPhone Pro Max = 932w);
+     switched to height-threshold (max-height:500px) which catches all phone-in-landscape
+     and excludes tablets (iPad mini landscape height ~744px) + laptops. */
+  @media (orientation: landscape) and (max-height: 500px) {
     .hero-flanks {
       display: grid !important;
       grid-template-columns: minmax(0, 1fr) minmax(0, .8fr) minmax(0, 1fr);
