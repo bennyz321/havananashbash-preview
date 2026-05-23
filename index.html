@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Havana Nash Bash · Jess's 40th · Nashville Jun 18–21</title>
+<meta name="description" content="Jess's 40th Birthday Bash — a Havana-meets-Nashville long weekend itinerary. June 18–21, 2026." />
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;0,900;1,500&family=Yellowtail&family=Outfit:wght@300;400;500;600&family=Bebas+Neue&display=swap" rel="stylesheet" />
+
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: { extend: {
+      fontFamily: {
+        display: ['"Playfair Display"', 'serif'],
+        script: ['Yellowtail', 'cursive'],
+        marquee: ['"Bebas Neue"', 'sans-serif'],
+        body: ['Outfit', 'system-ui', 'sans-serif'],
+      },
+      colors: {
+        night:'#150d1f', night2:'#231431',
+        pink:'#FF2D6F', coral:'#FF5A3C', orange:'#FF9A2E',
+        teal:'#19C2A8', gold:'#F4CE7A', cream:'#F7ECDD',
+      },
+    } },
+  };
+</script>
+
+<style>
+  :root { --pink:#FF2D6F; --coral:#FF5A3C; --orange:#FF9A2E; --teal:#19C2A8; --gold:#F4CE7A; }
+  html { scroll-behavior: smooth; background:#110a18; }
+  body { background:#150d1f; color:#F7ECDD; -webkit-font-smoothing:antialiased; overflow-x:hidden; position:relative; }
+
+  .grad-text { background:linear-gradient(100deg,var(--pink) 0%,var(--coral) 45%,var(--orange) 100%);
+    -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent; color:transparent; }
+  .teal-text { color:var(--teal); }
+  .neon { text-shadow:0 0 8px rgba(255,45,111,.55),0 0 22px rgba(255,90,60,.35),0 0 44px rgba(255,154,46,.22); }
+  .neon-teal { text-shadow:0 0 8px rgba(25,194,168,.6),0 0 22px rgba(25,194,168,.3); }
+  .neon-strong { text-shadow:0 2px 14px rgba(0,0,0,.7), 0 0 22px rgba(255,90,60,.45), 0 0 44px rgba(255,154,46,.25); }
+
+  .night-bg { background:
+      radial-gradient(120% 80% at 50% -10%, rgba(255,90,60,.18), transparent 60%),
+      radial-gradient(90% 60% at 85% 20%, rgba(25,194,168,.12), transparent 55%),
+      radial-gradient(80% 70% at 10% 90%, rgba(255,45,111,.14), transparent 55%),
+      linear-gradient(180deg,#1c1029 0%,#150d1f 50%,#110a18 100%); }
+
+  .grain::before { content:""; position:fixed; inset:0; pointer-events:none; z-index:50; opacity:.05;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
+
+  .glass { background:linear-gradient(160deg, rgba(255,255,255,.07), rgba(255,255,255,.02));
+    backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px); border:1px solid rgba(255,255,255,.10); }
+
+  .btn-grad { background:linear-gradient(100deg,var(--pink),var(--coral) 55%,var(--orange));
+    box-shadow:0 8px 30px rgba(255,90,60,.30); transition:transform .25s ease, box-shadow .25s ease, filter .25s ease; }
+  .btn-grad:hover { transform:translateY(-2px); box-shadow:0 14px 40px rgba(255,90,60,.5); filter:brightness(1.05); }
+  .btn-ghost { border:1.5px solid var(--teal); color:var(--teal); transition:background .25s, color .25s, transform .25s; }
+  .btn-ghost:hover { background:var(--teal); color:#150d1f; transform:translateY(-2px); }
+
+  .reveal { opacity:0; transform:translateY(28px); transition:opacity .8s cubic-bezier(.16,1,.3,1), transform .8s cubic-bezier(.16,1,.3,1); }
+  .reveal.in { opacity:1; transform:none; }
+  .deco-rule { height:2px; background:linear-gradient(90deg,transparent,var(--gold),transparent); }
+
+  @keyframes floaty { 0%,100%{transform:translateY(0)} 50%{transform:translateY(8px)} }
+  .floaty { animation:floaty 2.4s ease-in-out infinite; }
+
+  /* sticky day nav */
+  .daynav { background:rgba(21,13,31,.72); backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px); border-bottom:1px solid rgba(255,255,255,.07); }
+  .daynav a { color:rgba(247,236,221,.65); transition:color .2s; }
+  .daynav a:hover { color:var(--gold); }
+
+  /* HERO PHOTO BANNER */
+  .hero-photo { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position: center 30%; z-index:0; }
+  .hero-scrim { position:absolute; inset:0; z-index:1; pointer-events:none;
+    background:
+      linear-gradient(180deg, rgba(21,13,31,.45) 0%, rgba(21,13,31,.20) 28%, rgba(21,13,31,.20) 55%, rgba(21,13,31,.78) 88%, rgba(21,13,31,.95) 100%),
+      radial-gradient(120% 70% at 50% 110%, rgba(255,45,111,.32), transparent 60%); }
+  .hero-vignette { position:absolute; inset:0; z-index:1; pointer-events:none;
+    box-shadow: inset 0 0 220px 30px rgba(0,0,0,.55); }
+
+  /* COUPLE FLANKS — one partner LEFT, other RIGHT, content between (v3 layout)
+     CSS-grid approach: each section is a 3-column grid [cutout | content | cutout].
+     Cutouts grow on desktop (up to 320px wide) and shrink-but-stay-visible on mobile (min 70px).
+     Each couple appears exactly ONCE down the page; Papo+Yari flank the slideshow header. */
+  .day-grid { display:grid; gap:.5rem; align-items:center; max-width:90rem; margin:0 auto;
+    grid-template-columns: clamp(70px, 18vw, 320px) minmax(0,1fr) clamp(70px, 18vw, 320px); }
+  @media (min-width: 768px) { .day-grid { gap:1.25rem; padding:0 1rem; } }
+  .day-flank { width:100%; height:auto; display:block; pointer-events:none;
+    filter: drop-shadow(0 18px 36px rgba(0,0,0,.65)) drop-shadow(0 0 22px rgba(255,90,60,.22));
+    opacity:.96; will-change:transform;
+    animation: cutsway 9s ease-in-out infinite;
+  }
+  .day-flank.left  { --rot:-3deg; animation-delay:-1.2s; transform:rotate(-3deg); }
+  .day-flank.right { --rot:3deg;  animation-delay:-4.6s; transform:rotate(3deg);  }
+  .day-content { min-width:0; }
+  @keyframes cutsway {
+    0%,100% { transform: translateY(0) rotate(var(--rot,0deg)); }
+    50%     { transform: translateY(-8px) rotate(calc(var(--rot,0deg) + 1.2deg)); }
+  }
+  /* SPANISH TAGLINE — recurring birthday declaration */
+  .tagline-script { font-family:"Yellowtail", cursive;
+    background:linear-gradient(100deg,var(--gold) 0%,var(--coral) 60%,var(--pink) 100%);
+    -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent; color:transparent;
+    text-shadow: 0 2px 14px rgba(0,0,0,.5); }
+  .tagline-divider { display:flex; align-items:center; justify-content:center; gap:1.25rem; margin:2.5rem auto 0; max-width:46rem; }
+  .tagline-divider::before, .tagline-divider::after { content:""; flex:1; height:1px;
+    background:linear-gradient(90deg, transparent, rgba(244,206,122,.55), transparent); }
+  /* timeline */
+  .tl { position:relative; }
+  .tl::before { content:""; position:absolute; left:11px; top:6px; bottom:6px; width:2px;
+    background:linear-gradient(180deg, var(--pink), var(--coral), var(--orange)); opacity:.5; }
+  .tl-dot { width:24px; height:24px; border-radius:50%; flex:0 0 24px;
+    background:radial-gradient(circle at 35% 35%, var(--orange), var(--pink)); box-shadow:0 0 0 4px rgba(255,45,111,.12); }
+  .tl-dot.confirmed { background:radial-gradient(circle at 35% 35%, var(--gold), var(--coral)); box-shadow:0 0 0 5px rgba(244,206,122,.18); }
+
+  .ev-card { border:1px solid rgba(255,255,255,.09); }
+  .ev-card.confirmed { border:1px solid rgba(244,206,122,.45); box-shadow:0 0 0 1px rgba(244,206,122,.12), 0 12px 40px rgba(255,90,60,.10); }
+  .conf-tag { background:rgba(244,206,122,.14); border:1px solid rgba(244,206,122,.4); color:var(--gold); }
+  .pick-tag { color:var(--teal); border:1px solid rgba(25,194,168,.4); }
+
+  .opt-row { border-top:1px dashed rgba(255,255,255,.10); }
+
+  /* calendar dropdown */
+  .cal-menu { transform-origin:top right; transition:opacity .18s ease, transform .18s ease; }
+  .cal-menu[hidden] { display:none; }
+
+  .lnk-btn { transition:transform .2s ease, filter .2s ease; }
+  .lnk-btn:hover { transform:translateY(-1px); }
+
+  /* itinerary above cutouts so content is always readable */
+  main#itinerary, footer.site-footer, nav.daynav, section.slideshow { position:relative; z-index:5; }
+
+  /* per-venue mini photo strips */
+  .venue-strip { display:flex; gap:.5rem; overflow-x:auto; scroll-snap-type:x mandatory; scrollbar-width:none;
+    -ms-overflow-style:none; padding:.5rem 0 .25rem; margin-top:.6rem; }
+  .venue-strip::-webkit-scrollbar { display:none; }
+  .venue-strip .v-thumb { flex:0 0 auto; width:108px; height:72px; border-radius:.55rem; overflow:hidden;
+    scroll-snap-align:start; border:1px solid rgba(255,255,255,.10); background:#0E0A08;
+    box-shadow:0 6px 18px rgba(0,0,0,.45); position:relative; cursor:pointer; transition:transform .25s ease; }
+  .venue-strip .v-thumb:hover { transform:translateY(-2px); }
+  .venue-strip .v-thumb img { width:100%; height:100%; object-fit:cover; display:block; }
+  @media (min-width: 640px) {
+    .venue-strip .v-thumb { width:132px; height:88px; }
+  }
+
+  /* lightbox for venue photos */
+  .v-lightbox { position:fixed; inset:0; background:rgba(8,5,4,.92); z-index:60; display:none;
+    align-items:center; justify-content:center; padding:1rem; }
+  .v-lightbox.show { display:flex; }
+  .v-lightbox img { max-width:96vw; max-height:88vh; border-radius:.75rem;
+    box-shadow:0 30px 80px rgba(0,0,0,.7), 0 0 0 1px rgba(255,90,60,.18); }
+  .v-lightbox-close { position:absolute; top:1rem; right:1rem; width:2.4rem; height:2.4rem;
+    border-radius:9999px; background:rgba(255,255,255,.10); color:#FFF7E1; font-size:1.4rem; line-height:1;
+    display:flex; align-items:center; justify-content:center; cursor:pointer; border:1px solid rgba(255,255,255,.18); }
+
+  /* slideshow */
+  .slide-track, .slide-ctrl, .slide-dots { position:relative; z-index:5; }
+  .slide-track { display:flex; gap:1.25rem; overflow-x:auto; scroll-snap-type:x mandatory; scrollbar-width:none; -ms-overflow-style:none; padding:0 1.25rem; }
+  .slide-track::-webkit-scrollbar { display:none; }
+  .slide { flex:0 0 78%; max-width:560px; scroll-snap-align:center; position:relative; border-radius:1.25rem; overflow:hidden;
+    border:1px solid rgba(255,255,255,0.10); background:#0E0A08;
+    box-shadow:0 24px 60px rgba(0,0,0,.45), 0 0 0 1px rgba(255,90,60,.08); }
+  .slide img { width:100%; height:auto; display:block; aspect-ratio:9/16; object-fit:cover; }
+  .slide figcaption { position:absolute; left:0; right:0; bottom:0; padding:1.25rem 1.25rem 1.1rem;
+    background:linear-gradient(180deg, transparent, rgba(14,10,8,.92)); }
+  .slide figcaption .venue { font-family:"Bebas Neue", "Outfit", sans-serif; letter-spacing:.18em; font-size:.85rem; color:var(--gold); }
+  .slide figcaption .who { font-family:"Yellowtail", cursive; font-size:1.4rem; color:#F7ECDD; margin-top:.15rem; }
+  .slide-ctrl { display:flex; justify-content:center; gap:.7rem; margin-top:1.25rem; }
+  .slide-ctrl button { width:36px; height:36px; border-radius:50%; border:1px solid rgba(255,255,255,.14); color:var(--cream); background:rgba(255,255,255,.04); transition:transform .2s, background .2s; cursor:pointer; }
+  .slide-ctrl button:hover { background:linear-gradient(100deg,var(--pink),var(--coral) 55%,var(--orange)); border-color:transparent; transform:translateY(-1px); }
+  .slide-dots { display:flex; justify-content:center; gap:.4rem; margin-top:.9rem; }
+  .slide-dots span { width:7px; height:7px; border-radius:50%; background:rgba(247,236,221,.22); transition:background .25s, transform .25s; }
+  .slide-dots span.active { background:linear-gradient(100deg,var(--pink),var(--orange)); transform:scale(1.5); }
+  @media (min-width: 768px) { .slide { flex:0 0 32%; } }
+
+  ::selection { background:var(--pink); color:#150d1f; }
+</style>
+</head>
+
+<body class="night-bg grain font-body">
+
+<!-- ============ STICKY DAY NAV ============ -->
+<nav class="daynav sticky top-0 z-40">
+  <div class="max-w-5xl mx-auto px-5 py-3 flex items-center justify-between">
+    <a href="#top" class="font-marquee tracking-[.25em] text-cream/90 text-sm">HAVANA NASH BASH</a>
+    <div class="flex gap-4 sm:gap-6 font-marquee tracking-widest text-xs sm:text-sm">
+      <a href="#day-thu">THU</a><a href="#day-fri">FRI</a><a href="#day-sat">SAT</a><a href="#day-sun">SUN</a>
+      <a href="#crew" class="text-gold/80">CREW</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ============ HERO — PHOTO BANNER ============ -->
+<header id="top" class="relative flex flex-col items-center justify-end text-center px-6 overflow-hidden" style="min-height:min(100svh, 920px); height:min(100svh, 920px);">
+  <img class="hero-photo" src="photos/web/hero-banner.jpg" alt="Jess on a Nashville rooftop with 40 and Fabulous balloons" />
+  <div class="hero-scrim"></div>
+  <div class="hero-vignette"></div>
+
+  <div class="relative z-10 pb-20 sm:pb-24 reveal">
+    <img src="photos/web/logo.png" alt="Havana Nash Bash logo" class="w-20 sm:w-24 mb-4 mx-auto opacity-95 drop-shadow-[0_8px_30px_rgba(255,90,60,.45)]" />
+    <p class="font-marquee tracking-[.4em] text-gold text-sm sm:text-base mb-4 neon-strong">NASHVILLE · JUNE 18–21, 2026</p>
+    <h1 class="font-display font-black leading-[.9] text-6xl sm:text-8xl md:text-9xl">
+      <span class="grad-text neon-strong">Havana</span><br/>
+      <span class="font-marquee tracking-wide text-cream text-5xl sm:text-7xl md:text-8xl neon-strong">NASH BASH</span>
+    </h1>
+    <p class="font-script text-teal text-4xl sm:text-5xl mt-6 neon-teal">Jess's 40th Birthday</p>
+    <p class="tagline-script text-2xl sm:text-3xl md:text-4xl mt-3 px-2 leading-snug">¡No tengo cuarenta, tengo veinte&#8202;+&#8202;veinte perra!</p>
+    <p class="font-body text-cream/55 text-[11px] sm:text-xs tracking-[.25em] uppercase mt-1.5" style="text-shadow:0 1px 6px rgba(0,0,0,.6)">i'm not 40 · i'm twenty plus twenty, b</p>
+    <div class="mt-9 flex flex-wrap items-center justify-center gap-4">
+      <a href="#day-thu" class="btn-grad text-white font-medium rounded-full px-8 py-3 text-sm tracking-wide">See the Itinerary</a>
+      <span class="font-body text-cream/85 text-sm" style="text-shadow:0 1px 6px rgba(0,0,0,.6)">4 days · 4 nights · one unforgettable weekend</span>
+    </div>
+  </div>
+  <a href="#day-thu" class="floaty absolute bottom-8 z-10 text-gold text-3xl" aria-label="Scroll down" style="text-shadow:0 1px 6px rgba(0,0,0,.6)">&#8675;</a>
+</header>
+
+<!-- ============ ITINERARY (rendered by JS — each day section gets a couple flanking it) ============ -->
+<main id="itinerary"></main>
+
+<!-- ============ SLIDESHOW — funny AI-composite crew-at-venue scenes ============ -->
+<section id="crew" class="relative slideshow py-20 scroll-mt-20">
+  <!-- Papo+Yari flank the slideshow header (5th couple — completes each-person-once roster) -->
+  <div class="day-grid mb-8">
+    <img class="day-flank left"  src="photos/cutouts/papo.png" alt="" aria-hidden="true" loading="lazy" />
+    <div class="day-content">
+      <div class="max-w-3xl mx-auto px-4 sm:px-6 text-center reveal">
+        <p class="font-marquee tracking-[.35em] text-teal text-sm neon-teal mb-3">THE CREW · IN NASHVILLE</p>
+        <h2 class="font-display text-4xl sm:text-5xl grad-text neon leading-tight">A Preview of the Mayhem</h2>
+        <p class="font-body text-cream/60 mt-3 max-w-xl mx-auto">An entirely fictional & extremely scientific preview of how this weekend will unfold.</p>
+        <div class="deco-rule w-40 mx-auto mt-6"></div>
+      </div>
+    </div>
+    <img class="day-flank right" src="photos/cutouts/yari.png" alt="" aria-hidden="true" loading="lazy" />
+  </div>
+  <div class="slide-track reveal" id="slideTrack"></div>
+  <div class="slide-ctrl reveal">
+    <button type="button" id="slidePrev" aria-label="Previous">‹</button>
+    <button type="button" id="slideNext" aria-label="Next">›</button>
+  </div>
+  <div class="slide-dots reveal" id="slideDots"></div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer class="site-footer relative py-20 px-6 text-center" style="border-top:1px solid rgba(244,206,122,.18)">
+  <div class="max-w-2xl mx-auto reveal">
+    <p class="font-display text-3xl sm:text-4xl grad-text neon">See you on the dance floor.</p>
+    <p class="font-script text-teal text-2xl mt-4 neon-teal">¡Salud, y'all!</p>
+    <p class="font-body text-cream/30 text-xs mt-14 tracking-widest">HAVANANASHBASH.COM · JESS'S 40TH · NASHVILLE 2026</p>
+  </div>
+</footer>
+
+<script>
+(function () {
+  // ---------- venue URLs (sourced + verified 2026-05-22) ----------
+  // venue press-image manifest (inline; emitted by build_venue_manifest.py). dedup-on-hash done at render time.
+  var VENUE_IMG = {
+    "arrington":["01-2d90bdb20e.jpg","02-2d90bdb20e.jpg","03-8013d91728.jpg","04-540022ad41.jpg","05-9442e62a9a.jpg"],
+    "bode":["01-14afa7e744.jpg","02-d7cd12d4b4.jpg","03-cbfd07dd1b.jpg","04-aa9f627018.jpg","05-fa0d63e15b.jpg"],
+    "casa-rosa":["01-408bb55e86.jpg","02-f04fcaf8ee.jpg","03-9c3cc98bd6.jpg","04-7d6f622d10.jpg","05-9b1c758b4c.jpg"],
+    "chiefs":["01-74de91df65.jpg","02-8d21c6dbe8.jpg","03-b858a2d8a0.jpg","04-74de91df65.jpg","05-8d21c6dbe8.jpg"],
+    "dawn-cafe":["01-a38ee548e8.jpg","02-c721233519.jpg","03-03a1b3a6c8.jpg","04-6d1b570a08.jpg","05-674080b8b4.jpg"],
+    "henrietta-red":["01-58d76caa6e.jpg","02-ccb3eccfd8.jpg","03-9350b0c4fe.jpg","04-e093c32b45.jpg","05-03aecf69cd.jpg"],
+    "honky-tonk-central":["01-2180ae3c70.jpg","02-b22e81d386.jpg","03-be370615b2.jpg","04-56f65093da.jpg","05-fe625e4a79.jpg"],
+    "honky-tonk-party-express":["01-75dc291726.jpg","02-a52953f749.jpg","03-00295d1c30.jpg","04-89a700a32d.jpg","05-619d79b297.jpg"],
+    "la-jackson":["01-4f69924b76.jpg","02-6009243a30.jpg","03-745a9be907.jpg","04-b1e02d4455.jpg","05-38e1d27d8a.jpg"],
+    "monells":["01-4207378f90.jpg","02-9bf9a61cfd.jpg","03-7c5602671d.jpg","04-4207378f90.jpg","05-9bf9a61cfd.jpg"],
+    "nashville-tractor":["01-65e2f7e80b.jpg","02-65e2f7e80b.jpg"],
+    "nashville-underground":["01-ad51cc754b.jpg","02-3504aa3b34.jpg","03-272db98c2e.jpg","04-5ff3967309.jpg","05-77fde6328b.jpg"],
+    "opry":["01-67f0d2c47b.jpg","02-1e502ff391.jpg","03-24bd2927f2.jpg"],
+    "patterson-house":["01-2e62ff6c62.jpg","02-a2c9ac6f94.jpg","03-dd9f6f9ff0.jpg","04-4dca8426c4.jpg","05-a03696248e.jpg"],
+    "pinewood-social":["01-b41bfee145.jpg","02-e85e99804b.jpg","03-5f39c23336.jpg","04-d150200a3c.jpg","05-b53fd3cf42.jpg"],
+    "sixty-vines":["01-04dcda2d38.jpg","02-04dcda2d38.jpg"],
+    "stage-on-broadway":["01-6863ec4018.jpg","02-aa024ae206.jpg","03-0b17ee6d1a.jpg","04-33cae9b70e.jpg","05-710bf6aa5e.jpg"],
+    "twelve-thirty":["01-85522262e9.jpg","02-85522262e9.jpg","03-4fa9ec6ca0.jpg"],
+    "von-elrods":["01-5c170c3eb9.jpg","02-0a7a4c80bf.jpg","03-fe5e0bd610.jpg","04-25d5dc84aa.jpg","05-5f630290e5.jpg"],
+    "white-limozeen":["01-4ba770b412.jpg","02-d50bc5efd7.jpg","03-0c75f7475d.jpg","04-e09315c47f.jpg","05-bcc35af990.jpg"],
+    "zanies":["01-74f2d6130a.jpg","02-daca0b3362.jpg","03-a0e4df8d82.jpg","04-917b18600c.jpg","05-3be3001ce9.jpg"]
+  };
+  function venueStrip(slug, label){
+    var files = VENUE_IMG[slug];
+    if(!files || !files.length) return null;
+    // dedupe by hash prefix (filename has NN-<hash>.jpg)
+    var seen = {}, uniq = [];
+    for (var i=0; i<files.length; i++){
+      var m = files[i].match(/-([a-f0-9]+)\./i);
+      var k = m ? m[1] : files[i];
+      if(!seen[k]){ seen[k]=1; uniq.push(files[i]); }
+    }
+    var strip = document.createElement("div");
+    strip.className = "venue-strip";
+    strip.setAttribute("aria-label", (label||slug) + " photos");
+    uniq.forEach(function(fn, idx){
+      var btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "v-thumb";
+      btn.setAttribute("data-src", "photos/venues/" + slug + "/" + fn);
+      btn.setAttribute("data-label", label || slug);
+      btn.setAttribute("aria-label", (label||slug) + " photo " + (idx+1));
+      var img = document.createElement("img");
+      img.src = "photos/venues/" + slug + "/" + fn;
+      img.alt = "";
+      img.decoding = "async";
+      // no loading="lazy" — keeps strips visible in headless render previews + first-paint visit
+      btn.appendChild(img);
+      strip.appendChild(btn);
+    });
+    return strip;
+  }
+
+  var U = {
+    bode:"https://www.bode.co/downtown-nashville-hotel",
+    casaRosa:"https://casarosanashville.com/",
+    printersAlley:"https://www.google.com/maps/search/?api=1&query=Printer%27s+Alley+Nashville",
+    chiefs:"https://www.chiefsonbroadway.com/",
+    whiteLimozeen:"https://www.hilton.com/en/hotels/bnagngu-graduate-nashville/dining/white-limozeen/",
+    vonElrods:"https://vonelrods.com/",
+    nashvilleTractor:"https://thenashvilletractor.com/",
+    honkyTonkPartyExpress:"https://honkytonkpartyexpress.com/",
+    opry:"https://www.opry.com/",
+    nashUnderground:"https://www.nashunderground.com/",
+    stageOnBroadway:"https://thestageonbroadway.com/",
+    honkyTonkCentral:"https://www.honkytonkcentral.com/",
+    henriettaRed:"https://www.henriettared.com/",
+    pinewoodSocial:"https://pinewoodsocial.com/",
+    arrington:"https://arringtonvineyards.com/",
+    theGulch:"https://explorethegulch.com/",
+    twelveThirty:"https://thetwelvethirtyclub.com/",
+    zanies:"https://nashville.zanies.com/",
+    pattersonHouse:"https://www.thepattersonnashville.com/",
+    laJackson:"https://www.lajacksonbar.com/",
+    sixtyVines:"https://www.sixtyvines.com/locations/nashville",
+    pegLegPorker:"https://peglegporker.com/",
+    monells:"https://monellstn.com/",
+    dawnCafe:"https://www.bode.co/downtown-nashville-hotel/food-drink"
+  };
+
+  // ---------- itinerary data ----------
+  // each day flanked by ONE couple (each person appears once across the page; Papo+Yari flank the slideshow)
+  var DAYS = [
+    { id:"day-thu", dow:"Thursday", date:"June 18", theme:"Arrival & Welcome", sub:"Touch down, check in, first toast.",
+      couple:{ left:"eric", right:"Jenny" }, events:[
+      {time:"4:25 PM", title:"Flight — Miami → Nashville", note:"MIA → BNA · lands 5:56 PM CT", start:"20260618T162500", end:"20260618T175600"},
+      {time:"6:45 PM", title:"Check in — Bode Nashville", conf:"145200", note:"The Gulch · home base all weekend", start:"20260618T184500", end:"20260618T193000", options:[{name:"Bode Nashville", url:U.bode, slug:"bode"}]},
+      {time:"7:45 PM", title:"Welcome Dinner", pick:true, start:"20260618T194500", end:"20260618T213000", options:[
+        {name:"Casa Rosa", url:U.casaRosa, tag:"Miranda Lambert's cantina", slug:"casa-rosa"},
+        {name:"Printer's Alley", url:U.printersAlley, tag:"historic nightlife district"},
+        {name:"Chief's on Broadway", url:U.chiefs, tag:"Eric Church's 6-story honky-tonk", slug:"chiefs"}
+      ]},
+      {time:"Late", title:"Nightcap on Broadway", buffer:true, note:"Wander the neon — late drinks wherever the night takes us."}
+    ]},
+    { id:"day-fri", dow:"Friday", date:"June 19", theme:"Jess's Big 4-0", sub:"The main event of the year.",
+      couple:{ left:"jess", right:"ben" }, events:[
+      {time:"10:00 AM", title:"Birthday Brunch", pick:true, start:"20260619T100000", end:"20260619T113000", options:[
+        {name:"White Limozeen", url:U.whiteLimozeen, tag:"rooftop · the must-have", slug:"white-limozeen"},
+        {name:"Von Elrod's", url:U.vonElrods, tag:"beer hall & kitchen", slug:"von-elrods"}
+      ]},
+      {time:"12:30 PM", title:"Afternoon Party Tour", pick:true, start:"20260619T123000", end:"20260619T140000", options:[
+        {name:"The Nashville Tractor", url:U.nashvilleTractor, tag:"open-air party wagon", slug:"nashville-tractor"},
+        {name:"Honky Tonk Party Express", url:U.honkyTonkPartyExpress, tag:"rolling party bus", slug:"honky-tonk-party-express"}
+      ]},
+      {time:"2:30–5:45 PM", title:"Get-ready buffer", buffer:true, note:"Rest, refresh, glam up for the big night."},
+      {time:"7:00 PM", title:"Grand Ole Opry", confirmed:true, conf:"5815229", note:"Opry House · 14 seats, group of 10 (+4 extra tickets)", start:"20260619T190000", end:"20260619T213000", options:[{name:"Grand Ole Opry", url:U.opry, slug:"opry"}]},
+      {time:"After the show", title:"Post-Opry Party", pick:true, start:"20260619T214500", end:"20260619T235900", options:[
+        {name:"Nashville Underground", url:U.nashUnderground, tag:"multi-level on Broadway", slug:"nashville-underground"},
+        {name:"The Stage on Broadway", url:U.stageOnBroadway, tag:"classic honky-tonk", slug:"stage-on-broadway"},
+        {name:"Honky Tonk Central", url:U.honkyTonkCentral, tag:"largest on Lower Broadway", slug:"honky-tonk-central"}
+      ]}
+    ]},
+    { id:"day-sat", dow:"Saturday", date:"June 20", theme:"Wine, Dine & Laughs", sub:"Recover, sip, and the birthday dinner.",
+      couple:{ left:"ciara", right:"andrea" }, events:[
+      {time:"10:30 AM", title:"Recovery Brunch", pick:true, start:"20260620T103000", end:"20260620T120000", options:[
+        {name:"Henrietta Red", url:U.henriettaRed, tag:"oyster bar · Germantown", slug:"henrietta-red"},
+        {name:"Pinewood Social", url:U.pinewoodSocial, tag:"all-day social house", slug:"pinewood-social"}
+      ]},
+      {time:"1:00 PM", title:"Afternoon", pick:true, start:"20260620T130000", end:"20260620T153000", options:[
+        {name:"Arrington Vineyards", url:U.arrington, tag:"winery · Kix Brooks co-owns", slug:"arrington"},
+        {name:"The Gulch", url:U.theGulch, tag:"shop & stroll the district"}
+      ]},
+      {time:"4:00–6:30 PM", title:"Get-ready buffer", buffer:true, note:"Glam, round two."},
+      {time:"7:00 PM", title:"Birthday Dinner — Supper Club", confirmed:true, conf:"84804", note:"Twelve Thirty Club · the main celebration", start:"20260620T190000", end:"20260620T213000", options:[{name:"Twelve Thirty Club", url:U.twelveThirty, slug:"twelve-thirty"}]},
+      {time:"Late night", title:"Nightcap", pick:true, start:"20260620T214500", end:"20260620T235900", options:[
+        {name:"Zanies Comedy Club", url:U.zanies, tag:"stand-up laughs", slug:"zanies"},
+        {name:"The Patterson House", url:U.pattersonHouse, tag:"speakeasy cocktails", slug:"patterson-house"},
+        {name:"L.A. Jackson", url:U.laJackson, tag:"rooftop bar", slug:"la-jackson"},
+        {name:"Sixty Vines", url:U.sixtyVines, tag:"wine on tap", slug:"sixty-vines"}
+      ]}
+    ]},
+    { id:"day-sun", dow:"Sunday", date:"June 21", theme:"Recovery & Departure", sub:"One last coffee, then wheels up.",
+      couple:{ left:"mike", right:"brit" }, events:[
+      {time:"9:00 AM", title:"Coffee — Dawn Cafe", note:"At Bode · easy morning", start:"20260621T090000", end:"20260621T094500", options:[{name:"Dawn Cafe", url:U.dawnCafe, slug:"dawn-cafe"}]},
+      {time:"11:00 AM", title:"Checkout — Bode Nashville", start:"20260621T110000", end:"20260621T113000", options:[{name:"Bode Nashville", url:U.bode, slug:"bode"}]},
+      {time:"12:00 PM", title:"Farewell Lunch", pick:true, start:"20260621T120000", end:"20260621T133000", options:[
+        {name:"Peg Leg Porker", url:U.pegLegPorker, tag:"hot chicken & BBQ · The Gulch", slug:"peg-leg-porker"},
+        {name:"Monell's", url:U.monells, tag:"family-style Southern", slug:"monells"}
+      ]},
+      {time:"5:27 PM", title:"Flight — Nashville → Miami", note:"BNA → MIA · wheels up", start:"20260621T172700", end:"20260621T190000"}
+    ]}
+  ];
+
+  // ---------- calendar builders (America/Chicago, CDT in June) ----------
+  var TZ = "America/Chicago";
+  function isoDash(c){ return c.slice(0,4)+"-"+c.slice(4,6)+"-"+c.slice(6,8)+"T"+c.slice(9,11)+":"+c.slice(11,13)+":"+c.slice(13,15); }
+  function gcal(title,start,end,loc,details){
+    var p = new URLSearchParams({ action:"TEMPLATE", text:title, dates:start+"/"+end, ctz:TZ, details:details||"", location:loc||"" });
+    return "https://calendar.google.com/calendar/render?"+p.toString();
+  }
+  function outlook(title,start,end,loc,details){
+    var p = new URLSearchParams({ path:"/calendar/action/compose", rru:"addevent", subject:title, startdt:isoDash(start), enddt:isoDash(end), body:details||"", location:loc||"" });
+    return "https://outlook.live.com/calendar/0/deeplink/compose?"+p.toString();
+  }
+  function icsHref(title,start,end,loc,details){
+    var lines = [
+      "BEGIN:VCALENDAR","VERSION:2.0","PRODID:-//havananashbash//EN","CALSCALE:GREGORIAN",
+      "BEGIN:VTIMEZONE","TZID:America/Chicago",
+      "BEGIN:DAYLIGHT","TZOFFSETFROM:-0600","TZOFFSETTO:-0500","TZNAME:CDT","DTSTART:19700308T020000","RRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=2SU","END:DAYLIGHT",
+      "BEGIN:STANDARD","TZOFFSETFROM:-0500","TZOFFSETTO:-0600","TZNAME:CST","DTSTART:19701101T020000","RRULE:FREQ=YEARLY;BYMONTH=11;BYDAY=1SU","END:STANDARD",
+      "END:VTIMEZONE",
+      "BEGIN:VEVENT","UID:"+start+"-"+Math.random().toString(36).slice(2)+"@havananashbash.com",
+      "DTSTAMP:20260522T000000Z",
+      "DTSTART;TZID=America/Chicago:"+start,
+      "DTEND;TZID=America/Chicago:"+end,
+      "SUMMARY:"+title,
+      "DESCRIPTION:"+(details||"").replace(/\n/g,"\\n"),
+      "LOCATION:"+(loc||""),
+      "END:VEVENT","END:VCALENDAR"
+    ].join("\r\n");
+    return "data:text/calendar;charset=utf-8,"+encodeURIComponent(lines);
+  }
+
+  var calSeq = 0;
+  function calDropdown(title,start,end,loc){
+    if(!start) return null;
+    var id = "cal"+(++calSeq);
+    var wrap = document.createElement("div");
+    wrap.className = "relative inline-block";
+    var details = "Part of Jess's 40th — Havana Nash Bash · havananashbash.com";
+    wrap.innerHTML =
+      '<button type="button" class="cal-btn btn-ghost rounded-full px-4 py-2 text-xs font-medium inline-flex items-center gap-1.5" aria-haspopup="true" aria-expanded="false" aria-controls="'+id+'"><span>＋</span> Add to Calendar</button>'+
+      '<div id="'+id+'" class="cal-menu glass absolute right-0 mt-2 w-52 rounded-2xl p-2 z-30" hidden>'+
+        '<a target="_blank" rel="noopener" href="'+gcal(title,start,end,loc,details)+'" class="block px-4 py-2.5 rounded-xl hover:bg-white/10 text-sm text-cream">Google Calendar</a>'+
+        '<a target="_blank" rel="noopener" href="'+outlook(title,start,end,loc,details)+'" class="block px-4 py-2.5 rounded-xl hover:bg-white/10 text-sm text-cream">Outlook</a>'+
+        '<a download="havana-nash-bash.ics" href="'+icsHref(title,start,end,loc,details)+'" class="block px-4 py-2.5 rounded-xl hover:bg-white/10 text-sm text-cream">Apple / .ics</a>'+
+      '</div>';
+    return wrap;
+  }
+  function checkBtn(url){
+    if(!url) return null;
+    var a = document.createElement("a");
+    a.href = url; a.target = "_blank"; a.rel = "noopener";
+    a.className = "lnk-btn btn-grad text-white rounded-full px-4 py-2 text-xs font-medium inline-flex items-center gap-1.5";
+    a.innerHTML = 'Check it out <span aria-hidden="true">↗</span>';
+    return a;
+  }
+
+  function calTitle(ev, optName){
+    var base = "Jess's 40th — " + ev.title;
+    if(optName && ev.pick) base += " @ " + optName;
+    return base;
+  }
+  function calLoc(optName){ return optName ? optName + ", Nashville, TN" : "Nashville, TN"; }
+
+  // ---------- render itinerary ----------
+  function flank(side, name){
+    var img = document.createElement("img");
+    img.className = "day-flank " + side;
+    img.src = "photos/cutouts/" + name + ".png";
+    img.alt = "";
+    img.setAttribute("aria-hidden", "true");
+    img.loading = "lazy";
+    return img;
+  }
+  var root = document.getElementById("itinerary");
+  DAYS.forEach(function(day, dayIdx){
+    var sec = document.createElement("section");
+    sec.id = day.id;
+    sec.className = "relative py-16 sm:py-20 scroll-mt-20";
+
+    // 3-column grid: left cutout | content | right cutout
+    var grid = document.createElement("div");
+    grid.className = "day-grid";
+    if (day.couple) grid.appendChild(flank("left", day.couple.left));
+
+    var content = document.createElement("div");
+    content.className = "day-content";
+
+    var inner = document.createElement("div");
+    inner.className = "max-w-3xl mx-auto px-3 sm:px-5";
+
+    var head = document.createElement("div");
+    head.className = "reveal text-center mb-12";
+    head.innerHTML =
+      '<p class="font-marquee tracking-[.35em] text-pink text-sm mb-2">'+day.dow.toUpperCase()+' · '+day.date.toUpperCase()+'</p>'+
+      '<h2 class="font-display text-4xl sm:text-5xl grad-text neon leading-tight">'+day.theme+'</h2>'+
+      '<p class="font-body text-cream/60 mt-3">'+day.sub+'</p>'+
+      '<div class="deco-rule w-40 mx-auto mt-6"></div>';
+    inner.appendChild(head);
+
+    var tl = document.createElement("div");
+    tl.className = "tl space-y-6";
+
+    day.events.forEach(function(ev){
+      var row = document.createElement("div");
+      row.className = "reveal flex gap-5 items-start";
+
+      var dot = document.createElement("div");
+      dot.className = "tl-dot mt-1.5" + (ev.confirmed ? " confirmed" : "");
+      row.appendChild(dot);
+
+      var card = document.createElement("div");
+      card.className = "flex-1";
+
+      if(ev.buffer){
+        card.innerHTML =
+          '<p class="font-marquee tracking-widest text-cream/45 text-xs mb-1">'+ev.time+'</p>'+
+          '<p class="font-display text-lg text-cream/70 italic">'+ev.title+'</p>'+
+          '<p class="font-body text-cream/45 text-sm mt-1">'+(ev.note||"")+'</p>';
+        row.appendChild(card);
+        tl.appendChild(row);
+        return;
+      }
+
+      var box = document.createElement("div");
+      box.className = "ev-card glass rounded-2xl p-5 sm:p-6" + (ev.confirmed ? " confirmed" : "");
+
+      var header = '<div class="flex flex-wrap items-center gap-2 mb-1">'+
+        '<span class="font-marquee tracking-widest text-gold text-sm">'+ev.time+'</span>'+
+        (ev.confirmed ? '<span class="conf-tag text-[11px] tracking-wide rounded-full px-2.5 py-0.5 font-body">★ CONFIRMED</span>' : '')+
+        (ev.pick ? '<span class="pick-tag text-[11px] tracking-wide rounded-full px-2.5 py-0.5 font-body">PICK ONE</span>' : '')+
+        '</div>'+
+        '<h3 class="font-display text-2xl text-cream">'+ev.title+'</h3>'+
+        (ev.conf ? '<p class="font-body text-cream/50 text-xs mt-1">Confirmation #'+ev.conf+'</p>' : '')+
+        (ev.note ? '<p class="font-body text-cream/65 text-sm mt-1.5">'+ev.note+'</p>' : '');
+      box.innerHTML = header;
+
+      var opts = ev.options || [];
+      if(opts.length === 0){
+        var bar0 = document.createElement("div");
+        bar0.className = "flex flex-wrap gap-2 mt-4";
+        var d0 = calDropdown(calTitle(ev,null), ev.start, ev.end, calLoc(null));
+        if(d0) bar0.appendChild(d0);
+        box.appendChild(bar0);
+      } else if(opts.length === 1 && !ev.pick){
+        var bar1 = document.createElement("div");
+        bar1.className = "flex flex-wrap gap-2 mt-4";
+        var cb = checkBtn(opts[0].url); if(cb) bar1.appendChild(cb);
+        var d1 = calDropdown(calTitle(ev,opts[0].name), ev.start, ev.end, calLoc(opts[0].name)); if(d1) bar1.appendChild(d1);
+        box.appendChild(bar1);
+        if (opts[0].slug) {
+          var s1 = venueStrip(opts[0].slug, opts[0].name);
+          if (s1) box.appendChild(s1);
+        }
+      } else {
+        var list = document.createElement("div");
+        list.className = "mt-4 space-y-3";
+        opts.forEach(function(opt){
+          var orow = document.createElement("div");
+          orow.className = "opt-row pt-3";
+          var top = document.createElement("div");
+          top.className = "flex flex-wrap items-center gap-x-3 gap-y-2 justify-between";
+          top.innerHTML = '<div class="min-w-0"><p class="font-display text-lg text-cream leading-tight">'+opt.name+'</p>'+
+            (opt.tag ? '<p class="font-body text-cream/50 text-xs">'+opt.tag+'</p>' : '')+'</div>';
+          var btns = document.createElement("div");
+          btns.className = "flex flex-wrap gap-2";
+          var cbn = checkBtn(opt.url); if(cbn) btns.appendChild(cbn);
+          var dn = calDropdown(calTitle(ev,opt.name), ev.start, ev.end, calLoc(opt.name)); if(dn) btns.appendChild(dn);
+          top.appendChild(btns);
+          orow.appendChild(top);
+          if (opt.slug) {
+            var s2 = venueStrip(opt.slug, opt.name);
+            if (s2) orow.appendChild(s2);
+          }
+          list.appendChild(orow);
+        });
+        box.appendChild(list);
+      }
+
+      card.appendChild(box);
+      row.appendChild(card);
+      tl.appendChild(row);
+    });
+
+    inner.appendChild(tl);
+    content.appendChild(inner);
+    grid.appendChild(content);
+    if (day.couple) grid.appendChild(flank("right", day.couple.right));
+    sec.appendChild(grid);
+    root.appendChild(sec);
+
+    // recurring tagline divider between days (not after the last)
+    if (dayIdx < DAYS.length - 1) {
+      var div = document.createElement("div");
+      div.className = "reveal tagline-divider px-6";
+      div.innerHTML = '<span class="tagline-script text-xl sm:text-2xl whitespace-nowrap">¡veinte&#8202;+&#8202;veinte!</span>';
+      root.appendChild(div);
+    }
+  });
+
+  // ---------- dropdown toggle (delegation) ----------
+  document.addEventListener("click", function(e){
+    var btn = e.target.closest(".cal-btn");
+    document.querySelectorAll(".cal-menu:not([hidden])").forEach(function(m){
+      var owner = m.previousElementSibling;
+      if(!btn || owner !== btn){ m.hidden = true; if(owner) owner.setAttribute("aria-expanded","false"); }
+    });
+    if(btn){
+      e.stopPropagation();
+      var menu = document.getElementById(btn.getAttribute("aria-controls"));
+      if(menu){ var open = !menu.hidden; menu.hidden = open; btn.setAttribute("aria-expanded", String(!open)); }
+    }
+  });
+  document.addEventListener("keydown", function(e){
+    if(e.key === "Escape") document.querySelectorAll(".cal-menu:not([hidden])").forEach(function(m){ m.hidden=true; if(m.previousElementSibling) m.previousElementSibling.setAttribute("aria-expanded","false"); });
+  });
+
+  // ---------- slideshow ----------
+  var SLIDES = [
+    {f:"01-eric-jenny-chiefs.jpg",       venue:"CHIEF'S ON BROADWAY",   who:"Eric & Jenny"},
+    {f:"02-mike-brit-tractor.jpg",       venue:"THE NASHVILLE TRACTOR", who:"Mike & Brit"},
+    {f:"03-jess-ben-twelvethirty.jpg",   venue:"TWELVE THIRTY CLUB",    who:"Jess & Ben"},
+    {f:"04-papo-yari-opry.jpg",          venue:"GRAND OLE OPRY",        who:"Papo & Yari"},
+    {f:"05-ciara-andrea-whitelimozeen.jpg", venue:"WHITE LIMOZEEN",     who:"Ciara & Andrea"},
+    {f:"06-mike-brit-honkytonk.jpg",     venue:"HONKY TONK CENTRAL",    who:"Mike & Brit"},
+    {f:"07-jess-ben-lajackson.jpg",      venue:"L.A. JACKSON",          who:"Jess & Ben"},
+    {f:"08-papo-yari-arrington.jpg",     venue:"ARRINGTON VINEYARDS",   who:"Papo & Yari"},
+    {f:"09-ciara-andrea-pinewood.jpg",   venue:"PINEWOOD SOCIAL",       who:"Ciara & Andrea"},
+    {f:"10-eric-jenny-casarosa.jpg",     venue:"CASA ROSA",             who:"Eric & Jenny"},
+    {f:"11-jess-peglegporker.jpg",       venue:"PEG LEG PORKER",        who:"Jess, hungry"}
+  ];
+  var track = document.getElementById("slideTrack");
+  var dotsBox = document.getElementById("slideDots");
+  SLIDES.forEach(function(s, i){
+    var fig = document.createElement("figure");
+    fig.className = "slide";
+    fig.innerHTML = '<img loading="lazy" src="composites/web/'+s.f+'" alt="'+s.who+' at '+s.venue+'" />'+
+      '<figcaption><div class="venue">'+s.venue+'</div><div class="who">'+s.who+'</div></figcaption>';
+    track.appendChild(fig);
+    var d = document.createElement("span");
+    if(i===0) d.classList.add("active");
+    dotsBox.appendChild(d);
+  });
+  function activeIndex(){
+    var slides = track.querySelectorAll(".slide");
+    var center = track.scrollLeft + track.clientWidth/2;
+    var best = 0, bestDist = Infinity;
+    slides.forEach(function(s, i){
+      var c = s.offsetLeft + s.clientWidth/2;
+      var d = Math.abs(c - center);
+      if(d < bestDist){ bestDist = d; best = i; }
+    });
+    return best;
+  }
+  function syncDots(){
+    var idx = activeIndex();
+    var sp = dotsBox.querySelectorAll("span");
+    sp.forEach(function(s,i){ s.classList.toggle("active", i===idx); });
+  }
+  function goTo(i){
+    var slides = track.querySelectorAll(".slide");
+    var max = slides.length;
+    var idx = ((i % max) + max) % max;
+    var s = slides[idx];
+    track.scrollTo({ left: s.offsetLeft - (track.clientWidth - s.clientWidth)/2, behavior:"smooth" });
+  }
+  document.getElementById("slidePrev").addEventListener("click", function(){ goTo(activeIndex()-1); });
+  document.getElementById("slideNext").addEventListener("click", function(){ goTo(activeIndex()+1); });
+  track.addEventListener("scroll", function(){ window.requestAnimationFrame(syncDots); });
+  // auto-advance every 4.5s, pause on user interaction
+  var autoTimer = setInterval(function(){ goTo(activeIndex()+1); }, 4500);
+  ["pointerdown","wheel","touchstart"].forEach(function(ev){ track.addEventListener(ev, function(){ clearInterval(autoTimer); }, {once:true, passive:true}); });
+  document.getElementById("slidePrev").addEventListener("click", function(){ clearInterval(autoTimer); });
+  document.getElementById("slideNext").addEventListener("click", function(){ clearInterval(autoTimer); });
+
+  // ---------- venue lightbox (click thumbs to enlarge) ----------
+  var lb = document.createElement("div");
+  lb.className = "v-lightbox";
+  lb.setAttribute("role","dialog");
+  lb.setAttribute("aria-hidden","true");
+  lb.innerHTML = '<button type="button" class="v-lightbox-close" aria-label="Close">&times;</button><img alt="" />';
+  document.body.appendChild(lb);
+  var lbImg = lb.querySelector("img");
+  function openLightbox(src, alt){
+    lbImg.src = src; lbImg.alt = alt || "";
+    lb.classList.add("show"); lb.setAttribute("aria-hidden","false");
+  }
+  function closeLightbox(){
+    lb.classList.remove("show"); lb.setAttribute("aria-hidden","true"); lbImg.src = "";
+  }
+  document.addEventListener("click", function(e){
+    var t = e.target.closest(".v-thumb");
+    if (t) { openLightbox(t.getAttribute("data-src"), t.getAttribute("data-label")); return; }
+    if (e.target === lb || e.target.classList.contains("v-lightbox-close")) closeLightbox();
+  });
+  document.addEventListener("keydown", function(e){ if(e.key === "Escape") closeLightbox(); });
+
+  // ---------- scroll reveal ----------
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(en){ if(en.isIntersecting){ en.target.classList.add("in"); io.unobserve(en.target); } });
+  }, { threshold:0.12 });
+  document.querySelectorAll(".reveal").forEach(function(el, idx){
+    el.style.transitionDelay = (Math.min(idx,6)*50)+"ms";
+    io.observe(el);
+  });
+})();
+</script>
+</body>
+</html>
