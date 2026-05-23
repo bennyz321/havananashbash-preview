@@ -6,6 +6,25 @@
 <title>Havana Nash Bash · Jess's 40th · Nashville Jun 18–21</title>
 <meta name="description" content="Jess's 40th Birthday Bash — a Havana-meets-Nashville long weekend itinerary. June 18–21, 2026." />
 
+<!-- Open Graph / iMessage / Slack / Facebook -->
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://havananashbash.com/" />
+<meta property="og:title" content="Havana Nash Bash · Jess's 40th" />
+<meta property="og:description" content="A Havana-meets-Nashville long weekend for Jess's 40th. June 18–21, 2026." />
+<meta property="og:image" content="https://havananashbash.com/og-banner.jpg" />
+<meta property="og:image:secure_url" content="https://havananashbash.com/og-banner.jpg" />
+<meta property="og:image:type" content="image/jpeg" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:alt" content="Jess with 40 marquee letters on a Nashville rooftop" />
+<meta property="og:site_name" content="Havana Nash Bash" />
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Havana Nash Bash · Jess's 40th" />
+<meta name="twitter:description" content="A Havana-meets-Nashville long weekend for Jess's 40th. June 18–21, 2026." />
+<meta name="twitter:image" content="https://havananashbash.com/og-banner.jpg" />
+
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;0,900;1,500&family=Yellowtail&family=Outfit:wght@300;400;500;600&family=Bebas+Neue&display=swap" rel="stylesheet" />
@@ -134,7 +153,8 @@
      both L+R share animation-delay so vertical translateY is identical at every t. */
   .day-flank.left  { --rot:-3deg; animation-delay:-1.2s; transform:rotate(-3deg); }
   .day-flank.right { --rot:3deg;  animation-delay:-1.2s; transform:rotate(3deg);  }
-  /* Eric: revised image (v5.12 2026-05-23) — clean cutout, no white-feet residue. */
+  /* Eric: revised image (v5.12 2026-05-23) — clean cutout, no white-feet residue.
+     v5.13 2026-05-23: landscape itinerary fix (collage-hide + force-reveal) + OG/Twitter meta. */
 
   /* MOBILE-ONLY overrides (Ben spec 2026-05-22 v5.5):
      - cutouts WAY BIGGER via absolute positioning (escape grid); body bleeds off-screen edges
@@ -194,6 +214,15 @@
     main#itinerary > section .max-w-5xl,
     main#itinerary > section .mx-auto { max-width: 100% !important; }
     main#itinerary { padding-left: .5rem; padding-right: .5rem; }
+    /* v5.13: Nashville-bg collage uses vh-positioning that compresses 22 photos
+       into ~1437px in landscape (vh=4.3px on 932×430 iPhone Pro Max landscape),
+       piling them atop the itinerary cards. Hide collage in landscape; the
+       glass-card content is the load-bearing layer here. */
+    .nashville-bg { display: none !important; }
+    /* v5.13: .reveal opacity:0 doesn't reliably transition to .in on the
+       dynamically-built day-grid cards (IntersectionObserver attached at page
+       load, before the JS builds the rows). Force visible in landscape. */
+    .reveal { opacity: 1 !important; transform: none !important; }
   }
   .day-content { min-width:0; align-self:center; }
   @keyframes cutsway {
