@@ -98,9 +98,9 @@
     grid-template-columns: clamp(72px, 15vw, 120px) minmax(0,1fr) clamp(72px, 15vw, 120px); }
   /* Tablet+: bigger cutouts, more content room, 2-col venue rows kick in */
   @media (min-width: 768px) { .day-grid { gap:1.4rem; padding:0 .5rem;
-    grid-template-columns: clamp(150px, 17vw, 280px) minmax(0,1fr) clamp(150px, 17vw, 280px); } }
+    grid-template-columns: clamp(180px, 21vw, 360px) minmax(0,1fr) clamp(180px, 21vw, 360px); } }
   @media (min-width: 1280px) { .day-grid {
-    grid-template-columns: clamp(190px, 18vw, 340px) minmax(0,1fr) clamp(190px, 18vw, 340px); } }
+    grid-template-columns: clamp(240px, 23vw, 440px) minmax(0,1fr) clamp(240px, 23vw, 440px); } }
   /* All flanks share a fixed portrait aspect + bottom-anchored fit, so the 10 cutouts read
      as the same visible scale regardless of PNG aspect. object-fit:contain keeps the entire
      person visible; object-position:center bottom puts their feet on the same line. A soft
@@ -113,8 +113,10 @@
             mask-image: linear-gradient(to bottom, #000 86%, transparent 99%);
     animation: cutsway 9s ease-in-out infinite;
   }
+  /* Couples sway IN SYNC so they read as straight-across (Ben spec 2026-05-22):
+     both L+R share animation-delay so vertical translateY is identical at every t. */
   .day-flank.left  { --rot:-3deg; animation-delay:-1.2s; transform:rotate(-3deg); }
-  .day-flank.right { --rot:3deg;  animation-delay:-4.6s; transform:rotate(3deg);  }
+  .day-flank.right { --rot:3deg;  animation-delay:-1.2s; transform:rotate(3deg);  }
   /* Eric PNG has a visible mid-thigh leg-cut. Pull him slightly down so the cut sinks below
      visible frame AND extend the bottom mask fade so the cut-edge dissolves smoothly. */
   .day-flank.is-eric { object-position: center 112%;
@@ -328,6 +330,29 @@
   .nb-20 { top:316vh; left:4vw;   width:34vw; max-width:480px; aspect-ratio:3/2;   transform:rotate(3deg);   opacity:.10; }
   .nb-21 { top:334vh; right:12vw; width:32vw; max-width:460px; aspect-ratio:4/3;   transform:rotate(-5deg);  opacity:.11; }
   .nb-22 { top:352vh; left:-4vw;  width:38vw; max-width:520px; aspect-ratio:5/3;   transform:rotate(4deg);   opacity:.09; }
+  /* Collage extension: continue collage all the way to the footer (Ben spec 2026-05-22). */
+  .nb-23 { top:368vh; right:6vw;  width:34vw; max-width:480px; aspect-ratio:16/10; transform:rotate(-3deg);  opacity:.11; }
+  .nb-24 { top:384vh; left:14vw;  width:32vw; max-width:460px; aspect-ratio:3/2;   transform:rotate(5deg);   opacity:.10; }
+  .nb-25 { top:402vh; right:-5vw; width:40vw; max-width:560px; aspect-ratio:4/3;   transform:rotate(-4deg);  opacity:.12; }
+  .nb-26 { top:418vh; left:-6vw;  width:38vw; max-width:520px; aspect-ratio:5/3;   transform:rotate(3deg);   opacity:.10; }
+  .nb-27 { top:434vh; right:10vw; width:32vw; max-width:460px; aspect-ratio:16/9;  transform:rotate(-2deg);  opacity:.11; }
+  .nb-28 { top:450vh; left:2vw;   width:34vw; max-width:480px; aspect-ratio:3/2;   transform:rotate(6deg);   opacity:.09; }
+  .nb-29 { top:468vh; right:-4vw; width:36vw; max-width:500px; aspect-ratio:5/3;   transform:rotate(-5deg);  opacity:.12; }
+  .nb-30 { top:486vh; left:8vw;   width:30vw; max-width:440px; aspect-ratio:16/10; transform:rotate(4deg);   opacity:.10; }
+  .nb-31 { top:502vh; right:8vw;  width:34vw; max-width:480px; aspect-ratio:3/2;   transform:rotate(-3deg);  opacity:.11; }
+  .nb-32 { top:520vh; left:-5vw;  width:40vw; max-width:560px; aspect-ratio:4/3;   transform:rotate(5deg);   opacity:.09; }
+  .nb-33 { top:536vh; right:14vw; width:30vw; max-width:440px; aspect-ratio:5/3;   transform:rotate(-2deg);  opacity:.12; }
+  .nb-34 { top:552vh; left:18vw;  width:32vw; max-width:460px; aspect-ratio:16/9;  transform:rotate(4deg);   opacity:.10; }
+  .nb-35 { top:570vh; right:-6vw; width:38vw; max-width:520px; aspect-ratio:3/2;   transform:rotate(-4deg);  opacity:.11; }
+  .nb-36 { top:586vh; left:-4vw;  width:36vw; max-width:500px; aspect-ratio:4/3;   transform:rotate(6deg);   opacity:.09; }
+  .nb-37 { top:604vh; right:4vw;  width:34vw; max-width:480px; aspect-ratio:16/10; transform:rotate(-3deg);  opacity:.12; }
+  .nb-38 { top:622vh; left:12vw;  width:32vw; max-width:460px; aspect-ratio:5/3;   transform:rotate(3deg);   opacity:.10; }
+  .nb-39 { top:640vh; right:-3vw; width:38vw; max-width:520px; aspect-ratio:3/2;   transform:rotate(-5deg);  opacity:.11; }
+  .nb-40 { top:658vh; left:-7vw;  width:36vw; max-width:500px; aspect-ratio:16/9;  transform:rotate(5deg);   opacity:.09; }
+  .nb-41 { top:676vh; right:12vw; width:32vw; max-width:460px; aspect-ratio:4/3;   transform:rotate(-2deg);  opacity:.12; }
+  .nb-42 { top:694vh; left:4vw;   width:34vw; max-width:480px; aspect-ratio:3/2;   transform:rotate(4deg);   opacity:.10; }
+  .nb-43 { top:712vh; right:-5vw; width:40vw; max-width:560px; aspect-ratio:5/3;   transform:rotate(-3deg);  opacity:.11; }
+  .nb-44 { top:730vh; left:8vw;   width:38vw; max-width:520px; aspect-ratio:16/10; transform:rotate(6deg);   opacity:.09; }
   @media (max-width: 640px) {
     .nb-photo { opacity:.10 !important; width:78vw !important; max-width:none !important; }
   }
@@ -392,6 +417,29 @@
   <img class="nb-photo nb-20" src="photos/nashville-bg/johnny-cash-museum.jpg" alt="" loading="lazy" />
   <img class="nb-photo nb-21" src="photos/nashville-bg/schermerhorn.jpg" alt="" loading="lazy" />
   <img class="nb-photo nb-22" src="photos/nashville-bg/opry-mills.jpg" alt="" loading="lazy" />
+  <!-- Collage extension (Ben spec 2026-05-22): nb-23..nb-44 carry the collage down to the footer -->
+  <img class="nb-photo nb-23" src="photos/nashville-bg/broadway.jpg" alt="" loading="lazy" />
+  <img class="nb-photo nb-24" src="photos/nashville-bg/skyline.jpg" alt="" loading="lazy" />
+  <img class="nb-photo nb-25" src="photos/nashville-bg/ryman.jpg" alt="" loading="lazy" />
+  <img class="nb-photo nb-26" src="photos/nashville-bg/tootsies.jpg" alt="" loading="lazy" />
+  <img class="nb-photo nb-27" src="photos/nashville-bg/hall-of-fame.jpg" alt="" loading="lazy" />
+  <img class="nb-photo nb-28" src="photos/nashville-bg/pedestrian-bridge.jpg" alt="" loading="lazy" />
+  <img class="nb-photo nb-29" src="photos/nashville-bg/cumberland-river.jpg" alt="" loading="lazy" />
+  <img class="nb-photo nb-30" src="photos/nashville-bg/music-row.jpg" alt="" loading="lazy" />
+  <img class="nb-photo nb-31" src="photos/nashville-bg/centennial-park.jpg" alt="" loading="lazy" />
+  <img class="nb-photo nb-32" src="photos/nashville-bg/bridgestone-arena.jpg" alt="" loading="lazy" />
+  <img class="nb-photo nb-33" src="photos/nashville-bg/state-capitol.jpg" alt="" loading="lazy" />
+  <img class="nb-photo nb-34" src="photos/nashville-bg/parthenon.jpg" alt="" loading="lazy" />
+  <img class="nb-photo nb-35" src="photos/nashville-bg/nissan-stadium.jpg" alt="" loading="lazy" />
+  <img class="nb-photo nb-36" src="photos/nashville-bg/ascend-amph.jpg" alt="" loading="lazy" />
+  <img class="nb-photo nb-37" src="photos/nashville-bg/frist-art.jpg" alt="" loading="lazy" />
+  <img class="nb-photo nb-38" src="photos/nashville-bg/hatch-show.jpg" alt="" loading="lazy" />
+  <img class="nb-photo nb-39" src="photos/nashville-bg/rca-studio-b.jpg" alt="" loading="lazy" />
+  <img class="nb-photo nb-40" src="photos/nashville-bg/union-station.jpg" alt="" loading="lazy" />
+  <img class="nb-photo nb-41" src="photos/nashville-bg/johnny-cash-museum.jpg" alt="" loading="lazy" />
+  <img class="nb-photo nb-42" src="photos/nashville-bg/schermerhorn.jpg" alt="" loading="lazy" />
+  <img class="nb-photo nb-43" src="photos/nashville-bg/opry-mills.jpg" alt="" loading="lazy" />
+  <img class="nb-photo nb-44" src="photos/nashville-bg/music-city-center.jpg" alt="" loading="lazy" />
 </div>
 
 <!-- ============ STICKY DAY NAV ============ -->
@@ -475,6 +523,10 @@
     "henrietta-red":["01-58d76caa6e.jpg","02-ccb3eccfd8.jpg","03-9350b0c4fe.jpg","04-e093c32b45.jpg","05-03aecf69cd.jpg"],
     "honky-tonk-central":["01-2180ae3c70.jpg","02-b22e81d386.jpg","03-be370615b2.jpg","04-56f65093da.jpg","05-fe625e4a79.jpg"],
     "honky-tonk-party-express":["01-75dc291726.jpg","02-a52953f749.jpg","03-00295d1c30.jpg","04-89a700a32d.jpg","05-619d79b297.jpg"],
+    "joyride":["01-e0d7a87c5e.jpg","02-3b4edbe971.jpg","03-92d321fb26.jpg","04-5777826fa5.jpg","05-3649e6fb33.jpg"],
+    "pink-hummer-limo":["01-75e53ee1cb.jpg"],
+    "yeehaw-party-bus":["01-9cf0b9cb03.jpg","02-471bb9eafa.jpg","03-40617d796c.jpg","04-4554ab8033.jpg","05-c80f498cb1.jpg"],
+    "rowdy-bus":["01-d42a757a2d.jpg","02-b4d04a5ec7.jpg","03-3541a2bc77.jpg","04-63f7707526.jpg","05-3cb8dd71bb.jpg"],
     "la-jackson":["01-4f69924b76.jpg","02-6009243a30.jpg","03-745a9be907.jpg","04-b1e02d4455.jpg","05-38e1d27d8a.jpg"],
     "monells":["01-4207378f90.jpg","02-9bf9a61cfd.jpg","03-7c5602671d.jpg","04-4207378f90.jpg","05-9bf9a61cfd.jpg"],
     "nashville-tractor":["01-65e2f7e80b.jpg","02-65e2f7e80b.jpg"],
@@ -553,9 +605,9 @@
     nashvilleTractor:"https://thenashvilletractor.com/",
     honkyTonkPartyExpress:"https://honkytonkpartyexpress.com/",
     joyride:"https://joyrideus.com/nashville-tn/joyride-party-bus/",
-    pinkHummerLimo:"https://www.allstarslimousine.com/pink-limo/",
+    pinkHummerLimo:"https://www.pinklimoparty.com/pink-limo-nashville/",
     yeehawPartyBus:"https://yeehawpartybus.com/",
-    rowdyBus:"https://www.rowdybus.com/bachelorette-party/",
+    rowdyBus:"https://wildridesnash.com/nashville-party-bus/",
     opry:"https://www.opry.com/",
     nashUnderground:"https://www.nashunderground.com/",
     stageOnBroadway:"https://thestageonbroadway.com/",
