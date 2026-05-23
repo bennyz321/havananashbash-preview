@@ -74,15 +74,19 @@
   .daynav a:hover { color:var(--gold); }
 
   /* HERO PHOTO BANNER */
-  .hero-photo { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position: center 38%; z-index:0;
-    /* dissolve photo into the body bg at the bottom — extended fade zone (35% of hero) for soft dissolve */
-    -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 60%, rgba(0,0,0,.55) 82%, transparent 100%);
-            mask-image: linear-gradient(to bottom, #000 0%, #000 60%, rgba(0,0,0,.55) 82%, transparent 100%); }
-  .hero-scrim { position:absolute; inset:0; z-index:1; pointer-events:none;
+  /* hero photo: object-fit:contain keeps FULL body visible (head + feet); blurred backdrop fills side gaps */
+  .hero-photo-bg { position:absolute; inset:0; z-index:0;
+    background-image: var(--hero-bg-url); background-size:cover; background-position:center;
+    filter: blur(36px) brightness(.55) saturate(1.05); transform:scale(1.18); transform-origin:center; }
+  .hero-photo { position:absolute; inset:0; width:100%; height:100%; object-fit:contain; object-position: center bottom; z-index:1;
+    /* dissolve photo into the body bg at the bottom — extended fade zone for soft dissolve */
+    -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 70%, rgba(0,0,0,.55) 88%, transparent 100%);
+            mask-image: linear-gradient(to bottom, #000 0%, #000 70%, rgba(0,0,0,.55) 88%, transparent 100%); }
+  .hero-scrim { position:absolute; inset:0; z-index:2; pointer-events:none;
     background:
       linear-gradient(180deg, rgba(21,13,31,.45) 0%, rgba(21,13,31,.18) 28%, rgba(21,13,31,.22) 55%, rgba(21,13,31,.65) 75%, rgba(21,13,31,.92) 90%, rgba(21,13,31,1) 100%),
       radial-gradient(120% 70% at 50% 110%, rgba(255,45,111,.28), transparent 60%); }
-  .hero-vignette { position:absolute; inset:0; z-index:1; pointer-events:none;
+  .hero-vignette { position:absolute; inset:0; z-index:2; pointer-events:none;
     box-shadow: inset 0 0 220px 30px rgba(0,0,0,.55); }
   /* extra cross-fade band sitting AT the hero/body junction so any micro color-step disappears */
   .hero-fadeout { position:absolute; left:0; right:0; bottom:-1px; height:240px; z-index:3; pointer-events:none;
@@ -315,7 +319,8 @@
 </nav>
 
 <!-- ============ HERO — PHOTO BANNER ============ -->
-<header id="top" class="relative flex flex-col items-center justify-center text-center px-6 overflow-hidden" style="min-height:min(100svh, 920px); height:min(100svh, 920px);">
+<header id="top" class="relative flex flex-col items-center justify-center text-center px-6 overflow-hidden" style="min-height:min(118svh, 1180px); height:min(118svh, 1180px); --hero-bg-url:url('photos/web/hero-banner-jessmain.jpg');">
+  <div class="hero-photo-bg" aria-hidden="true"></div>
   <img class="hero-photo" src="photos/web/hero-banner-jessmain.jpg" alt="Jess full-body shot on a Nashville rooftop with 40-marquee and 40 and Fabulous balloons" />
   <div class="hero-scrim"></div>
   <div class="hero-vignette"></div>
