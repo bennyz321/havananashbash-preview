@@ -1,0 +1,29 @@
+/Users/Ben/Library/Python/3.9/lib/python/site-packages/google/auth/__init__.py:54: FutureWarning: You are using a Python version 3.9 past its end of life. Google will update google-auth with critical bug fixes on a best-effort basis, but not with any other fixes or features. Please upgrade your Python version, and then update google-auth.
+  warnings.warn(eol_message.format("3.9"), FutureWarning)
+/Users/Ben/Library/Python/3.9/lib/python/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+  warnings.warn(
+/Users/Ben/Library/Python/3.9/lib/python/site-packages/google/oauth2/__init__.py:40: FutureWarning: You are using a Python version 3.9 past its end of life. Google will update google-auth with critical bug fixes on a best-effort basis, but not with any other fixes or features. Please upgrade your Python version, and then update google-auth.
+  warnings.warn(eol_message.format("3.9"), FutureWarning)
+[skip] 01-eric-jenny-chiefs already exists
+[gen]  02-mike-brit-tractor  (mike, brit)
+  ✓ saved (778 KB, 21.1s)
+[gen]  03-jess-ben-twelvethirty  (jess, ben)
+  ✓ saved (709 KB, 63.0s)
+[gen]  04-papo-yari-opry  (papo, yari)
+  ✓ saved (828 KB, 22.5s)
+[gen]  05-ciara-andrea-whitelimozeen  (ciara, andrea)
+  ✓ saved (762 KB, 144.9s)
+[gen]  06-mike-brit-honkytonk  (mike, brit)
+  ✓ saved (794 KB, 19.4s)
+[gen]  07-jess-ben-lajackson  (jess, ben)
+  ✓ saved (786 KB, 88.7s)
+[gen]  08-papo-yari-arrington  (papo, yari)
+  ✓ saved (817 KB, 18.8s)
+[gen]  09-ciara-andrea-pinewood  (ciara, andrea)
+  ✓ saved (805 KB, 21.3s)
+[gen]  10-eric-jenny-casarosa  (eric, Jenny)
+  ✓ saved (820 KB, 20.8s)
+[gen]  11-jess-peglegporker  (jess)
+  ✓ saved (790 KB, 19.3s)
+
+Done.

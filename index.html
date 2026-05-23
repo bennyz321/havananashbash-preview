@@ -45,7 +45,9 @@
       radial-gradient(120% 80% at 50% -10%, rgba(255,90,60,.18), transparent 60%),
       radial-gradient(90% 60% at 85% 20%, rgba(25,194,168,.12), transparent 55%),
       radial-gradient(80% 70% at 10% 90%, rgba(255,45,111,.14), transparent 55%),
-      linear-gradient(180deg,#1c1029 0%,#150d1f 50%,#110a18 100%); }
+      /* night-bg STARTS at the same dark tone the hero-scrim ENDS at, so the hero→body
+         transition has no hard color step. Then drifts to slightly darker through the page. */
+      linear-gradient(180deg,#150d1f 0%,#150d1f 6%,#19102a 38%,#130b1e 72%,#0e0717 100%); }
 
   .grain::before { content:""; position:fixed; inset:0; pointer-events:none; z-index:50; opacity:.05;
     background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
@@ -72,33 +74,57 @@
   .daynav a:hover { color:var(--gold); }
 
   /* HERO PHOTO BANNER */
-  .hero-photo { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position: center 30%; z-index:0; }
+  .hero-photo { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position: center 30%; z-index:0;
+    /* dissolve photo into the body bg at the bottom so the hero→body transition has no hard photo-edge */
+    -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 78%, transparent 100%);
+            mask-image: linear-gradient(to bottom, #000 0%, #000 78%, transparent 100%); }
   .hero-scrim { position:absolute; inset:0; z-index:1; pointer-events:none;
     background:
-      linear-gradient(180deg, rgba(21,13,31,.45) 0%, rgba(21,13,31,.20) 28%, rgba(21,13,31,.20) 55%, rgba(21,13,31,.78) 88%, rgba(21,13,31,.95) 100%),
+      linear-gradient(180deg, rgba(21,13,31,.45) 0%, rgba(21,13,31,.20) 28%, rgba(21,13,31,.20) 55%, rgba(21,13,31,.78) 80%, rgba(21,13,31,1) 100%),
       radial-gradient(120% 70% at 50% 110%, rgba(255,45,111,.32), transparent 60%); }
   .hero-vignette { position:absolute; inset:0; z-index:1; pointer-events:none;
     box-shadow: inset 0 0 220px 30px rgba(0,0,0,.55); }
+  /* extra cross-fade band sitting AT the hero/body junction so any micro color-step disappears */
+  .hero-fadeout { position:absolute; left:0; right:0; bottom:-1px; height:160px; z-index:3; pointer-events:none;
+    background: linear-gradient(180deg, rgba(21,13,31,0) 0%, rgba(21,13,31,.55) 55%, #150d1f 100%); }
 
   /* COUPLE FLANKS — one partner LEFT, other RIGHT, content between (v3 layout)
      CSS-grid approach: each section is a 3-column grid [cutout | content | cutout].
      Cutouts grow on desktop (up to 320px wide) and shrink-but-stay-visible on mobile (min 70px).
      Each couple appears exactly ONCE down the page; Papo+Yari flank the slideshow header. */
-  .day-grid { display:grid; gap:.5rem; align-items:center; max-width:90rem; margin:0 auto;
-    grid-template-columns: clamp(70px, 18vw, 320px) minmax(0,1fr) clamp(70px, 18vw, 320px); }
-  @media (min-width: 768px) { .day-grid { gap:1.25rem; padding:0 1rem; } }
-  .day-flank { width:100%; height:auto; display:block; pointer-events:none;
+  .day-grid { display:grid; gap:.4rem; align-items:end; max-width:104rem; margin:0 auto;
+    grid-template-columns: clamp(150px, 34vw, 560px) minmax(0,1fr) clamp(150px, 34vw, 560px); }
+  @media (min-width: 768px) { .day-grid { gap:1rem; padding:0 .5rem; } }
+  /* All flanks share a fixed portrait aspect + bottom-anchored fit, so the 10 cutouts read
+     as the same visible scale regardless of PNG aspect. object-fit:contain keeps the entire
+     person visible; object-position:center bottom puts their feet on the same line. A soft
+     bottom mask hides any hard leg/foot cut on the source PNG (e.g. Eric mid-thigh crop). */
+  .day-flank { width:100%; aspect-ratio: 5/9; height:auto; display:block; pointer-events:none;
+    object-fit: contain; object-position: center bottom;
     filter: drop-shadow(0 18px 36px rgba(0,0,0,.65)) drop-shadow(0 0 22px rgba(255,90,60,.22));
     opacity:.96; will-change:transform;
+    -webkit-mask-image: linear-gradient(to bottom, #000 86%, transparent 99%);
+            mask-image: linear-gradient(to bottom, #000 86%, transparent 99%);
     animation: cutsway 9s ease-in-out infinite;
   }
   .day-flank.left  { --rot:-3deg; animation-delay:-1.2s; transform:rotate(-3deg); }
   .day-flank.right { --rot:3deg;  animation-delay:-4.6s; transform:rotate(3deg);  }
-  .day-content { min-width:0; }
+  /* Eric PNG has a visible mid-thigh leg-cut. Pull him slightly down so the cut sinks below
+     visible frame AND extend the bottom mask fade so the cut-edge dissolves smoothly. */
+  .day-flank.is-eric { object-position: center 112%;
+    -webkit-mask-image: linear-gradient(to bottom, #000 60%, transparent 88%);
+            mask-image: linear-gradient(to bottom, #000 60%, transparent 88%); }
+  .day-content { min-width:0; align-self:center; }
   @keyframes cutsway {
     0%,100% { transform: translateY(0) rotate(var(--rot,0deg)); }
     50%     { transform: translateY(-8px) rotate(calc(var(--rot,0deg) + 1.2deg)); }
   }
+
+  /* HERO LOGO — enlarged Jess's-Big-4-0 wordmark sits where HAVANA NASH BASH used to be */
+  .hero-logo { width: clamp(220px, 56vw, 540px); height: auto; display:block;
+    margin-top: .25rem; margin-bottom: .35rem; }
+  @media (min-width: 640px) { .hero-logo { width: clamp(320px, 48vw, 620px); } }
+  @media (min-width: 768px) { .hero-logo { width: clamp(360px, 44vw, 720px); } }
   /* SPANISH TAGLINE — recurring birthday declaration */
   .tagline-script { font-family:"Yellowtail", cursive;
     background:linear-gradient(100deg,var(--gold) 0%,var(--coral) 60%,var(--pink) 100%);
@@ -129,20 +155,77 @@
   .lnk-btn { transition:transform .2s ease, filter .2s ease; }
   .lnk-btn:hover { transform:translateY(-1px); }
 
-  /* itinerary above cutouts so content is always readable */
-  main#itinerary, footer.site-footer, nav.daynav, section.slideshow { position:relative; z-index:5; }
+  /* itinerary + structural surfaces sit above the Nashville-bg overlay (z-index:2) */
+  main#itinerary, footer.site-footer, nav.daynav, section.slideshow, header#top { position:relative; z-index:5; }
 
-  /* per-venue mini photo strips */
-  .venue-strip { display:flex; gap:.5rem; overflow-x:auto; scroll-snap-type:x mandatory; scrollbar-width:none;
-    -ms-overflow-style:none; padding:.5rem 0 .25rem; margin-top:.6rem; }
-  .venue-strip::-webkit-scrollbar { display:none; }
-  .venue-strip .v-thumb { flex:0 0 auto; width:108px; height:72px; border-radius:.55rem; overflow:hidden;
-    scroll-snap-align:start; border:1px solid rgba(255,255,255,.10); background:#0E0A08;
-    box-shadow:0 6px 18px rgba(0,0,0,.45); position:relative; cursor:pointer; transition:transform .25s ease; }
-  .venue-strip .v-thumb:hover { transform:translateY(-2px); }
-  .venue-strip .v-thumb img { width:100%; height:100%; object-fit:cover; display:block; }
-  @media (min-width: 640px) {
-    .venue-strip .v-thumb { width:132px; height:88px; }
+  /* per-venue single-image carousel (replaces the horizontal strip) */
+  .venue-carousel { position:relative; margin-top:.75rem; border-radius:.85rem; overflow:hidden;
+    background:#0E0A08; border:1px solid rgba(255,255,255,.10);
+    box-shadow:0 10px 26px rgba(0,0,0,.5), 0 0 0 1px rgba(255,90,60,.07); }
+  .venue-carousel .v-slides { position:relative; width:100%; aspect-ratio: 16/10; }
+  .venue-carousel .v-slide { position:absolute; inset:0; opacity:0; transition:opacity .35s ease;
+    display:block; width:100%; height:100%; padding:0; margin:0; border:0; background:#0E0A08;
+    cursor:zoom-in; pointer-events:none; }
+  .venue-carousel .v-slide.active { opacity:1; pointer-events:auto; }
+  .venue-carousel .v-slide img { width:100%; height:100%; object-fit:cover; display:block; }
+  .venue-carousel .v-arrow { position:absolute; top:50%; transform:translateY(-50%);
+    width:38px; height:38px; border-radius:9999px;
+    background:rgba(8,5,4,.6); border:1px solid rgba(255,255,255,.22);
+    color:#F7ECDD; font-size:1.5rem; line-height:1; padding:0;
+    display:flex; align-items:center; justify-content:center;
+    cursor:pointer; z-index:3; transition:background .2s, transform .2s, border-color .2s;
+    backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px); }
+  .venue-carousel .v-arrow:hover { background:linear-gradient(100deg,var(--pink),var(--orange));
+    border-color:transparent; transform:translateY(-50%) scale(1.08); }
+  .venue-carousel .v-arrow.prev { left:.6rem; }
+  .venue-carousel .v-arrow.next { right:.6rem; }
+  .venue-carousel .v-dots { position:absolute; left:0; right:0; bottom:.55rem;
+    display:flex; justify-content:center; gap:.32rem; z-index:3; pointer-events:none; }
+  .venue-carousel .v-dots span { width:6px; height:6px; border-radius:50%;
+    background:rgba(247,236,221,.4); transition:background .25s, transform .25s; }
+  .venue-carousel .v-dots span.active { background:var(--gold); transform:scale(1.5); }
+  .venue-carousel.single .v-arrow, .venue-carousel.single .v-dots { display:none; }
+
+  /* celebrity face-icons next to venue names */
+  .celeb-row { display:inline-flex; align-items:center; gap:.4rem; flex-wrap:nowrap; }
+  .celeb-avatar { display:inline-block; width:1.55rem; height:1.55rem; border-radius:9999px;
+    border:1.5px solid rgba(244,206,122,.65); overflow:hidden; flex:0 0 auto;
+    box-shadow:0 2px 8px rgba(0,0,0,.5), 0 0 0 1px rgba(0,0,0,.4);
+    background:#0E0A08; }
+  .celeb-avatar img { width:100%; height:100%; object-fit:cover; display:block; }
+  .celeb-tag { font-family:"Outfit",system-ui,sans-serif; font-size:.62rem; letter-spacing:.16em;
+    text-transform:uppercase; color:rgba(244,206,122,.85); opacity:.85; }
+
+  /* verbatim venue description (longer than the tag blurb) */
+  .venue-desc { font-family:"Outfit",system-ui,sans-serif; color:rgba(247,236,221,.7);
+    font-size:.82rem; line-height:1.45; margin-top:.35rem; }
+
+  /* Nashville iconography overlay — fixed-position SVG layers above body bg, below content */
+  .nashville-bg { position:fixed; inset:0; pointer-events:none; z-index:2; overflow:hidden;
+    mix-blend-mode:screen; }
+  .nashville-bg .nb-layer { position:absolute; opacity:.07; }
+  .nashville-bg .nb-skyline { left:0; right:0; bottom:0; width:100%; height:auto; opacity:.09; }
+  .nashville-bg .nb-boot    { top:6vh; right:-3vw; width:28vw; max-width:380px;
+    transform:rotate(-9deg); opacity:.055; }
+  .nashville-bg .nb-guitar  { top:46vh; left:-5vw; width:32vw; max-width:420px;
+    transform:rotate(14deg); opacity:.055; }
+  .nashville-bg .nb-stars   { left:0; right:0; top:0; bottom:0; width:100%; height:100%; opacity:.04;
+    background-image: url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 320 320'%3E%3Cg fill='%23F4CE7A'%3E%3Cpolygon points='30,10 36,28 54,28 39,38 45,56 30,46 15,56 21,38 6,28 24,28' opacity='.7'/%3E%3Cpolygon points='200,80 205,94 220,94 208,103 213,118 200,109 187,118 192,103 180,94 195,94' opacity='.55'/%3E%3Cpolygon points='90,180 95,195 110,195 98,205 103,220 90,210 77,220 82,205 70,195 85,195' opacity='.65'/%3E%3Cpolygon points='270,240 275,253 288,253 278,261 282,275 270,267 258,275 262,261 252,253 265,253' opacity='.5'/%3E%3C/g%3E%3C/svg%3E");
+    background-repeat:repeat; background-size:480px 480px; }
+  .nashville-bg .nb-marquee { left:0; right:0; top:0; height:6vh; opacity:.08;
+    background-image: url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 30'%3E%3Cg fill='%23F4CE7A'%3E%3Ccircle cx='10' cy='15' r='2.5'/%3E%3Ccircle cx='30' cy='15' r='2.5'/%3E%3Ccircle cx='50' cy='15' r='2.5'/%3E%3Ccircle cx='70' cy='15' r='2.5'/%3E%3Ccircle cx='90' cy='15' r='2.5'/%3E%3Ccircle cx='110' cy='15' r='2.5'/%3E%3Ccircle cx='130' cy='15' r='2.5'/%3E%3Ccircle cx='150' cy='15' r='2.5'/%3E%3Ccircle cx='170' cy='15' r='2.5'/%3E%3Ccircle cx='190' cy='15' r='2.5'/%3E%3C/g%3E%3C/svg%3E");
+    background-repeat:repeat-x; background-size:200px 30px; }
+  .nashville-bg .nb-disco { right:5vw; top:30vh; width:9vw; max-width:120px; aspect-ratio:1; opacity:.05;
+    border-radius:50%;
+    background:
+      radial-gradient(circle at 35% 30%, rgba(255,255,255,.9), transparent 35%),
+      radial-gradient(circle at 70% 60%, rgba(255,255,255,.5), transparent 30%),
+      conic-gradient(from 0deg, #F4CE7A, #FF5A3C, #19C2A8, #F4CE7A);
+    filter:blur(2px); }
+  @media (max-width: 640px) {
+    .nashville-bg .nb-boot { width:42vw; opacity:.05; }
+    .nashville-bg .nb-guitar { width:46vw; opacity:.05; }
+    .nashville-bg .nb-disco { display:none; }
   }
 
   /* lightbox for venue photos */
@@ -181,6 +264,57 @@
 
 <body class="night-bg grain font-body">
 
+<!-- ============ NASHVILLE ICONOGRAPHY BG (subtle layers above body gradient) ============ -->
+<div class="nashville-bg" aria-hidden="true">
+  <div class="nb-layer nb-stars"></div>
+  <div class="nb-layer nb-marquee"></div>
+  <div class="nb-layer nb-disco"></div>
+  <!-- cowboy boot silhouette (top right) -->
+  <svg class="nb-layer nb-boot" viewBox="0 0 200 240" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <path fill="#F4CE7A" d="M60 10 h36 c4 0 6 2 6 6 v140 c0 4 2 6 6 6 h60 c8 0 14 6 14 14 v44 c0 8-6 14-14 14 h-128 c-8 0-14-6-14-14 v-58 c0-6 4-10 10-12 l24-8 v-126 c0-4 2-6 6-6 z M70 184 h60 v6 h-60 z"/>
+    <path fill="#F4CE7A" d="M76 22 h28 v24 h-28 z" opacity=".6"/>
+  </svg>
+  <!-- acoustic guitar silhouette (left side) -->
+  <svg class="nb-layer nb-guitar" viewBox="0 0 240 320" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <ellipse cx="120" cy="220" rx="90" ry="85" fill="#F4CE7A"/>
+    <circle cx="120" cy="220" r="30" fill="#0E0A08"/>
+    <rect x="112" y="40" width="16" height="120" fill="#F4CE7A"/>
+    <rect x="100" y="20" width="40" height="32" rx="4" fill="#F4CE7A"/>
+    <g stroke="#0E0A08" stroke-width="2" opacity=".6">
+      <line x1="116" y1="40" x2="116" y2="240"/>
+      <line x1="120" y1="40" x2="120" y2="240"/>
+      <line x1="124" y1="40" x2="124" y2="240"/>
+    </g>
+  </svg>
+  <!-- Nashville skyline silhouette (Ryman, Batman building, Music City Center) -->
+  <svg class="nb-layer nb-skyline" viewBox="0 0 1600 200" preserveAspectRatio="xMidYEnd slice" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <g fill="#F4CE7A" opacity=".75">
+      <!-- Ryman -->
+      <rect x="120" y="120" width="120" height="80"/>
+      <polygon points="120,120 180,80 240,120"/>
+      <rect x="170" y="100" width="20" height="20"/>
+      <!-- generic mid-rise -->
+      <rect x="280" y="140" width="80" height="60"/>
+      <rect x="380" y="130" width="60" height="70"/>
+      <!-- AT&T "Batman" building -->
+      <rect x="470" y="40" width="80" height="160"/>
+      <polygon points="470,40 470,10 510,30 510,40"/>
+      <polygon points="510,40 510,30 550,10 550,40"/>
+      <!-- mid -->
+      <rect x="580" y="120" width="60" height="80"/>
+      <rect x="660" y="100" width="70" height="100"/>
+      <!-- Music City Center wavy roof -->
+      <path d="M760 200 L760 130 Q820 100 880 130 Q940 100 1000 130 Q1060 100 1120 130 L1120 200 Z"/>
+      <!-- right cluster -->
+      <rect x="1160" y="110" width="60" height="90"/>
+      <rect x="1240" y="125" width="70" height="75"/>
+      <rect x="1330" y="100" width="80" height="100"/>
+      <polygon points="1330,100 1370,70 1410,100"/>
+      <rect x="1430" y="140" width="60" height="60"/>
+    </g>
+  </svg>
+</div>
+
 <!-- ============ STICKY DAY NAV ============ -->
 <nav class="daynav sticky top-0 z-40">
   <div class="max-w-5xl mx-auto px-5 py-3 flex items-center justify-between">
@@ -197,16 +331,13 @@
   <img class="hero-photo" src="photos/web/hero-banner.jpg" alt="Jess on a Nashville rooftop with 40 and Fabulous balloons" />
   <div class="hero-scrim"></div>
   <div class="hero-vignette"></div>
+  <div class="hero-fadeout"></div>
 
   <div class="relative z-10 pb-20 sm:pb-24 reveal">
-    <img src="photos/web/logo.png" alt="Havana Nash Bash logo" class="w-20 sm:w-24 mb-4 mx-auto opacity-95 drop-shadow-[0_8px_30px_rgba(255,90,60,.45)]" />
-    <p class="font-marquee tracking-[.4em] text-gold text-sm sm:text-base mb-4 neon-strong">NASHVILLE · JUNE 18–21, 2026</p>
-    <h1 class="font-display font-black leading-[.9] text-6xl sm:text-8xl md:text-9xl">
-      <span class="grad-text neon-strong">Havana</span><br/>
-      <span class="font-marquee tracking-wide text-cream text-5xl sm:text-7xl md:text-8xl neon-strong">NASH BASH</span>
-    </h1>
+    <p class="font-marquee tracking-[.4em] text-gold text-sm sm:text-base mb-5 neon-strong">NASHVILLE · JUNE 18–21, 2026</p>
+    <img src="photos/web/logo.png" alt="Jess's Big 4-0" class="hero-logo mx-auto opacity-100 drop-shadow-[0_12px_40px_rgba(255,90,60,.55)]" />
     <p class="font-script text-teal text-4xl sm:text-5xl mt-6 neon-teal">Jess's 40th Birthday</p>
-    <p class="tagline-script text-2xl sm:text-3xl md:text-4xl mt-3 px-2 leading-snug">¡No tengo cuarenta, tengo veinte&#8202;+&#8202;veinte perra!</p>
+    <p class="tagline-script text-2xl sm:text-3xl md:text-4xl mt-3 px-2 leading-snug">¡No tengo cuarenta, tengo veinte veinte perra!</p>
     <p class="font-body text-cream/55 text-[11px] sm:text-xs tracking-[.25em] uppercase mt-1.5" style="text-shadow:0 1px 6px rgba(0,0,0,.6)">i'm not 40 · i'm twenty plus twenty, b</p>
     <div class="mt-9 flex flex-wrap items-center justify-center gap-4">
       <a href="#day-thu" class="btn-grad text-white font-medium rounded-full px-8 py-3 text-sm tracking-wide">See the Itinerary</a>
@@ -246,7 +377,8 @@
 <footer class="site-footer relative py-20 px-6 text-center" style="border-top:1px solid rgba(244,206,122,.18)">
   <div class="max-w-2xl mx-auto reveal">
     <p class="font-display text-3xl sm:text-4xl grad-text neon">See you on the dance floor.</p>
-    <p class="font-script text-teal text-2xl mt-4 neon-teal">¡Salud, y'all!</p>
+    <p class="tagline-script text-2xl sm:text-3xl mt-4 px-2">¡Hasta la próxima, familia!</p>
+    <p class="font-script text-teal text-xl mt-2 neon-teal">¡Salud, y'all!</p>
     <p class="font-body text-cream/30 text-xs mt-14 tracking-widest">HAVANANASHBASH.COM · JESS'S 40TH · NASHVILLE 2026</p>
   </div>
 </footer>
@@ -278,7 +410,7 @@
     "white-limozeen":["01-4ba770b412.jpg","02-d50bc5efd7.jpg","03-0c75f7475d.jpg","04-e09315c47f.jpg","05-bcc35af990.jpg"],
     "zanies":["01-74f2d6130a.jpg","02-daca0b3362.jpg","03-a0e4df8d82.jpg","04-917b18600c.jpg","05-3be3001ce9.jpg"]
   };
-  function venueStrip(slug, label){
+  function venueCarousel(slug, label){
     var files = VENUE_IMG[slug];
     if(!files || !files.length) return null;
     // dedupe by hash prefix (filename has NN-<hash>.jpg)
@@ -288,25 +420,48 @@
       var k = m ? m[1] : files[i];
       if(!seen[k]){ seen[k]=1; uniq.push(files[i]); }
     }
-    var strip = document.createElement("div");
-    strip.className = "venue-strip";
-    strip.setAttribute("aria-label", (label||slug) + " photos");
+    var wrap = document.createElement("div");
+    wrap.className = "venue-carousel" + (uniq.length === 1 ? " single" : "");
+    wrap.setAttribute("data-idx", "0");
+    wrap.setAttribute("data-len", String(uniq.length));
+    wrap.setAttribute("aria-label", (label||slug) + " photos");
+
+    var slides = document.createElement("div");
+    slides.className = "v-slides";
     uniq.forEach(function(fn, idx){
       var btn = document.createElement("button");
       btn.type = "button";
-      btn.className = "v-thumb";
+      btn.className = "v-slide v-thumb" + (idx === 0 ? " active" : "");
       btn.setAttribute("data-src", "photos/venues/" + slug + "/" + fn);
       btn.setAttribute("data-label", label || slug);
-      btn.setAttribute("aria-label", (label||slug) + " photo " + (idx+1));
+      btn.setAttribute("aria-label", (label||slug) + " photo " + (idx+1) + " of " + uniq.length);
       var img = document.createElement("img");
       img.src = "photos/venues/" + slug + "/" + fn;
       img.alt = "";
       img.decoding = "async";
-      // no loading="lazy" — keeps strips visible in headless render previews + first-paint visit
       btn.appendChild(img);
-      strip.appendChild(btn);
+      slides.appendChild(btn);
     });
-    return strip;
+    wrap.appendChild(slides);
+
+    if (uniq.length > 1){
+      var prev = document.createElement("button");
+      prev.type = "button"; prev.className = "v-arrow prev"; prev.setAttribute("aria-label", "Previous photo");
+      prev.innerHTML = "‹";
+      var next = document.createElement("button");
+      next.type = "button"; next.className = "v-arrow next"; next.setAttribute("aria-label", "Next photo");
+      next.innerHTML = "›";
+      wrap.appendChild(prev); wrap.appendChild(next);
+      var dots = document.createElement("div");
+      dots.className = "v-dots";
+      uniq.forEach(function(_, i){
+        var s = document.createElement("span");
+        if(i===0) s.classList.add("active");
+        dots.appendChild(s);
+      });
+      wrap.appendChild(dots);
+    }
+    return wrap;
   }
 
   var U = {
@@ -338,66 +493,102 @@
 
   // ---------- itinerary data ----------
   // each day flanked by ONE couple (each person appears once across the page; Papo+Yari flank the slideshow)
+  // `desc` = verbatim copy from Ben's original itinerary where known (Casa Rosa, Chief's, White Limozeen);
+  // best-effort fuller-sentence elsewhere. `celeb` = small face-icon next to venue name.
   var DAYS = [
     { id:"day-thu", dow:"Thursday", date:"June 18", theme:"Arrival & Welcome", sub:"Touch down, check in, first toast.",
       couple:{ left:"eric", right:"Jenny" }, events:[
       {time:"4:25 PM", title:"Flight — Miami → Nashville", note:"MIA → BNA · lands 5:56 PM CT", start:"20260618T162500", end:"20260618T175600"},
-      {time:"6:45 PM", title:"Check in — Bode Nashville", conf:"145200", note:"The Gulch · home base all weekend", start:"20260618T184500", end:"20260618T193000", options:[{name:"Bode Nashville", url:U.bode, slug:"bode"}]},
+      {time:"6:45 PM", title:"Check in — Bode Nashville", conf:"145200", note:"The Gulch · home base all weekend", start:"20260618T184500", end:"20260618T193000", options:[{name:"Bode Nashville", url:U.bode, slug:"bode", desc:"Boutique home-base in The Gulch — modern lofts, walking distance to nearly everything on the itinerary."}]},
       {time:"7:45 PM", title:"Welcome Dinner", pick:true, start:"20260618T194500", end:"20260618T213000", options:[
-        {name:"Casa Rosa", url:U.casaRosa, tag:"Miranda Lambert's cantina", slug:"casa-rosa"},
-        {name:"Printer's Alley", url:U.printersAlley, tag:"historic nightlife district"},
-        {name:"Chief's on Broadway", url:U.chiefs, tag:"Eric Church's 6-story honky-tonk", slug:"chiefs"}
+        {name:"Casa Rosa", url:U.casaRosa, tag:"Miranda Lambert's cantina", slug:"casa-rosa",
+         desc:"A celebrity-owned Tex-Mex spot with that famous rhinestone saddle—perfect for birthday photos.",
+         celeb:{file:"miranda-lambert.jpg", name:"Miranda Lambert"}},
+        {name:"Printer's Alley", url:U.printersAlley, tag:"historic nightlife district",
+         desc:"The historic, neon-lit alley of speakeasies and live music tucked just off the main strip."},
+        {name:"Chief's on Broadway", url:U.chiefs, tag:"Eric Church's 6-story honky-tonk", slug:"chiefs",
+         desc:"Eric Church's 6-story bar. Sophisticated, high-energy, and featuring incredible whole-hog BBQ.",
+         celeb:{file:"eric-church.jpg", name:"Eric Church"}}
       ]},
       {time:"Late", title:"Nightcap on Broadway", buffer:true, note:"Wander the neon — late drinks wherever the night takes us."}
     ]},
     { id:"day-fri", dow:"Friday", date:"June 19", theme:"Jess's Big 4-0", sub:"The main event of the year.",
       couple:{ left:"jess", right:"ben" }, events:[
       {time:"10:00 AM", title:"Birthday Brunch", pick:true, start:"20260619T100000", end:"20260619T113000", options:[
-        {name:"White Limozeen", url:U.whiteLimozeen, tag:"rooftop · the must-have", slug:"white-limozeen"},
-        {name:"Von Elrod's", url:U.vonElrods, tag:"beer hall & kitchen", slug:"von-elrods"}
+        {name:"White Limozeen", url:U.whiteLimozeen, tag:"rooftop · the must-have", slug:"white-limozeen",
+         desc:"The iconic, glamorous, Dolly Parton-inspired rooftop bar with pink velvet and crystal chandeliers.",
+         celeb:{file:"dolly-parton.jpg", name:"Dolly Parton (inspired)"}},
+        {name:"Von Elrod's", url:U.vonElrods, tag:"beer hall & kitchen", slug:"von-elrods",
+         desc:"German-style beer hall and sausage kitchen in Germantown — long communal tables and a giant outdoor biergarten."}
       ]},
       {time:"12:30 PM", title:"Afternoon Party Tour", pick:true, start:"20260619T123000", end:"20260619T140000", options:[
-        {name:"The Nashville Tractor", url:U.nashvilleTractor, tag:"open-air party wagon", slug:"nashville-tractor"},
-        {name:"Honky Tonk Party Express", url:U.honkyTonkPartyExpress, tag:"rolling party bus", slug:"honky-tonk-party-express"}
+        {name:"The Nashville Tractor", url:U.nashvilleTractor, tag:"open-air party wagon", slug:"nashville-tractor",
+         desc:"The open-air party wagon — Nashville's famous tractor-pulled bar crawl, BYO booze, country playlist blasting."},
+        {name:"Honky Tonk Party Express", url:U.honkyTonkPartyExpress, tag:"rolling party bus", slug:"honky-tonk-party-express",
+         desc:"A rolling honky-tonk on wheels — disco lights, neon, dance pole, and a hosted bar all the way down Broadway."}
       ]},
       {time:"2:30–5:45 PM", title:"Get-ready buffer", buffer:true, note:"Rest, refresh, glam up for the big night."},
-      {time:"7:00 PM", title:"Grand Ole Opry", confirmed:true, conf:"5815229", note:"Opry House · 14 seats, group of 10 (+4 extra tickets)", start:"20260619T190000", end:"20260619T213000", options:[{name:"Grand Ole Opry", url:U.opry, slug:"opry"}]},
+      {time:"7:00 PM", title:"Grand Ole Opry", confirmed:true, conf:"5815229", note:"Opry House · 14 seats, group of 10 (+4 extra tickets)", start:"20260619T190000", end:"20260619T213000", options:[{name:"Grand Ole Opry", url:U.opry, slug:"opry", desc:"The legendary country-music showcase — every Friday night a rotating lineup of country royalty plus surprises."}]},
       {time:"After the show", title:"Post-Opry Party", pick:true, start:"20260619T214500", end:"20260619T235900", options:[
-        {name:"Nashville Underground", url:U.nashUnderground, tag:"multi-level on Broadway", slug:"nashville-underground"},
-        {name:"The Stage on Broadway", url:U.stageOnBroadway, tag:"classic honky-tonk", slug:"stage-on-broadway"},
-        {name:"Honky Tonk Central", url:U.honkyTonkCentral, tag:"largest on Lower Broadway", slug:"honky-tonk-central"}
+        {name:"Nashville Underground", url:U.nashUnderground, tag:"multi-level on Broadway", slug:"nashville-underground",
+         desc:"A multi-level honky-tonk monster on Broadway — country, hip-hop, and EDM floors all in one massive venue."},
+        {name:"The Stage on Broadway", url:U.stageOnBroadway, tag:"classic honky-tonk", slug:"stage-on-broadway",
+         desc:"The classic Nashville honky-tonk — three stages, free entry, and a wall of neon that's been on every postcard."},
+        {name:"Honky Tonk Central", url:U.honkyTonkCentral, tag:"largest on Lower Broadway", slug:"honky-tonk-central",
+         desc:"The largest honky-tonk on Lower Broadway — three full floors, three live bands at once, peak chaos."}
       ]}
     ]},
     { id:"day-sat", dow:"Saturday", date:"June 20", theme:"Wine, Dine & Laughs", sub:"Recover, sip, and the birthday dinner.",
       couple:{ left:"ciara", right:"andrea" }, events:[
       {time:"10:30 AM", title:"Recovery Brunch", pick:true, start:"20260620T103000", end:"20260620T120000", options:[
-        {name:"Henrietta Red", url:U.henriettaRed, tag:"oyster bar · Germantown", slug:"henrietta-red"},
-        {name:"Pinewood Social", url:U.pinewoodSocial, tag:"all-day social house", slug:"pinewood-social"}
+        {name:"Henrietta Red", url:U.henriettaRed, tag:"oyster bar · Germantown", slug:"henrietta-red",
+         desc:"Germantown's celebrated raw-bar and brunch spot — oysters, pastries, mimosas, and very forgiving lighting."},
+        {name:"Pinewood Social", url:U.pinewoodSocial, tag:"all-day social house", slug:"pinewood-social",
+         desc:"All-day social house — coffee, brunch, bowling lanes, bocce, and an Airstream cocktail bar by the pool."}
       ]},
       {time:"1:00 PM", title:"Afternoon", pick:true, start:"20260620T130000", end:"20260620T153000", options:[
-        {name:"Arrington Vineyards", url:U.arrington, tag:"winery · Kix Brooks co-owns", slug:"arrington"},
-        {name:"The Gulch", url:U.theGulch, tag:"shop & stroll the district"}
+        {name:"Arrington Vineyards", url:U.arrington, tag:"winery · Kix Brooks co-owns", slug:"arrington",
+         desc:"Kix Brooks's rolling-hills vineyard south of town — tastings, picnic blankets, sunset wine and live music."},
+        {name:"The Gulch", url:U.theGulch, tag:"shop & stroll the district",
+         desc:"Shop, stroll, photo-op the murals — The Gulch is the boutique heart of new-Nashville, steps from the hotel."}
       ]},
       {time:"4:00–6:30 PM", title:"Get-ready buffer", buffer:true, note:"Glam, round two."},
-      {time:"7:00 PM", title:"Birthday Dinner — Supper Club", confirmed:true, conf:"84804", note:"Twelve Thirty Club · the main celebration", start:"20260620T190000", end:"20260620T213000", options:[{name:"Twelve Thirty Club", url:U.twelveThirty, slug:"twelve-thirty"}]},
+      {time:"7:00 PM", title:"Birthday Dinner — Supper Club", confirmed:true, conf:"84804", note:"Twelve Thirty Club · the main celebration", start:"20260620T190000", end:"20260620T213000", options:[{name:"Twelve Thirty Club", url:U.twelveThirty, slug:"twelve-thirty",
+        desc:"Justin Timberlake's swanky Supper Club above Lower Broadway — leather booths, live music, the night's main toast.",
+        celeb:{file:"justin-timberlake.jpg", name:"Justin Timberlake"}}]},
       {time:"Late night", title:"Nightcap", pick:true, start:"20260620T214500", end:"20260620T235900", options:[
-        {name:"Zanies Comedy Club", url:U.zanies, tag:"stand-up laughs", slug:"zanies"},
-        {name:"The Patterson House", url:U.pattersonHouse, tag:"speakeasy cocktails", slug:"patterson-house"},
-        {name:"L.A. Jackson", url:U.laJackson, tag:"rooftop bar", slug:"la-jackson"},
-        {name:"Sixty Vines", url:U.sixtyVines, tag:"wine on tap", slug:"sixty-vines"}
+        {name:"Zanies Comedy Club", url:U.zanies, tag:"stand-up laughs · Dave Attell", slug:"zanies",
+         desc:"Nashville's premier stand-up club — Dave Attell headlines this night for an extra dose of late-night chaos.",
+         celeb:{file:"dave-attell.jpg", name:"Dave Attell (headliner)"}},
+        {name:"The Patterson House", url:U.pattersonHouse, tag:"speakeasy cocktails", slug:"patterson-house",
+         desc:"Hidden Edgehill speakeasy — chandelier-lit booths, classic pre-prohibition cocktails, hush voices only."},
+        {name:"L.A. Jackson", url:U.laJackson, tag:"rooftop bar", slug:"la-jackson",
+         desc:"The Gulch's coolest rooftop — downtown skyline view, palm-tree neon, perfect peak-night photo backdrop."},
+        {name:"Sixty Vines", url:U.sixtyVines, tag:"wine on tap", slug:"sixty-vines",
+         desc:"Wine on tap, vineyard-style patio, an easier sit-down option to finish the night without screaming over a band."}
       ]}
     ]},
     { id:"day-sun", dow:"Sunday", date:"June 21", theme:"Recovery & Departure", sub:"One last coffee, then wheels up.",
       couple:{ left:"mike", right:"brit" }, events:[
-      {time:"9:00 AM", title:"Coffee — Dawn Cafe", note:"At Bode · easy morning", start:"20260621T090000", end:"20260621T094500", options:[{name:"Dawn Cafe", url:U.dawnCafe, slug:"dawn-cafe"}]},
-      {time:"11:00 AM", title:"Checkout — Bode Nashville", start:"20260621T110000", end:"20260621T113000", options:[{name:"Bode Nashville", url:U.bode, slug:"bode"}]},
+      {time:"9:00 AM", title:"Coffee — Dawn Cafe", note:"At Bode · easy morning", start:"20260621T090000", end:"20260621T094500", options:[{name:"Dawn Cafe", url:U.dawnCafe, slug:"dawn-cafe", desc:"Bode's in-house café — espresso, pastries, fresh juice, and an easy first morning move before checkout."}]},
+      {time:"11:00 AM", title:"Checkout — Bode Nashville", start:"20260621T110000", end:"20260621T113000", options:[{name:"Bode Nashville", url:U.bode, slug:"bode", desc:"Final checkout from the home-base — bags down, brunch up next."}]},
       {time:"12:00 PM", title:"Farewell Lunch", pick:true, start:"20260621T120000", end:"20260621T133000", options:[
-        {name:"Peg Leg Porker", url:U.pegLegPorker, tag:"hot chicken & BBQ · The Gulch", slug:"peg-leg-porker"},
-        {name:"Monell's", url:U.monells, tag:"family-style Southern", slug:"monells"}
+        {name:"Peg Leg Porker", url:U.pegLegPorker, tag:"hot chicken & BBQ · The Gulch", slug:"peg-leg-porker",
+         desc:"Carey Bringle's hot-chicken-and-BBQ legend in The Gulch — pulled pork, ribs, smoked-wings, hangover-cure energy."},
+        {name:"Monell's", url:U.monells, tag:"family-style Southern", slug:"monells",
+         desc:"Iconic family-style Southern feast — strangers seated together, biscuits and gravy and skillet-fried-chicken passed nonstop."}
       ]},
       {time:"5:27 PM", title:"Flight — Nashville → Miami", note:"BNA → MIA · wheels up", start:"20260621T172700", end:"20260621T190000"}
     ]}
   ];
+
+  // Inter-day Spanish dividers — varying Cuban-flavored sayings per day-transition (Ben spec 2026-05-22).
+  var DIVIDERS = [
+    "¡Qué bola, mi gente! La fiesta arranca",          // Thu → Fri (arrival → big day, anticipation)
+    "Esto es un arroz con mango",                      // Fri → Sat (peak chaos, gorgeous-mess)
+    "Necesito un café del tamaño de mi resaca"         // Sat → Sun (comedic hangover)
+  ];
+  var FOOTER_CUBAN = "Hasta la próxima, familia";       // warm farewell at site close
 
   // ---------- calendar builders (America/Chicago, CDT in June) ----------
   var TZ = "America/Chicago";
@@ -464,7 +655,9 @@
   // ---------- render itinerary ----------
   function flank(side, name){
     var img = document.createElement("img");
-    img.className = "day-flank " + side;
+    // per-person modifier class lets us tweak object-position/mask for cutouts with hard PNG cuts
+    var modifier = " is-" + String(name).toLowerCase();
+    img.className = "day-flank " + side + modifier;
     img.src = "photos/cutouts/" + name + ".png";
     img.alt = "";
     img.setAttribute("aria-hidden", "true");
@@ -547,8 +740,14 @@
         var cb = checkBtn(opts[0].url); if(cb) bar1.appendChild(cb);
         var d1 = calDropdown(calTitle(ev,opts[0].name), ev.start, ev.end, calLoc(opts[0].name)); if(d1) bar1.appendChild(d1);
         box.appendChild(bar1);
+        if (opts[0].desc){
+          var dsc1 = document.createElement("p");
+          dsc1.className = "venue-desc";
+          dsc1.textContent = opts[0].desc;
+          box.appendChild(dsc1);
+        }
         if (opts[0].slug) {
-          var s1 = venueStrip(opts[0].slug, opts[0].name);
+          var s1 = venueCarousel(opts[0].slug, opts[0].name);
           if (s1) box.appendChild(s1);
         }
       } else {
@@ -559,16 +758,37 @@
           orow.className = "opt-row pt-3";
           var top = document.createElement("div");
           top.className = "flex flex-wrap items-center gap-x-3 gap-y-2 justify-between";
-          top.innerHTML = '<div class="min-w-0"><p class="font-display text-lg text-cream leading-tight">'+opt.name+'</p>'+
-            (opt.tag ? '<p class="font-body text-cream/50 text-xs">'+opt.tag+'</p>' : '')+'</div>';
+          // venue name + optional celeb face-icon + tag blurb
+          var nameHtml = '';
+          if (opt.celeb){
+            nameHtml +=
+              '<div class="celeb-row">'+
+                '<span class="celeb-avatar" title="'+opt.celeb.name+'">'+
+                  '<img src="photos/celebs/'+opt.celeb.file+'" alt="'+opt.celeb.name+'" decoding="async"/>'+
+                '</span>'+
+                '<span><p class="font-display text-lg text-cream leading-tight">'+opt.name+'</p>'+
+                  '<p class="celeb-tag">'+opt.celeb.name+'</p>'+
+                '</span>'+
+              '</div>';
+          } else {
+            nameHtml += '<p class="font-display text-lg text-cream leading-tight">'+opt.name+'</p>';
+          }
+          if (opt.tag) nameHtml += '<p class="font-body text-cream/50 text-xs mt-1">'+opt.tag+'</p>';
+          top.innerHTML = '<div class="min-w-0">'+nameHtml+'</div>';
           var btns = document.createElement("div");
           btns.className = "flex flex-wrap gap-2";
           var cbn = checkBtn(opt.url); if(cbn) btns.appendChild(cbn);
           var dn = calDropdown(calTitle(ev,opt.name), ev.start, ev.end, calLoc(opt.name)); if(dn) btns.appendChild(dn);
           top.appendChild(btns);
           orow.appendChild(top);
+          if (opt.desc){
+            var dsc = document.createElement("p");
+            dsc.className = "venue-desc";
+            dsc.textContent = opt.desc;
+            orow.appendChild(dsc);
+          }
           if (opt.slug) {
-            var s2 = venueStrip(opt.slug, opt.name);
+            var s2 = venueCarousel(opt.slug, opt.name);
             if (s2) orow.appendChild(s2);
           }
           list.appendChild(orow);
@@ -588,11 +808,12 @@
     sec.appendChild(grid);
     root.appendChild(sec);
 
-    // recurring tagline divider between days (not after the last)
+    // inter-day Cuban-flavored dividers — each transition gets its own saying (Ben spec 2026-05-22)
     if (dayIdx < DAYS.length - 1) {
+      var saying = DIVIDERS[dayIdx] || "";
       var div = document.createElement("div");
       div.className = "reveal tagline-divider px-6";
-      div.innerHTML = '<span class="tagline-script text-xl sm:text-2xl whitespace-nowrap">¡veinte&#8202;+&#8202;veinte!</span>';
+      div.innerHTML = '<span class="tagline-script text-xl sm:text-2xl md:text-3xl whitespace-nowrap">¡'+saying+'!</span>';
       root.appendChild(div);
     }
   });
@@ -615,6 +836,7 @@
   });
 
   // ---------- slideshow ----------
+  // 11 original v1 composites + 20 mayhem-expansion (Ben spec 2026-05-22). Day-3/4 weighted chaos.
   var SLIDES = [
     {f:"01-eric-jenny-chiefs.jpg",       venue:"CHIEF'S ON BROADWAY",   who:"Eric & Jenny"},
     {f:"02-mike-brit-tractor.jpg",       venue:"THE NASHVILLE TRACTOR", who:"Mike & Brit"},
@@ -626,7 +848,29 @@
     {f:"08-papo-yari-arrington.jpg",     venue:"ARRINGTON VINEYARDS",   who:"Papo & Yari"},
     {f:"09-ciara-andrea-pinewood.jpg",   venue:"PINEWOOD SOCIAL",       who:"Ciara & Andrea"},
     {f:"10-eric-jenny-casarosa.jpg",     venue:"CASA ROSA",             who:"Eric & Jenny"},
-    {f:"11-jess-peglegporker.jpg",       venue:"PEG LEG PORKER",        who:"Jess, hungry"}
+    {f:"11-jess-peglegporker.jpg",       venue:"PEG LEG PORKER",        who:"Jess, hungry"},
+    // — mayhem expansion v2 (Day-3/4 chaos)
+    {f:"12-crew-flour-fight.jpg",        venue:"PASTEL CUBANO CHAOS",   who:"Jess, Ciara & Jenny"},
+    {f:"13-mike-bull-passed-out.jpg",    venue:"NASHVILLE HONKY-TONK",  who:"Mike (found him)"},
+    {f:"14-jess-ben-chapel-detour.jpg",  venue:"NASHVILLE CHAPEL",      who:"Jess & Ben (?!)"},
+    {f:"15-papo-karaoke-fail.jpg",       venue:"KARAOKE DIVE",          who:"Papo, mid-Wagon-Wheel"},
+    {f:"16-ciara-andrea-balloon-tangle.jpg", venue:"ROOFTOP DISCO",     who:"Ciara & Andrea"},
+    {f:"17-brit-bathrobe-cowboy.jpg",    venue:"RECOVERY BRUNCH",       who:"Brit, surviving"},
+    {f:"18-group-fountain-aftermath.jpg", venue:"DAWN FOUNTAIN",        who:"The whole crew"},
+    // — mayhem expansion v3 (venues-coverage pack)
+    {f:"19-opry-group.jpg",              venue:"GRAND OLE OPRY",        who:"The crew"},
+    {f:"20-tractor-onboard.jpg",         venue:"THE NASHVILLE TRACTOR", who:"Jess, Ben, Ciara, Andrea, Jenny"},
+    {f:"21-tractor-broadway-drag.jpg",   venue:"BROADWAY DRAG",         who:"Mike, Brit, Papo & Yari"},
+    {f:"22-party-express-chaos.jpg",     venue:"PARTY EXPRESS",         who:"Eric, Jenny, Ciara & Andrea"},
+    {f:"23-honkytonk-central-tabledance.jpg", venue:"HONKY TONK CENTRAL", who:"Table-dancers, all of them"},
+    {f:"24-nash-underground-multilevel.jpg", venue:"NASH UNDERGROUND",  who:"Mike, Brit, Papo, Yari & Ben"},
+    {f:"25-la-jackson-sunset.jpg",       venue:"L.A. JACKSON",          who:"Sunset crew"},
+    {f:"26-bode-hallway.jpg",            venue:"BODE NASHVILLE",        who:"Hallway hooligans"},
+    {f:"27-pinewood-bowling-fail.jpg",   venue:"PINEWOOD SOCIAL",       who:"Bowling, badly"},
+    {f:"28-monells-feast.jpg",           venue:"MONELL'S",              who:"Family-style feast"},
+    {f:"29-casa-rosa-saddle.jpg",        venue:"CASA ROSA",             who:"Jess & Ben on the saddle"},
+    {f:"30-white-limozeen-velvet.jpg",   venue:"WHITE LIMOZEEN",        who:"Jess, Ciara & Andrea"},
+    {f:"31-patterson-speakeasy.jpg",     venue:"THE PATTERSON HOUSE",   who:"Ciara & Andrea"}
   ];
   var track = document.getElementById("slideTrack");
   var dotsBox = document.getElementById("slideDots");
@@ -672,7 +916,24 @@
   document.getElementById("slidePrev").addEventListener("click", function(){ clearInterval(autoTimer); });
   document.getElementById("slideNext").addEventListener("click", function(){ clearInterval(autoTimer); });
 
-  // ---------- venue lightbox (click thumbs to enlarge) ----------
+  // ---------- venue carousel arrow handler (delegated; runs BEFORE lightbox handler) ----------
+  document.addEventListener("click", function(e){
+    var arrow = e.target.closest(".venue-carousel .v-arrow");
+    if (!arrow) return;
+    e.preventDefault(); e.stopPropagation();
+    var wrap = arrow.closest(".venue-carousel");
+    var len = parseInt(wrap.getAttribute("data-len")||"1", 10);
+    var idx = parseInt(wrap.getAttribute("data-idx")||"0", 10);
+    var dir = arrow.classList.contains("next") ? 1 : -1;
+    idx = (idx + dir + len) % len;
+    wrap.setAttribute("data-idx", String(idx));
+    var slides = wrap.querySelectorAll(".v-slide");
+    slides.forEach(function(s, i){ s.classList.toggle("active", i===idx); });
+    var dots = wrap.querySelectorAll(".v-dots span");
+    dots.forEach(function(d, i){ d.classList.toggle("active", i===idx); });
+  });
+
+  // ---------- venue lightbox (click ACTIVE carousel slide to enlarge) ----------
   var lb = document.createElement("div");
   lb.className = "v-lightbox";
   lb.setAttribute("role","dialog");
@@ -688,8 +949,13 @@
     lb.classList.remove("show"); lb.setAttribute("aria-hidden","true"); lbImg.src = "";
   }
   document.addEventListener("click", function(e){
+    // ignore arrow clicks (already handled above with stopPropagation)
+    if (e.target.closest(".v-arrow")) return;
     var t = e.target.closest(".v-thumb");
-    if (t) { openLightbox(t.getAttribute("data-src"), t.getAttribute("data-label")); return; }
+    if (t && t.classList.contains("active")) {
+      openLightbox(t.getAttribute("data-src"), t.getAttribute("data-label"));
+      return;
+    }
     if (e.target === lb || e.target.classList.contains("v-lightbox-close")) closeLightbox();
   });
   document.addEventListener("keydown", function(e){ if(e.key === "Escape") closeLightbox(); });
