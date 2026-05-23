@@ -75,19 +75,37 @@
 
   /* HERO PHOTO BANNER — file_773 extended to 2560x1440 via edge-blur fill so the WHOLE composition
      (head + marquee + balloons + skyline) stays uncropped at full-width edge-to-edge */
-  .hero-photo { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position: center top; z-index:1;
+  .hero-photo { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position: center center; z-index:1;
     /* soft dissolve: photo fades into the body bg over the bottom ~30% — clean transition to next section */
     -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 60%, rgba(0,0,0,.72) 78%, rgba(0,0,0,.32) 90%, transparent 100%);
             mask-image: linear-gradient(to bottom, #000 0%, #000 60%, rgba(0,0,0,.72) 78%, rgba(0,0,0,.32) 90%, transparent 100%); }
   .hero-scrim { position:absolute; inset:0; z-index:2; pointer-events:none;
     background:
       linear-gradient(180deg, rgba(21,13,31,.45) 0%, rgba(21,13,31,.18) 28%, rgba(21,13,31,.22) 55%, rgba(21,13,31,.65) 75%, rgba(21,13,31,.92) 90%, rgba(21,13,31,1) 100%),
+      linear-gradient(90deg, rgba(21,13,31,.55) 0%, rgba(21,13,31,.28) 22%, rgba(21,13,31,0) 40%, rgba(21,13,31,0) 60%, rgba(21,13,31,.28) 78%, rgba(21,13,31,.55) 100%),
       radial-gradient(120% 70% at 50% 110%, rgba(255,45,111,.28), transparent 60%); }
   .hero-vignette { position:absolute; inset:0; z-index:2; pointer-events:none;
     box-shadow: inset 0 0 220px 30px rgba(0,0,0,.55); }
   /* extra cross-fade band sitting AT the hero/body junction so any micro color-step disappears */
   .hero-fadeout { position:absolute; left:0; right:0; bottom:-1px; height:240px; z-index:3; pointer-events:none;
     background: linear-gradient(180deg, rgba(21,13,31,0) 0%, rgba(21,13,31,.35) 35%, rgba(21,13,31,.75) 70%, #150d1f 100%); }
+
+  /* HERO FLANKS — text-CTA on LEFT, marquee 4-0 logo on RIGHT; reserve middle column for Jess in the photo.
+     Mobile: single column stacked centered (text first, then logo). */
+  .hero-flanks { display:grid; grid-template-columns:1fr; gap:1.5rem; align-items:center; padding:5rem 0 4rem; margin:0 auto; }
+  .hero-flanks .hero-left, .hero-flanks .hero-right { width:100%; }
+  .hero-flanks .hero-spacer { display:none; }
+  .hero-flanks .hero-logo { width:min(74vw, 360px); height:auto; }
+  @media (min-width: 768px) {
+    .hero-flanks { grid-template-columns: minmax(0, 1.05fr) minmax(0, .85fr) minmax(0, 1.05fr); gap:1rem; padding:5.5rem 1rem 4rem; }
+    .hero-flanks .hero-spacer { display:block; }
+    .hero-flanks .hero-left  { padding-right:.5rem; }
+    .hero-flanks .hero-right { padding-left:.5rem; display:flex; align-items:center; justify-content:center; }
+    .hero-flanks .hero-logo { width:min(28vw, 440px); }
+  }
+  @media (min-width: 1280px) {
+    .hero-flanks .hero-logo { width:min(26vw, 520px); }
+  }
 
   /* COUPLE FLANKS — one partner LEFT, other RIGHT, content between (v3 layout)
      CSS-grid approach: each section is a 3-column grid [cutout | content | cutout].
@@ -330,29 +348,7 @@
   .nb-20 { top:316vh; left:4vw;   width:34vw; max-width:480px; aspect-ratio:3/2;   transform:rotate(3deg);   opacity:.10; }
   .nb-21 { top:334vh; right:12vw; width:32vw; max-width:460px; aspect-ratio:4/3;   transform:rotate(-5deg);  opacity:.11; }
   .nb-22 { top:352vh; left:-4vw;  width:38vw; max-width:520px; aspect-ratio:5/3;   transform:rotate(4deg);   opacity:.09; }
-  /* Collage extension: continue collage all the way to the footer (Ben spec 2026-05-22). */
-  .nb-23 { top:368vh; right:6vw;  width:34vw; max-width:480px; aspect-ratio:16/10; transform:rotate(-3deg);  opacity:.11; }
-  .nb-24 { top:384vh; left:14vw;  width:32vw; max-width:460px; aspect-ratio:3/2;   transform:rotate(5deg);   opacity:.10; }
-  .nb-25 { top:402vh; right:-5vw; width:40vw; max-width:560px; aspect-ratio:4/3;   transform:rotate(-4deg);  opacity:.12; }
-  .nb-26 { top:418vh; left:-6vw;  width:38vw; max-width:520px; aspect-ratio:5/3;   transform:rotate(3deg);   opacity:.10; }
-  .nb-27 { top:434vh; right:10vw; width:32vw; max-width:460px; aspect-ratio:16/9;  transform:rotate(-2deg);  opacity:.11; }
-  .nb-28 { top:450vh; left:2vw;   width:34vw; max-width:480px; aspect-ratio:3/2;   transform:rotate(6deg);   opacity:.09; }
-  .nb-29 { top:468vh; right:-4vw; width:36vw; max-width:500px; aspect-ratio:5/3;   transform:rotate(-5deg);  opacity:.12; }
-  .nb-30 { top:486vh; left:8vw;   width:30vw; max-width:440px; aspect-ratio:16/10; transform:rotate(4deg);   opacity:.10; }
-  .nb-31 { top:502vh; right:8vw;  width:34vw; max-width:480px; aspect-ratio:3/2;   transform:rotate(-3deg);  opacity:.11; }
-  .nb-32 { top:520vh; left:-5vw;  width:40vw; max-width:560px; aspect-ratio:4/3;   transform:rotate(5deg);   opacity:.09; }
-  .nb-33 { top:536vh; right:14vw; width:30vw; max-width:440px; aspect-ratio:5/3;   transform:rotate(-2deg);  opacity:.12; }
-  .nb-34 { top:552vh; left:18vw;  width:32vw; max-width:460px; aspect-ratio:16/9;  transform:rotate(4deg);   opacity:.10; }
-  .nb-35 { top:570vh; right:-6vw; width:38vw; max-width:520px; aspect-ratio:3/2;   transform:rotate(-4deg);  opacity:.11; }
-  .nb-36 { top:586vh; left:-4vw;  width:36vw; max-width:500px; aspect-ratio:4/3;   transform:rotate(6deg);   opacity:.09; }
-  .nb-37 { top:604vh; right:4vw;  width:34vw; max-width:480px; aspect-ratio:16/10; transform:rotate(-3deg);  opacity:.12; }
-  .nb-38 { top:622vh; left:12vw;  width:32vw; max-width:460px; aspect-ratio:5/3;   transform:rotate(3deg);   opacity:.10; }
-  .nb-39 { top:640vh; right:-3vw; width:38vw; max-width:520px; aspect-ratio:3/2;   transform:rotate(-5deg);  opacity:.11; }
-  .nb-40 { top:658vh; left:-7vw;  width:36vw; max-width:500px; aspect-ratio:16/9;  transform:rotate(5deg);   opacity:.09; }
-  .nb-41 { top:676vh; right:12vw; width:32vw; max-width:460px; aspect-ratio:4/3;   transform:rotate(-2deg);  opacity:.12; }
-  .nb-42 { top:694vh; left:4vw;   width:34vw; max-width:480px; aspect-ratio:3/2;   transform:rotate(4deg);   opacity:.10; }
-  .nb-43 { top:712vh; right:-5vw; width:40vw; max-width:560px; aspect-ratio:5/3;   transform:rotate(-3deg);  opacity:.11; }
-  .nb-44 { top:730vh; left:8vw;   width:38vw; max-width:520px; aspect-ratio:16/10; transform:rotate(6deg);   opacity:.09; }
+  /* Collage range: hero → start of 'A Preview of the Mayhem' section (Ben spec 2026-05-22 v5.2). */
   @media (max-width: 640px) {
     .nb-photo { opacity:.10 !important; width:78vw !important; max-width:none !important; }
   }
@@ -417,29 +413,6 @@
   <img class="nb-photo nb-20" src="photos/nashville-bg/johnny-cash-museum.jpg" alt="" loading="lazy" />
   <img class="nb-photo nb-21" src="photos/nashville-bg/schermerhorn.jpg" alt="" loading="lazy" />
   <img class="nb-photo nb-22" src="photos/nashville-bg/opry-mills.jpg" alt="" loading="lazy" />
-  <!-- Collage extension (Ben spec 2026-05-22): nb-23..nb-44 carry the collage down to the footer -->
-  <img class="nb-photo nb-23" src="photos/nashville-bg/broadway.jpg" alt="" loading="lazy" />
-  <img class="nb-photo nb-24" src="photos/nashville-bg/skyline.jpg" alt="" loading="lazy" />
-  <img class="nb-photo nb-25" src="photos/nashville-bg/ryman.jpg" alt="" loading="lazy" />
-  <img class="nb-photo nb-26" src="photos/nashville-bg/tootsies.jpg" alt="" loading="lazy" />
-  <img class="nb-photo nb-27" src="photos/nashville-bg/hall-of-fame.jpg" alt="" loading="lazy" />
-  <img class="nb-photo nb-28" src="photos/nashville-bg/pedestrian-bridge.jpg" alt="" loading="lazy" />
-  <img class="nb-photo nb-29" src="photos/nashville-bg/cumberland-river.jpg" alt="" loading="lazy" />
-  <img class="nb-photo nb-30" src="photos/nashville-bg/music-row.jpg" alt="" loading="lazy" />
-  <img class="nb-photo nb-31" src="photos/nashville-bg/centennial-park.jpg" alt="" loading="lazy" />
-  <img class="nb-photo nb-32" src="photos/nashville-bg/bridgestone-arena.jpg" alt="" loading="lazy" />
-  <img class="nb-photo nb-33" src="photos/nashville-bg/state-capitol.jpg" alt="" loading="lazy" />
-  <img class="nb-photo nb-34" src="photos/nashville-bg/parthenon.jpg" alt="" loading="lazy" />
-  <img class="nb-photo nb-35" src="photos/nashville-bg/nissan-stadium.jpg" alt="" loading="lazy" />
-  <img class="nb-photo nb-36" src="photos/nashville-bg/ascend-amph.jpg" alt="" loading="lazy" />
-  <img class="nb-photo nb-37" src="photos/nashville-bg/frist-art.jpg" alt="" loading="lazy" />
-  <img class="nb-photo nb-38" src="photos/nashville-bg/hatch-show.jpg" alt="" loading="lazy" />
-  <img class="nb-photo nb-39" src="photos/nashville-bg/rca-studio-b.jpg" alt="" loading="lazy" />
-  <img class="nb-photo nb-40" src="photos/nashville-bg/union-station.jpg" alt="" loading="lazy" />
-  <img class="nb-photo nb-41" src="photos/nashville-bg/johnny-cash-museum.jpg" alt="" loading="lazy" />
-  <img class="nb-photo nb-42" src="photos/nashville-bg/schermerhorn.jpg" alt="" loading="lazy" />
-  <img class="nb-photo nb-43" src="photos/nashville-bg/opry-mills.jpg" alt="" loading="lazy" />
-  <img class="nb-photo nb-44" src="photos/nashville-bg/music-city-center.jpg" alt="" loading="lazy" />
 </div>
 
 <!-- ============ STICKY DAY NAV ============ -->
@@ -454,21 +427,29 @@
 </nav>
 
 <!-- ============ HERO — PHOTO BANNER ============ -->
-<header id="top" class="relative flex flex-col items-center justify-center text-center px-6 overflow-hidden" style="min-height:min(100svh, 1000px); height:min(100svh, 1000px);">
-  <img class="hero-photo" src="photos/web/hero-banner-wide.jpg" alt="Jess on a Nashville rooftop with 40-and-Fabulous marquee, gold balloons, and skyline" />
+<header id="top" class="relative flex flex-col items-center justify-center px-4 sm:px-6 overflow-hidden" style="min-height:min(100svh, 1000px); height:min(100svh, 1000px);">
+  <img class="hero-photo" src="photos/web/hero-jbanner.jpg" alt="Jess on a Nashville rooftop with marquee 40 letters, pink 40 balloons, and Nashville skyline" />
   <div class="hero-scrim"></div>
   <div class="hero-vignette"></div>
   <div class="hero-fadeout"></div>
 
-  <div class="relative z-10 pt-16 sm:pt-20 pb-6 sm:pb-10 reveal">
-    <p class="font-marquee tracking-[.4em] text-gold text-sm sm:text-base mb-5 neon-strong">NASHVILLE · JUNE 18–21, 2026</p>
-    <img src="photos/web/logo.png" alt="Jess's Big 4-0" class="hero-logo mx-auto opacity-100 drop-shadow-[0_12px_40px_rgba(255,90,60,.55)]" />
-    <p class="font-script text-teal text-4xl sm:text-5xl mt-6 neon-teal">Jess's 40th Birthday</p>
-    <p class="tagline-script text-2xl sm:text-3xl md:text-4xl mt-3 px-2 leading-snug">¡No tengo cuarenta, tengo veinte veinte perra!</p>
-    <p class="font-body text-cream/55 text-[11px] sm:text-xs tracking-[.25em] uppercase mt-1.5" style="text-shadow:0 1px 6px rgba(0,0,0,.6)">i'm not 40 · i'm twenty plus twenty, b</p>
-    <div class="mt-9 flex flex-wrap items-center justify-center gap-4">
-      <a href="#day-thu" class="btn-grad text-white font-medium rounded-full px-8 py-3 text-sm tracking-wide">See the Itinerary</a>
-      <span class="font-body text-cream/85 text-sm" style="text-shadow:0 1px 6px rgba(0,0,0,.6)">4 days · 4 nights · one unforgettable weekend</span>
+  <div class="hero-flanks relative z-10 w-full max-w-[1500px] reveal">
+    <!-- LEFT flank: dates · script title · spanish tagline · CTA -->
+    <div class="hero-left text-center md:text-left">
+      <p class="font-marquee tracking-[.4em] text-gold text-xs sm:text-sm md:text-base mb-4 neon-strong">NASHVILLE · JUNE 18–21, 2026</p>
+      <p class="font-script text-teal text-4xl sm:text-5xl md:text-6xl neon-teal leading-[1.05]">Jess's 40th<br/>Birthday</p>
+      <p class="tagline-script text-2xl sm:text-3xl md:text-[2.4rem] mt-3 leading-snug">¡No tengo cuarenta,<br class="hidden md:block"/> tengo veinte veinte perra!</p>
+      <p class="font-body text-cream/55 text-[11px] sm:text-xs tracking-[.25em] uppercase mt-1.5" style="text-shadow:0 1px 6px rgba(0,0,0,.6)">i'm not 40 · i'm twenty plus twenty, b</p>
+      <div class="mt-6 md:mt-8 flex flex-wrap items-center justify-center md:justify-start gap-3 sm:gap-4">
+        <a href="#day-thu" class="btn-grad text-white font-medium rounded-full px-7 py-3 text-sm tracking-wide">See the Itinerary</a>
+        <span class="font-body text-cream/85 text-xs sm:text-sm" style="text-shadow:0 1px 6px rgba(0,0,0,.6)">4 days · 4 nights</span>
+      </div>
+    </div>
+    <!-- spacer column reserved for Jess in the photo (md+) -->
+    <div class="hero-spacer" aria-hidden="true"></div>
+    <!-- RIGHT flank: Jess's Big 4-0 marquee logo -->
+    <div class="hero-right">
+      <img src="photos/web/logo.png" alt="Jess's Big 4-0" class="hero-logo mx-auto md:mx-0 opacity-100 drop-shadow-[0_12px_40px_rgba(255,90,60,.55)]" />
     </div>
   </div>
   <a href="#day-thu" class="floaty absolute bottom-8 z-10 text-gold text-3xl" aria-label="Scroll down" style="text-shadow:0 1px 6px rgba(0,0,0,.6)">&#8675;</a>
