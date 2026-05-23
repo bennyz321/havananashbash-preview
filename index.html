@@ -73,11 +73,11 @@
   .daynav a { color:rgba(247,236,221,.65); transition:color .2s; }
   .daynav a:hover { color:var(--gold); }
 
-  /* HERO PHOTO BANNER — wide 16:9 source w/ edge-blur fill, fills full width edge-to-edge */
+  /* HERO PHOTO BANNER — original 40-Fab marquee + balloons + skyline (no legs) w/ soft bottom dissolve */
   .hero-photo { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position: center center; z-index:1;
-    /* dissolve photo into the body bg at the bottom */
-    -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 72%, rgba(0,0,0,.55) 88%, transparent 100%);
-            mask-image: linear-gradient(to bottom, #000 0%, #000 72%, rgba(0,0,0,.55) 88%, transparent 100%); }
+    /* soft dissolve: photo fades into the body bg over the bottom ~30% — clean transition to next section */
+    -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 60%, rgba(0,0,0,.72) 78%, rgba(0,0,0,.32) 90%, transparent 100%);
+            mask-image: linear-gradient(to bottom, #000 0%, #000 60%, rgba(0,0,0,.72) 78%, rgba(0,0,0,.32) 90%, transparent 100%); }
   .hero-scrim { position:absolute; inset:0; z-index:2; pointer-events:none;
     background:
       linear-gradient(180deg, rgba(21,13,31,.45) 0%, rgba(21,13,31,.18) 28%, rgba(21,13,31,.22) 55%, rgba(21,13,31,.65) 75%, rgba(21,13,31,.92) 90%, rgba(21,13,31,1) 100%),
@@ -203,6 +203,20 @@
     font-size:.92rem; line-height:1.45; margin-top:.4rem; }
   .mission-text b { color:var(--gold); }
 
+  /* PREMIUM-tier marker for nicer-tier venue options (Ben spec 2026-05-22) — subtler than Opry */
+  .venue-row.tier-premium { position:relative;
+    border-top:1px dashed rgba(244,206,122,.40); }
+  .venue-row.tier-premium .v-col-left .venue-carousel {
+    box-shadow: 0 0 0 1.5px rgba(244,206,122,.55), 0 8px 26px rgba(244,206,122,.10);
+    border-radius:.65rem; }
+  .premium-badge { display:inline-flex; align-items:center; gap:.32rem;
+    font-family:"Bebas Neue", sans-serif; letter-spacing:.18em; font-size:.62rem;
+    color:#0F0A14; background:linear-gradient(180deg, #FBE08A, var(--gold));
+    padding:.1rem .42rem; border-radius:.28rem;
+    box-shadow: 0 0 0 1px rgba(244,206,122,.55), 0 1px 6px rgba(244,206,122,.35);
+    margin-left:.5rem; vertical-align:middle; }
+  .venue-row.tier-premium .v-col-right .venue-name { color:#F7E7BD; }
+
   .opt-row { border-top:1px dashed rgba(255,255,255,.10); }
 
   /* calendar dropdown */
@@ -261,6 +275,7 @@
   .venue-row { display:grid; gap:1.6rem; margin-top:1rem; padding-top:1rem;
     border-top:1px dashed rgba(255,255,255,.10);
     grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); align-items:start; }
+  .venue-row.no-carousel { grid-template-columns: 1fr; }
   .venue-row:first-child { border-top:0; padding-top:0; margin-top:1.1rem; }
   .venue-row .v-col-left, .venue-row .v-col-right { min-width:0; }
   .venue-row .venue-carousel { margin-top:0; }
@@ -390,8 +405,8 @@
 </nav>
 
 <!-- ============ HERO — PHOTO BANNER ============ -->
-<header id="top" class="relative flex flex-col items-center justify-center text-center px-6 overflow-hidden" style="min-height:min(108svh, 1100px); height:min(108svh, 1100px);">
-  <img class="hero-photo" src="photos/web/hero-banner-jessmain-wide.jpg" alt="Jess full-body shot on a Nashville rooftop with 40-marquee and 40 and Fabulous balloons" />
+<header id="top" class="relative flex flex-col items-center justify-center text-center px-6 overflow-hidden" style="min-height:min(100svh, 1000px); height:min(100svh, 1000px);">
+  <img class="hero-photo" src="photos/web/hero-banner.jpg" alt="Jess on a Nashville rooftop with 40-and-Fabulous marquee, gold balloons, and skyline" />
   <div class="hero-scrim"></div>
   <div class="hero-vignette"></div>
   <div class="hero-fadeout"></div>
@@ -536,6 +551,10 @@
     vonElrods:"https://vonelrods.com/",
     nashvilleTractor:"https://thenashvilletractor.com/",
     honkyTonkPartyExpress:"https://honkytonkpartyexpress.com/",
+    joyride:"https://joyrideus.com/nashville-tn/joyride-party-bus/",
+    pinkHummerLimo:"https://www.allstarslimousine.com/pink-limo/",
+    yeehawPartyBus:"https://yeehawpartybus.com/",
+    rowdyBus:"https://www.rowdybus.com/bachelorette-party/",
     opry:"https://www.opry.com/",
     nashUnderground:"https://www.nashunderground.com/",
     stageOnBroadway:"https://thestageonbroadway.com/",
@@ -585,6 +604,14 @@
          desc:"Located in the culinary hotspot of Germantown; perfect for group day-drinking."}
       ]},
       {time:"12:30 PM", title:"Afternoon Party Tour", pick:true, start:"20260619T123000", end:"20260619T140000", options:[
+        {name:"Joyride Nashville", url:U.joyride, tag:"premium party bus + golf carts", slug:"joyride", tier:"premium",
+         desc:"Nashville's #1-rated party bus operator — choose the Tin Roof (blue) or Big Machine Vodka (pink) coach, both with full bar setup. They also run open-air golf-cart tours if the crew wants smaller-group canvas."},
+        {name:"All Stars Pink Hummer Limo", url:U.pinkHummerLimo, tag:"super-stretch pink Hummer", slug:"pink-hummer-limo", tier:"premium",
+         desc:"Bachelorette icon: a hot-pink super-stretch Hummer limo seating ~10, LED interior, full bar, professional chauffeur. Door-to-door luxury between honky-tonks."},
+        {name:"Yeehaw Party Bus", url:U.yeehawPartyBus, tag:"bachelorette-branded", slug:"yeehaw-party-bus",
+         desc:"Bachelorette-focused operator — 'Brides RIDE FREE,' BYOB, classic open-air rolling Broadway loop with the birthday girl up front."},
+        {name:"Rowdy Bus (private charter)", url:U.rowdyBus, tag:"private full-bus charter", slug:"rowdy-bus",
+         desc:"Private full-bus charter for your group only (no strangers) — flat-rate rolling-bar with route through Broadway, Hall of Fame, and The Gulch."},
         {name:"The Nashville Tractor", url:U.nashvilleTractor, tag:"open-air party wagon", slug:"nashville-tractor",
          desc:"A massive, high-energy party wagon pulled by a real tractor."},
         {name:"Honky Tonk Party Express", url:U.honkyTonkPartyExpress, tag:"rolling party bus", slug:"honky-tonk-party-express",
@@ -793,15 +820,17 @@
       // mobile (< 640px) collapses to single column via .venue-row media query
       function buildVenueRow(opt){
         var vrow = document.createElement("div");
-        vrow.className = "venue-row";
-
+        var hasCar = false;
         var left = document.createElement("div");
         left.className = "v-col-left";
         if (opt.slug) {
           var car = venueCarousel(opt.slug, opt.name);
-          if (car) left.appendChild(car);
+          if (car){ left.appendChild(car); hasCar = true; }
         }
-        vrow.appendChild(left);
+        vrow.className = "venue-row"
+          + (opt.tier === "premium" ? " tier-premium" : "")
+          + (hasCar ? "" : " no-carousel");
+        if (hasCar) vrow.appendChild(left);
 
         var right = document.createElement("div");
         right.className = "v-col-right";
@@ -817,7 +846,9 @@
               '</span>'+
             '</div>';
         } else {
-          nameHtml += '<p class="venue-name">'+opt.name+'</p>';
+          nameHtml += '<p class="venue-name">'+opt.name+
+            (opt.tier === "premium" ? '<span class="premium-badge">★ PREMIUM</span>' : '')+
+            '</p>';
         }
         if (opt.tag) nameHtml += '<p class="venue-tag">'+opt.tag+'</p>';
         right.innerHTML = nameHtml;
