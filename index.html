@@ -74,19 +74,19 @@
   .daynav a:hover { color:var(--gold); }
 
   /* HERO PHOTO BANNER */
-  .hero-photo { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position: center 30%; z-index:0;
-    /* dissolve photo into the body bg at the bottom so the hero→body transition has no hard photo-edge */
-    -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 78%, transparent 100%);
-            mask-image: linear-gradient(to bottom, #000 0%, #000 78%, transparent 100%); }
+  .hero-photo { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position: center 38%; z-index:0;
+    /* dissolve photo into the body bg at the bottom — extended fade zone (35% of hero) for soft dissolve */
+    -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 60%, rgba(0,0,0,.55) 82%, transparent 100%);
+            mask-image: linear-gradient(to bottom, #000 0%, #000 60%, rgba(0,0,0,.55) 82%, transparent 100%); }
   .hero-scrim { position:absolute; inset:0; z-index:1; pointer-events:none;
     background:
-      linear-gradient(180deg, rgba(21,13,31,.45) 0%, rgba(21,13,31,.20) 28%, rgba(21,13,31,.20) 55%, rgba(21,13,31,.78) 80%, rgba(21,13,31,1) 100%),
-      radial-gradient(120% 70% at 50% 110%, rgba(255,45,111,.32), transparent 60%); }
+      linear-gradient(180deg, rgba(21,13,31,.45) 0%, rgba(21,13,31,.18) 28%, rgba(21,13,31,.22) 55%, rgba(21,13,31,.65) 75%, rgba(21,13,31,.92) 90%, rgba(21,13,31,1) 100%),
+      radial-gradient(120% 70% at 50% 110%, rgba(255,45,111,.28), transparent 60%); }
   .hero-vignette { position:absolute; inset:0; z-index:1; pointer-events:none;
     box-shadow: inset 0 0 220px 30px rgba(0,0,0,.55); }
   /* extra cross-fade band sitting AT the hero/body junction so any micro color-step disappears */
-  .hero-fadeout { position:absolute; left:0; right:0; bottom:-1px; height:160px; z-index:3; pointer-events:none;
-    background: linear-gradient(180deg, rgba(21,13,31,0) 0%, rgba(21,13,31,.55) 55%, #150d1f 100%); }
+  .hero-fadeout { position:absolute; left:0; right:0; bottom:-1px; height:240px; z-index:3; pointer-events:none;
+    background: linear-gradient(180deg, rgba(21,13,31,0) 0%, rgba(21,13,31,.35) 35%, rgba(21,13,31,.75) 70%, #150d1f 100%); }
 
   /* COUPLE FLANKS — one partner LEFT, other RIGHT, content between (v3 layout)
      CSS-grid approach: each section is a 3-column grid [cutout | content | cutout].
@@ -332,7 +332,7 @@
 
 <!-- ============ HERO — PHOTO BANNER ============ -->
 <header id="top" class="relative flex flex-col items-center justify-center text-center px-6 overflow-hidden" style="min-height:min(100svh, 920px); height:min(100svh, 920px);">
-  <img class="hero-photo" src="photos/web/hero-banner.jpg" alt="Jess on a Nashville rooftop with 40 and Fabulous balloons" />
+  <img class="hero-photo" src="photos/web/hero-banner-jessmain.jpg" alt="Jess full-body shot on a Nashville rooftop with 40-marquee and 40 and Fabulous balloons" />
   <div class="hero-scrim"></div>
   <div class="hero-vignette"></div>
   <div class="hero-fadeout"></div>
