@@ -92,8 +92,8 @@
      CSS-grid approach: each section is a 3-column grid [cutout | content | cutout].
      Cutouts grow on desktop (up to 320px wide) and shrink-but-stay-visible on mobile (min 70px).
      Each couple appears exactly ONCE down the page; Papo+Yari flank the slideshow header. */
-  .day-grid { display:grid; gap:.4rem; align-items:end; max-width:104rem; margin:0 auto;
-    grid-template-columns: clamp(150px, 34vw, 560px) minmax(0,1fr) clamp(150px, 34vw, 560px); }
+  .day-grid { display:grid; gap:.4rem; align-items:start; max-width:108rem; margin:0 auto;
+    grid-template-columns: clamp(180px, 40vw, 680px) minmax(0,1fr) clamp(180px, 40vw, 680px); }
   @media (min-width: 768px) { .day-grid { gap:1rem; padding:0 .5rem; } }
   /* All flanks share a fixed portrait aspect + bottom-anchored fit, so the 10 cutouts read
      as the same visible scale regardless of PNG aspect. object-fit:contain keeps the entire
@@ -122,7 +122,11 @@
 
   /* HERO LOGO — enlarged Jess's-Big-4-0 wordmark sits where HAVANA NASH BASH used to be */
   .hero-logo { width: clamp(220px, 56vw, 540px); height: auto; display:block;
-    margin-top: .25rem; margin-bottom: .35rem; }
+    margin-top: .25rem; margin-bottom: .35rem;
+    filter:
+      drop-shadow(0 4px 14px rgba(255, 170, 90, .42))
+      drop-shadow(0 10px 30px rgba(255, 90, 60, .35))
+      drop-shadow(0 18px 50px rgba(0, 0, 0, .55)); }
   @media (min-width: 640px) { .hero-logo { width: clamp(320px, 48vw, 620px); } }
   @media (min-width: 768px) { .hero-logo { width: clamp(360px, 44vw, 720px); } }
   /* SPANISH TAGLINE — recurring birthday declaration */
@@ -327,13 +331,13 @@
 </nav>
 
 <!-- ============ HERO — PHOTO BANNER ============ -->
-<header id="top" class="relative flex flex-col items-center justify-end text-center px-6 overflow-hidden" style="min-height:min(100svh, 920px); height:min(100svh, 920px);">
+<header id="top" class="relative flex flex-col items-center justify-center text-center px-6 overflow-hidden" style="min-height:min(100svh, 920px); height:min(100svh, 920px);">
   <img class="hero-photo" src="photos/web/hero-banner.jpg" alt="Jess on a Nashville rooftop with 40 and Fabulous balloons" />
   <div class="hero-scrim"></div>
   <div class="hero-vignette"></div>
   <div class="hero-fadeout"></div>
 
-  <div class="relative z-10 pb-20 sm:pb-24 reveal">
+  <div class="relative z-10 pt-16 sm:pt-20 pb-6 sm:pb-10 reveal">
     <p class="font-marquee tracking-[.4em] text-gold text-sm sm:text-base mb-5 neon-strong">NASHVILLE · JUNE 18–21, 2026</p>
     <img src="photos/web/logo.png" alt="Jess's Big 4-0" class="hero-logo mx-auto opacity-100 drop-shadow-[0_12px_40px_rgba(255,90,60,.55)]" />
     <p class="font-script text-teal text-4xl sm:text-5xl mt-6 neon-teal">Jess's 40th Birthday</p>
