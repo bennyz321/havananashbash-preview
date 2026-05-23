@@ -31,8 +31,8 @@
 
 <style>
   :root { --pink:#FF2D6F; --coral:#FF5A3C; --orange:#FF9A2E; --teal:#19C2A8; --gold:#F4CE7A; }
-  html { scroll-behavior: smooth; background:#110a18; overflow-x:hidden; max-width:100vw; }
-  body { background:#150d1f; color:#F7ECDD; -webkit-font-smoothing:antialiased; overflow-x:hidden; max-width:100vw; position:relative; }
+  html { scroll-behavior: smooth; background:#110a18; overflow-x:hidden; }
+  body { background:#150d1f; color:#F7ECDD; -webkit-font-smoothing:antialiased; overflow-x:hidden; position:relative; }
 
   .grad-text { background:linear-gradient(100deg,var(--pink) 0%,var(--coral) 45%,var(--orange) 100%);
     -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent; color:transparent; }
@@ -143,7 +143,12 @@
      - itinerary content gets full mobile width (no flank columns eating space → +25%+ wider)
      - day-nav fixed-at-top (sticky was broken by body overflow-x:hidden)
      - cutouts behind content (z:0) with reduced opacity; glass cards overlay them */
-  @media (max-width: 767px) {
+  /* Global fixed nav (v5.7): position:fixed instead of Tailwind sticky to avoid
+     iOS Safari sticky-context breakage when body has overflow-x:hidden. */
+  nav.daynav { position: fixed !important; left: 0; right: 0; top: 0; z-index: 50; }
+  body { padding-top: 2.6rem; margin: 0; }
+
+  @media (max-width: 767px) and (orientation: portrait) {
     #itinerary > section { position: relative; overflow: hidden; }
     .day-grid { display: block; padding: 0; overflow: visible; }
     .day-flank {
@@ -160,8 +165,29 @@
     .day-flank.is-eric { object-position: center -10%; }
     .day-content { position: relative; z-index: 2; width: 100%; }
     .tl, .ev-card { position: relative; z-index: 2; }
-    nav.daynav { position: fixed; left: 0; right: 0; top: 0; z-index: 50; }
-    body { padding-top: 2.6rem; margin: 0; }
+  }
+
+  /* Mobile-landscape (v5.7): use desktop-like split (logo right of Jess),
+     itinerary edge-to-edge, no flank cutouts (would bleed in landscape). */
+  @media (max-width: 767px) and (orientation: landscape) {
+    .hero-flanks {
+      display: grid !important;
+      grid-template-columns: minmax(0, 1fr) minmax(0, .8fr) minmax(0, 1fr);
+      gap: 0.6rem;
+      padding: 2rem 0.75rem 1rem;
+      min-height: 100svh;
+      align-items: start;
+    }
+    .hero-flanks .hero-spacer { display: block; }
+    .hero-flanks .hero-left  { padding-right:.3rem; padding-top:0; margin-top:0; order:initial; }
+    .hero-flanks .hero-right { padding-left:.3rem; display:flex; align-items:flex-start; justify-content:center; padding-top:.4rem; order:initial; }
+    .hero-flanks .hero-logo  { width:min(34vw, 260px); margin-left:0; margin-right:0; }
+
+    .day-flank { display: none; }
+    .day-grid { display: block; padding: 0; }
+    main#itinerary > section .max-w-5xl,
+    main#itinerary > section .mx-auto { max-width: 100% !important; }
+    main#itinerary { padding-left: .5rem; padding-right: .5rem; }
   }
   .day-content { min-width:0; align-self:center; }
   @keyframes cutsway {
@@ -281,7 +307,7 @@
   .lnk-btn:hover { transform:translateY(-1px); }
 
   /* itinerary + structural surfaces sit above the Nashville-bg overlay (z-index:2) */
-  main#itinerary, footer.site-footer, nav.daynav, section.slideshow, header#top { position:relative; z-index:5; }
+  main#itinerary, footer.site-footer, section.slideshow, header#top { position:relative; z-index:5; }
 
   /* per-venue single-image carousel (replaces the horizontal strip) */
   .venue-carousel { position:relative; margin-top:.75rem; border-radius:.85rem; overflow:hidden;
