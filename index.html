@@ -92,9 +92,14 @@
      CSS-grid approach: each section is a 3-column grid [cutout | content | cutout].
      Cutouts grow on desktop (up to 320px wide) and shrink-but-stay-visible on mobile (min 70px).
      Each couple appears exactly ONCE down the page; Papo+Yari flank the slideshow header. */
-  .day-grid { display:grid; gap:.4rem; align-items:start; max-width:108rem; margin:0 auto;
-    grid-template-columns: clamp(180px, 40vw, 680px) minmax(0,1fr) clamp(180px, 40vw, 680px); }
-  @media (min-width: 768px) { .day-grid { gap:1rem; padding:0 .5rem; } }
+  /* Mobile: narrow flanks so the timeline-card column stays readable + stacked (Ben spec 2026-05-22) */
+  .day-grid { display:grid; gap:.35rem; align-items:start; max-width:108rem; margin:0 auto;
+    grid-template-columns: clamp(72px, 15vw, 120px) minmax(0,1fr) clamp(72px, 15vw, 120px); }
+  /* Tablet+: bigger cutouts, more content room, 2-col venue rows kick in */
+  @media (min-width: 768px) { .day-grid { gap:1.4rem; padding:0 .5rem;
+    grid-template-columns: clamp(190px, 28vw, 480px) minmax(0,1fr) clamp(190px, 28vw, 480px); } }
+  @media (min-width: 1280px) { .day-grid {
+    grid-template-columns: clamp(260px, 32vw, 580px) minmax(0,1fr) clamp(260px, 32vw, 580px); } }
   /* All flanks share a fixed portrait aspect + bottom-anchored fit, so the 10 cutouts read
      as the same visible scale regardless of PNG aspect. object-fit:contain keeps the entire
      person visible; object-position:center bottom puts their feet on the same line. A soft
@@ -201,35 +206,52 @@
     text-transform:uppercase; color:rgba(244,206,122,.85); opacity:.85; }
 
   /* verbatim venue description (longer than the tag blurb) */
-  .venue-desc { font-family:"Outfit",system-ui,sans-serif; color:rgba(247,236,221,.7);
-    font-size:.82rem; line-height:1.45; margin-top:.35rem; }
+  .venue-desc { font-family:"Outfit",system-ui,sans-serif; color:rgba(247,236,221,.78);
+    font-size:.92rem; line-height:1.5; margin-top:.5rem; }
 
-  /* Nashville iconography overlay — fixed-position SVG layers above body bg, below content */
-  .nashville-bg { position:fixed; inset:0; pointer-events:none; z-index:2; overflow:hidden;
-    mix-blend-mode:screen; }
-  .nashville-bg .nb-layer { position:absolute; opacity:.07; }
-  .nashville-bg .nb-skyline { left:0; right:0; bottom:0; width:100%; height:auto; opacity:.09; }
-  .nashville-bg .nb-boot    { top:6vh; right:-3vw; width:28vw; max-width:380px;
-    transform:rotate(-9deg); opacity:.055; }
-  .nashville-bg .nb-guitar  { top:46vh; left:-5vw; width:32vw; max-width:420px;
-    transform:rotate(14deg); opacity:.055; }
-  .nashville-bg .nb-stars   { left:0; right:0; top:0; bottom:0; width:100%; height:100%; opacity:.04;
-    background-image: url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 320 320'%3E%3Cg fill='%23F4CE7A'%3E%3Cpolygon points='30,10 36,28 54,28 39,38 45,56 30,46 15,56 21,38 6,28 24,28' opacity='.7'/%3E%3Cpolygon points='200,80 205,94 220,94 208,103 213,118 200,109 187,118 192,103 180,94 195,94' opacity='.55'/%3E%3Cpolygon points='90,180 95,195 110,195 98,205 103,220 90,210 77,220 82,205 70,195 85,195' opacity='.65'/%3E%3Cpolygon points='270,240 275,253 288,253 278,261 282,275 270,267 258,275 262,261 252,253 265,253' opacity='.5'/%3E%3C/g%3E%3C/svg%3E");
-    background-repeat:repeat; background-size:480px 480px; }
-  .nashville-bg .nb-marquee { left:0; right:0; top:0; height:6vh; opacity:.08;
-    background-image: url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 30'%3E%3Cg fill='%23F4CE7A'%3E%3Ccircle cx='10' cy='15' r='2.5'/%3E%3Ccircle cx='30' cy='15' r='2.5'/%3E%3Ccircle cx='50' cy='15' r='2.5'/%3E%3Ccircle cx='70' cy='15' r='2.5'/%3E%3Ccircle cx='90' cy='15' r='2.5'/%3E%3Ccircle cx='110' cy='15' r='2.5'/%3E%3Ccircle cx='130' cy='15' r='2.5'/%3E%3Ccircle cx='150' cy='15' r='2.5'/%3E%3Ccircle cx='170' cy='15' r='2.5'/%3E%3Ccircle cx='190' cy='15' r='2.5'/%3E%3C/g%3E%3C/svg%3E");
-    background-repeat:repeat-x; background-size:200px 30px; }
-  .nashville-bg .nb-disco { right:5vw; top:30vh; width:9vw; max-width:120px; aspect-ratio:1; opacity:.05;
-    border-radius:50%;
-    background:
-      radial-gradient(circle at 35% 30%, rgba(255,255,255,.9), transparent 35%),
-      radial-gradient(circle at 70% 60%, rgba(255,255,255,.5), transparent 30%),
-      conic-gradient(from 0deg, #F4CE7A, #FF5A3C, #19C2A8, #F4CE7A);
-    filter:blur(2px); }
+  /* per-venue 2-col row: carousel LEFT, name+desc+buttons RIGHT (Ben spec 2026-05-22) */
+  .venue-row { display:grid; gap:1.1rem; margin-top:1rem; padding-top:1rem;
+    border-top:1px dashed rgba(255,255,255,.10);
+    grid-template-columns: minmax(0, 1.05fr) minmax(0, 1.25fr); align-items:start; }
+  .venue-row:first-child { border-top:0; padding-top:0; margin-top:1.1rem; }
+  .venue-row .v-col-left, .venue-row .v-col-right { min-width:0; }
+  .venue-row .venue-carousel { margin-top:0; }
+  .venue-row .v-col-right .venue-name { font-family:"Playfair Display",serif; font-size:1.35rem;
+    color:var(--cream); line-height:1.2; }
+  .venue-row .v-col-right .venue-tag { font-family:"Outfit",system-ui,sans-serif;
+    color:rgba(247,236,221,.55); font-size:.78rem; margin-top:.2rem; }
+  .venue-row .v-col-right .v-btns { display:flex; flex-wrap:wrap; gap:.5rem; margin-top:.75rem; }
   @media (max-width: 640px) {
-    .nashville-bg .nb-boot { width:42vw; opacity:.05; }
-    .nashville-bg .nb-guitar { width:46vw; opacity:.05; }
-    .nashville-bg .nb-disco { display:none; }
+    .venue-row { grid-template-columns: 1fr; gap:.7rem; }
+  }
+
+  /* enlarged clock-time anchor on each event row (Ben spec 2026-05-22) */
+  .ev-time { font-family:"Bebas Neue", sans-serif; letter-spacing:.08em;
+    color:var(--gold); font-size:1.4rem; line-height:1; }
+  @media (min-width: 640px) { .ev-time { font-size:1.65rem; } }
+
+  /* Nashville iconic photo BG — stylized photo layers above body bg, below content (Ben spec 2026-05-22)
+     Replaces prior SVG icon set with desaturated/duotoned photos of Ryman/Broadway/AT&T/etc. */
+  .nashville-bg { position:fixed; inset:0; pointer-events:none; z-index:2; overflow:hidden; }
+  .nb-photo { position:absolute; object-fit:cover; opacity:.13;
+    filter: saturate(.35) sepia(.35) brightness(.85) contrast(1.05);
+    mix-blend-mode: screen;
+    mask-image: radial-gradient(ellipse at center, #000 35%, rgba(0,0,0,.6) 70%, transparent 100%);
+    -webkit-mask-image: radial-gradient(ellipse at center, #000 35%, rgba(0,0,0,.6) 70%, transparent 100%); }
+  .nb-1 { top:8vh;  right:-6vw; width:38vw; max-width:520px; aspect-ratio:16/10; transform:rotate(-3deg); }
+  .nb-2 { top:34vh; left:-7vw;  width:42vw; max-width:580px; aspect-ratio:3/2;   transform:rotate(4deg); opacity:.10; }
+  .nb-3 { top:62vh; right:4vw;  width:34vw; max-width:480px; aspect-ratio:16/9;  transform:rotate(-2deg); opacity:.11; }
+  .nb-4 { top:92vh; left:8vw;   width:36vw; max-width:500px; aspect-ratio:4/3;   transform:rotate(3deg); }
+  .nb-5 { top:120vh;right:-5vw; width:40vw; max-width:540px; aspect-ratio:5/3;   transform:rotate(-4deg); opacity:.10; }
+  .nb-6 { top:150vh;left:2vw;   width:34vw; max-width:480px; aspect-ratio:3/2;   transform:rotate(2deg); }
+  .nb-7 { top:180vh;right:6vw;  width:38vw; max-width:520px; aspect-ratio:16/10; transform:rotate(-3deg); opacity:.11; }
+  .nb-8 { top:210vh;left:-4vw;  width:40vw; max-width:540px; aspect-ratio:5/3;   transform:rotate(4deg); }
+  .nb-9 { top:240vh;right:2vw;  width:36vw; max-width:500px; aspect-ratio:3/2;   transform:rotate(-2deg); opacity:.10; }
+  @media (max-width: 640px) {
+    .nb-photo { opacity:.09; }
+    .nb-photo.nb-1, .nb-photo.nb-2, .nb-photo.nb-3, .nb-photo.nb-4,
+    .nb-photo.nb-5, .nb-photo.nb-6, .nb-photo.nb-7, .nb-photo.nb-8, .nb-photo.nb-9
+    { width:70vw; max-width:none; }
   }
 
   /* lightbox for venue photos */
@@ -268,55 +290,17 @@
 
 <body class="night-bg grain font-body">
 
-<!-- ============ NASHVILLE ICONOGRAPHY BG (subtle layers above body gradient) ============ -->
+<!-- ============ NASHVILLE ICONIC LOCATIONS BG (stylized photo layers) ============ -->
 <div class="nashville-bg" aria-hidden="true">
-  <div class="nb-layer nb-stars"></div>
-  <div class="nb-layer nb-marquee"></div>
-  <div class="nb-layer nb-disco"></div>
-  <!-- cowboy boot silhouette (top right) -->
-  <svg class="nb-layer nb-boot" viewBox="0 0 200 240" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-    <path fill="#F4CE7A" d="M60 10 h36 c4 0 6 2 6 6 v140 c0 4 2 6 6 6 h60 c8 0 14 6 14 14 v44 c0 8-6 14-14 14 h-128 c-8 0-14-6-14-14 v-58 c0-6 4-10 10-12 l24-8 v-126 c0-4 2-6 6-6 z M70 184 h60 v6 h-60 z"/>
-    <path fill="#F4CE7A" d="M76 22 h28 v24 h-28 z" opacity=".6"/>
-  </svg>
-  <!-- acoustic guitar silhouette (left side) -->
-  <svg class="nb-layer nb-guitar" viewBox="0 0 240 320" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-    <ellipse cx="120" cy="220" rx="90" ry="85" fill="#F4CE7A"/>
-    <circle cx="120" cy="220" r="30" fill="#0E0A08"/>
-    <rect x="112" y="40" width="16" height="120" fill="#F4CE7A"/>
-    <rect x="100" y="20" width="40" height="32" rx="4" fill="#F4CE7A"/>
-    <g stroke="#0E0A08" stroke-width="2" opacity=".6">
-      <line x1="116" y1="40" x2="116" y2="240"/>
-      <line x1="120" y1="40" x2="120" y2="240"/>
-      <line x1="124" y1="40" x2="124" y2="240"/>
-    </g>
-  </svg>
-  <!-- Nashville skyline silhouette (Ryman, Batman building, Music City Center) -->
-  <svg class="nb-layer nb-skyline" viewBox="0 0 1600 200" preserveAspectRatio="xMidYEnd slice" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-    <g fill="#F4CE7A" opacity=".75">
-      <!-- Ryman -->
-      <rect x="120" y="120" width="120" height="80"/>
-      <polygon points="120,120 180,80 240,120"/>
-      <rect x="170" y="100" width="20" height="20"/>
-      <!-- generic mid-rise -->
-      <rect x="280" y="140" width="80" height="60"/>
-      <rect x="380" y="130" width="60" height="70"/>
-      <!-- AT&T "Batman" building -->
-      <rect x="470" y="40" width="80" height="160"/>
-      <polygon points="470,40 470,10 510,30 510,40"/>
-      <polygon points="510,40 510,30 550,10 550,40"/>
-      <!-- mid -->
-      <rect x="580" y="120" width="60" height="80"/>
-      <rect x="660" y="100" width="70" height="100"/>
-      <!-- Music City Center wavy roof -->
-      <path d="M760 200 L760 130 Q820 100 880 130 Q940 100 1000 130 Q1060 100 1120 130 L1120 200 Z"/>
-      <!-- right cluster -->
-      <rect x="1160" y="110" width="60" height="90"/>
-      <rect x="1240" y="125" width="70" height="75"/>
-      <rect x="1330" y="100" width="80" height="100"/>
-      <polygon points="1330,100 1370,70 1410,100"/>
-      <rect x="1430" y="140" width="60" height="60"/>
-    </g>
-  </svg>
+  <img class="nb-photo nb-1" src="photos/nashville-bg/ryman.jpg" alt="" loading="lazy" />
+  <img class="nb-photo nb-2" src="photos/nashville-bg/broadway.jpg" alt="" loading="lazy" />
+  <img class="nb-photo nb-3" src="photos/nashville-bg/skyline.jpg" alt="" loading="lazy" />
+  <img class="nb-photo nb-4" src="photos/nashville-bg/pedestrian-bridge.jpg" alt="" loading="lazy" />
+  <img class="nb-photo nb-5" src="photos/nashville-bg/hall-of-fame.jpg" alt="" loading="lazy" />
+  <img class="nb-photo nb-6" src="photos/nashville-bg/music-city-center.jpg" alt="" loading="lazy" />
+  <img class="nb-photo nb-7" src="photos/nashville-bg/music-row.jpg" alt="" loading="lazy" />
+  <img class="nb-photo nb-8" src="photos/nashville-bg/ryman.jpg" alt="" loading="lazy" />
+  <img class="nb-photo nb-9" src="photos/nashville-bg/broadway.jpg" alt="" loading="lazy" />
 </div>
 
 <!-- ============ STICKY DAY NAV ============ -->
@@ -683,7 +667,7 @@
     content.className = "day-content";
 
     var inner = document.createElement("div");
-    inner.className = "max-w-3xl mx-auto px-3 sm:px-5";
+    inner.className = "max-w-3xl md:max-w-4xl xl:max-w-5xl mx-auto px-3 sm:px-5";
 
     var head = document.createElement("div");
     head.className = "reveal text-center mb-12";
@@ -710,7 +694,7 @@
 
       if(ev.buffer){
         card.innerHTML =
-          '<p class="font-marquee tracking-widest text-cream/45 text-xs mb-1">'+ev.time+'</p>'+
+          '<p class="ev-time mb-1 opacity-70">'+ev.time+'</p>'+
           '<p class="font-display text-lg text-cream/70 italic">'+ev.title+'</p>'+
           '<p class="font-body text-cream/45 text-sm mt-1">'+(ev.note||"")+'</p>';
         row.appendChild(card);
@@ -721,15 +705,61 @@
       var box = document.createElement("div");
       box.className = "ev-card glass rounded-2xl p-5 sm:p-6" + (ev.confirmed ? " confirmed" : "");
 
-      var header = '<div class="flex flex-wrap items-center gap-2 mb-1">'+
-        '<span class="font-marquee tracking-widest text-gold text-sm">'+ev.time+'</span>'+
+      var header = '<div class="flex flex-wrap items-center gap-3 mb-2">'+
+        '<span class="ev-time">'+ev.time+'</span>'+
         (ev.confirmed ? '<span class="conf-tag text-[11px] tracking-wide rounded-full px-2.5 py-0.5 font-body">★ CONFIRMED</span>' : '')+
-        (ev.pick ? '<span class="pick-tag text-[11px] tracking-wide rounded-full px-2.5 py-0.5 font-body">PICK ONE</span>' : '')+
         '</div>'+
-        '<h3 class="font-display text-2xl text-cream">'+ev.title+'</h3>'+
+        '<h3 class="font-display text-2xl sm:text-3xl text-cream">'+ev.title+'</h3>'+
         (ev.conf ? '<p class="font-body text-cream/50 text-xs mt-1">Confirmation #'+ev.conf+'</p>' : '')+
         (ev.note ? '<p class="font-body text-cream/65 text-sm mt-1.5">'+ev.note+'</p>' : '');
       box.innerHTML = header;
+
+      // build a per-option venue-row: carousel LEFT, name+desc+buttons RIGHT (desktop)
+      // mobile (< 640px) collapses to single column via .venue-row media query
+      function buildVenueRow(opt){
+        var vrow = document.createElement("div");
+        vrow.className = "venue-row";
+
+        var left = document.createElement("div");
+        left.className = "v-col-left";
+        if (opt.slug) {
+          var car = venueCarousel(opt.slug, opt.name);
+          if (car) left.appendChild(car);
+        }
+        vrow.appendChild(left);
+
+        var right = document.createElement("div");
+        right.className = "v-col-right";
+        var nameHtml = '';
+        if (opt.celeb){
+          nameHtml +=
+            '<div class="celeb-row">'+
+              '<span class="celeb-avatar" title="'+opt.celeb.name+'">'+
+                '<img src="photos/celebs/'+opt.celeb.file+'" alt="'+opt.celeb.name+'" decoding="async"/>'+
+              '</span>'+
+              '<span><p class="venue-name">'+opt.name+'</p>'+
+                '<p class="celeb-tag">'+opt.celeb.name+'</p>'+
+              '</span>'+
+            '</div>';
+        } else {
+          nameHtml += '<p class="venue-name">'+opt.name+'</p>';
+        }
+        if (opt.tag) nameHtml += '<p class="venue-tag">'+opt.tag+'</p>';
+        right.innerHTML = nameHtml;
+        if (opt.desc){
+          var dsc = document.createElement("p");
+          dsc.className = "venue-desc";
+          dsc.textContent = opt.desc;
+          right.appendChild(dsc);
+        }
+        var btns = document.createElement("div");
+        btns.className = "v-btns";
+        var cbn = checkBtn(opt.url); if(cbn) btns.appendChild(cbn);
+        var dn = calDropdown(calTitle(ev,opt.name), ev.start, ev.end, calLoc(opt.name)); if(dn) btns.appendChild(dn);
+        if (btns.childNodes.length) right.appendChild(btns);
+        vrow.appendChild(right);
+        return vrow;
+      }
 
       var opts = ev.options || [];
       if(opts.length === 0){
@@ -738,66 +768,8 @@
         var d0 = calDropdown(calTitle(ev,null), ev.start, ev.end, calLoc(null));
         if(d0) bar0.appendChild(d0);
         box.appendChild(bar0);
-      } else if(opts.length === 1 && !ev.pick){
-        var bar1 = document.createElement("div");
-        bar1.className = "flex flex-wrap gap-2 mt-4";
-        var cb = checkBtn(opts[0].url); if(cb) bar1.appendChild(cb);
-        var d1 = calDropdown(calTitle(ev,opts[0].name), ev.start, ev.end, calLoc(opts[0].name)); if(d1) bar1.appendChild(d1);
-        box.appendChild(bar1);
-        if (opts[0].desc){
-          var dsc1 = document.createElement("p");
-          dsc1.className = "venue-desc";
-          dsc1.textContent = opts[0].desc;
-          box.appendChild(dsc1);
-        }
-        if (opts[0].slug) {
-          var s1 = venueCarousel(opts[0].slug, opts[0].name);
-          if (s1) box.appendChild(s1);
-        }
       } else {
-        var list = document.createElement("div");
-        list.className = "mt-4 space-y-3";
-        opts.forEach(function(opt){
-          var orow = document.createElement("div");
-          orow.className = "opt-row pt-3";
-          var top = document.createElement("div");
-          top.className = "flex flex-wrap items-center gap-x-3 gap-y-2 justify-between";
-          // venue name + optional celeb face-icon + tag blurb
-          var nameHtml = '';
-          if (opt.celeb){
-            nameHtml +=
-              '<div class="celeb-row">'+
-                '<span class="celeb-avatar" title="'+opt.celeb.name+'">'+
-                  '<img src="photos/celebs/'+opt.celeb.file+'" alt="'+opt.celeb.name+'" decoding="async"/>'+
-                '</span>'+
-                '<span><p class="font-display text-lg text-cream leading-tight">'+opt.name+'</p>'+
-                  '<p class="celeb-tag">'+opt.celeb.name+'</p>'+
-                '</span>'+
-              '</div>';
-          } else {
-            nameHtml += '<p class="font-display text-lg text-cream leading-tight">'+opt.name+'</p>';
-          }
-          if (opt.tag) nameHtml += '<p class="font-body text-cream/50 text-xs mt-1">'+opt.tag+'</p>';
-          top.innerHTML = '<div class="min-w-0">'+nameHtml+'</div>';
-          var btns = document.createElement("div");
-          btns.className = "flex flex-wrap gap-2";
-          var cbn = checkBtn(opt.url); if(cbn) btns.appendChild(cbn);
-          var dn = calDropdown(calTitle(ev,opt.name), ev.start, ev.end, calLoc(opt.name)); if(dn) btns.appendChild(dn);
-          top.appendChild(btns);
-          orow.appendChild(top);
-          if (opt.desc){
-            var dsc = document.createElement("p");
-            dsc.className = "venue-desc";
-            dsc.textContent = opt.desc;
-            orow.appendChild(dsc);
-          }
-          if (opt.slug) {
-            var s2 = venueCarousel(opt.slug, opt.name);
-            if (s2) orow.appendChild(s2);
-          }
-          list.appendChild(orow);
-        });
-        box.appendChild(list);
+        opts.forEach(function(opt){ box.appendChild(buildVenueRow(opt)); });
       }
 
       card.appendChild(box);
