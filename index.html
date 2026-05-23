@@ -90,17 +90,19 @@
     background: linear-gradient(180deg, rgba(21,13,31,0) 0%, rgba(21,13,31,.35) 35%, rgba(21,13,31,.75) 70%, #150d1f 100%); }
 
   /* HERO FLANKS — text-CTA on LEFT, marquee 4-0 logo on RIGHT; reserve middle column for Jess in the photo.
-     Mobile: single column stacked centered (text first, then logo). */
-  .hero-flanks { display:grid; grid-template-columns:1fr; gap:1.5rem; align-items:center; padding:5rem 0 4rem; margin:0 auto; }
+     Mobile (Ben spec 2026-05-22 v5.5): small 4-0 logo ABOVE Jess's head, text block BELOW (where logo was). */
+  .hero-flanks { display:flex; flex-direction:column; min-height: calc(min(100svh, 1000px) - 1rem); padding:1.5rem 0 2.5rem; margin:0 auto; }
   .hero-flanks .hero-left, .hero-flanks .hero-right { width:100%; }
   .hero-flanks .hero-spacer { display:none; }
-  .hero-flanks .hero-logo { width:min(74vw, 360px); height:auto; }
+  .hero-flanks .hero-right { order:1; }
+  .hero-flanks .hero-left  { order:2; margin-top:auto; }
+  .hero-flanks .hero-logo { width:min(44vw, 200px); height:auto; margin-left:auto; margin-right:auto; }
   @media (min-width: 768px) {
     .hero-flanks { grid-template-columns: minmax(0, 1.05fr) minmax(0, .85fr) minmax(0, 1.05fr); gap:1rem; padding:5.5rem 1rem 4rem; align-items:start; }
     .hero-flanks .hero-spacer { display:block; }
-    .hero-flanks .hero-left  { padding-right:.5rem; }
-    .hero-flanks .hero-right { padding-left:.5rem; display:flex; align-items:flex-start; justify-content:center; padding-top:.5rem; }
-    .hero-flanks .hero-logo { width:min(28vw, 440px); }
+    .hero-flanks .hero-left  { padding-right:.5rem; padding-top:0; order:initial; margin-top:0; }
+    .hero-flanks .hero-right { padding-left:.5rem; display:flex; align-items:flex-start; justify-content:center; padding-top:.5rem; order:initial; }
+    .hero-flanks .hero-logo { width:min(28vw, 440px); margin-left:0; margin-right:0; }
   }
   @media (min-width: 1280px) {
     .hero-flanks .hero-logo { width:min(26vw, 520px); }
@@ -108,9 +110,11 @@
 
   /* COUPLE FLANKS — clean hard-alpha edges only (no mask/fade) per Ben spec 2026-05-22 v5.3.
      CSS-grid approach: each section is a 3-column grid [cutout | content | cutout]. */
-  /* Mobile: narrow flanks so the timeline-card column stays readable + stacked (Ben spec 2026-05-22) */
+  /* Mobile (Ben spec 2026-05-22 v5.5): cutouts WAY BIGGER via transform:scale anchored on inner edge —
+     face stays visible at column-inner-edge, body bleeds off outer viewport edges.
+     Tiny flank columns (6vw) leave +25% more content width for itinerary text. */
   .day-grid { display:grid; gap:.35rem; align-items:start; max-width:108rem; margin:0 auto;
-    grid-template-columns: clamp(72px, 15vw, 120px) minmax(0,1fr) clamp(72px, 15vw, 120px); }
+    grid-template-columns: clamp(72px, 15vw, 120px) minmax(0,1fr) clamp(72px, 15vw, 120px); overflow:visible; }
   /* Tablet+: bigger cutouts, more content room, 2-col venue rows kick in */
   @media (min-width: 768px) { .day-grid { gap:1.4rem; padding:0 .5rem;
     grid-template-columns: clamp(180px, 21vw, 360px) minmax(0,1fr) clamp(180px, 21vw, 360px); } }
@@ -133,6 +137,32 @@
   /* Eric PNG has a mid-thigh cut on the source — push it well below visible frame
      (no mask/dissolve allowed per v5.3 hard-alpha spec). */
   .day-flank.is-eric { object-position: center 130%; }
+
+  /* MOBILE-ONLY overrides (Ben spec 2026-05-22 v5.5):
+     - cutouts WAY BIGGER via absolute positioning (escape grid); body bleeds off-screen edges
+     - itinerary content gets full mobile width (no flank columns eating space → +25%+ wider)
+     - day-nav fixed-at-top (sticky was broken by body overflow-x:hidden)
+     - cutouts behind content (z:0) with reduced opacity; glass cards overlay them */
+  @media (max-width: 767px) {
+    #itinerary > section { position: relative; overflow: hidden; }
+    .day-grid { display: block; padding: 0; overflow: visible; }
+    .day-flank {
+      position: absolute; top: 7rem;
+      width: 44vw; height: auto;
+      aspect-ratio: 3/5;
+      object-fit: contain; object-position: center top;
+      animation: none; pointer-events: none;
+      z-index: 0; opacity: .82;
+      filter: drop-shadow(0 14px 24px rgba(0,0,0,.55)) drop-shadow(0 0 16px rgba(255,90,60,.18));
+    }
+    .day-flank.left  { left: -14vw;  transform: rotate(-3deg); }
+    .day-flank.right { right: -14vw; transform: rotate(3deg);  }
+    .day-flank.is-eric { object-position: center -10%; }
+    .day-content { position: relative; z-index: 2; width: 100%; }
+    .tl, .ev-card { position: relative; z-index: 2; }
+    .daynav { position: fixed; left: 0; right: 0; top: 0; }
+    body { padding-top: 3rem; }
+  }
   .day-content { min-width:0; align-self:center; }
   @keyframes cutsway {
     0%,100% { transform: translateY(0) rotate(var(--rot,0deg)); }
@@ -170,13 +200,13 @@
   .pick-tag { color:var(--teal); border:1px solid rgba(25,194,168,.4); }
 
   /* Opry — premium gold-anchor treatment (Ben spec 2026-05-22, biggest gold prominence) */
-  .ev-card.opry-anchor { position:relative; border:2px solid rgba(244,206,122,.85);
+  .ev-card.confirmed-anchor { position:relative; border:2px solid rgba(244,206,122,.85);
     box-shadow: 0 0 0 1px rgba(244,206,122,.35), 0 0 60px rgba(244,206,122,.22), 0 18px 60px rgba(255,90,60,.18);
     background:
       linear-gradient(135deg, rgba(244,206,122,.08), rgba(244,206,122,0) 40%, rgba(244,206,122,0) 60%, rgba(244,206,122,.06)),
       var(--surface, rgba(20,12,28,.55));
   }
-  .ev-card.opry-anchor::before, .ev-card.opry-anchor::after {
+  .ev-card.confirmed-anchor::before, .ev-card.confirmed-anchor::after {
     content:""; position:absolute; pointer-events:none; inset:-2px; border-radius:1rem;
     background: radial-gradient(circle 4px at 0 0, var(--gold), transparent 65%),
                 radial-gradient(circle 4px at 100% 0, var(--gold), transparent 65%),
@@ -186,16 +216,26 @@
     filter: drop-shadow(0 0 6px rgba(244,206,122,.7));
     z-index:0;
   }
-  .ev-card.opry-anchor::after {
+  .ev-card.confirmed-anchor::after {
     background:
       repeating-linear-gradient(90deg, var(--gold) 0 6px, transparent 6px 22px) top    /100% 2px no-repeat,
       repeating-linear-gradient(90deg, var(--gold) 0 6px, transparent 6px 22px) bottom /100% 2px no-repeat;
     opacity:.55;
     filter: drop-shadow(0 0 4px rgba(244,206,122,.55));
   }
-  .ev-card.opry-anchor > * { position:relative; z-index:1; }
-  .ev-card.opry-anchor .venue-name { color:var(--gold) !important; }
-  .ev-card.opry-anchor .venue-carousel { box-shadow: 0 0 0 2px rgba(244,206,122,.6), 0 0 24px rgba(244,206,122,.2); border-radius:.8rem; }
+  .ev-card.confirmed-anchor > * { position:relative; z-index:1; }
+  .ev-card.confirmed-anchor .venue-row:not(.alt-tier) .venue-name { color:var(--gold) !important; }
+  .ev-card.confirmed-anchor .venue-row:not(.alt-tier) .venue-carousel { box-shadow: 0 0 0 2px rgba(244,206,122,.6), 0 0 24px rgba(244,206,122,.2); border-radius:.8rem; }
+
+  /* Alt-tier — visually subordinate option inside a confirmed-anchor event ("OR consider...") */
+  .venue-row.alt-tier { opacity:.78; padding-top:.85rem; margin-top:.85rem;
+    border-top:1px dashed rgba(247,236,221,.18); }
+  .venue-row.alt-tier .v-col-right .venue-name { font-size:1.1rem; color:rgba(247,236,221,.86); }
+  .venue-row.alt-tier .v-col-right .venue-tag { font-size:.78rem; opacity:.72; }
+  .venue-row.alt-tier .venue-carousel { filter:saturate(.85); }
+  .alt-prefix { display:inline-block; font-family:"Outfit",system-ui,sans-serif; letter-spacing:.18em;
+    color:rgba(247,236,221,.55); font-size:.72rem; text-transform:uppercase;
+    margin-bottom:.25rem; }
 
   /* Opry MISSION callout — "4 extra tickets" group-task highlight */
   .mission-box { position:relative; margin-top:.85rem; padding:.85rem 1rem .9rem 1rem; border-radius:.7rem;
@@ -370,7 +410,7 @@
     .nb-photo { opacity:.10 !important; width:78vw !important; max-width:none !important; }
   }
 
-  /* lightbox for venue photos */
+  /* lightbox for venue photos — full slideshow with L/R nav (Ben spec 2026-05-22 v5.5) */
   .v-lightbox { position:fixed; inset:0; background:rgba(8,5,4,.92); z-index:60; display:none;
     align-items:center; justify-content:center; padding:1rem; }
   .v-lightbox.show { display:flex; }
@@ -378,7 +418,25 @@
     box-shadow:0 30px 80px rgba(0,0,0,.7), 0 0 0 1px rgba(255,90,60,.18); }
   .v-lightbox-close { position:absolute; top:1rem; right:1rem; width:2.4rem; height:2.4rem;
     border-radius:9999px; background:rgba(255,255,255,.10); color:#FFF7E1; font-size:1.4rem; line-height:1;
-    display:flex; align-items:center; justify-content:center; cursor:pointer; border:1px solid rgba(255,255,255,.18); }
+    display:flex; align-items:center; justify-content:center; cursor:pointer; border:1px solid rgba(255,255,255,.18); z-index:2; }
+  .v-lightbox-nav { position:absolute; top:50%; transform:translateY(-50%);
+    width:3rem; height:3rem; border-radius:9999px; border:1px solid rgba(255,255,255,.22);
+    background:rgba(255,255,255,.12); color:#FFF7E1; font-size:1.8rem; line-height:1;
+    display:flex; align-items:center; justify-content:center; cursor:pointer; z-index:2;
+    backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px);
+    transition:background .2s, transform .2s; }
+  .v-lightbox-nav:hover { background:linear-gradient(100deg, var(--pink), var(--orange)); border-color:transparent; transform:translateY(-50%) scale(1.06); }
+  .v-lightbox-nav.prev { left:1rem; }
+  .v-lightbox-nav.next { right:1rem; }
+  .v-lightbox-counter { position:absolute; bottom:1rem; left:50%; transform:translateX(-50%);
+    font-family:"Outfit",system-ui,sans-serif; font-size:.85rem; letter-spacing:.12em;
+    color:rgba(255,247,225,.78); background:rgba(0,0,0,.32); padding:.3rem .7rem; border-radius:9999px;
+    border:1px solid rgba(255,255,255,.12); z-index:2; }
+  @media (max-width: 640px) {
+    .v-lightbox-nav { width:2.6rem; height:2.6rem; font-size:1.5rem; }
+    .v-lightbox-nav.prev { left:.4rem; }
+    .v-lightbox-nav.next { right:.4rem; }
+  }
 
   /* slideshow */
   .slide-track, .slide-ctrl, .slide-dots { position:relative; z-index:5; }
@@ -636,14 +694,13 @@
       couple:{ left:"eric", right:"Jenny" }, events:[
       {time:"4:25 PM", title:"Flight — Miami → Nashville", note:"MIA → BNA · lands 5:56 PM CT", start:"20260618T162500", end:"20260618T175600"},
       {time:"6:45 PM", title:"Check in — Bode Nashville", conf:"145200", note:"The Gulch · home base all weekend", start:"20260618T184500", end:"20260618T193000", options:[{name:"Bode Nashville", url:U.bode, slug:"bode", desc:"Boutique home-base in The Gulch — modern lofts, walking distance to nearly everything on the itinerary."}]},
-      {time:"8:00 PM", title:"Welcome Dinner", pick:true, start:"20260618T200000", end:"20260618T213000", options:[
+      {time:"8:00 PM", title:"Welcome Dinner", confirmed:true, anchor:"casa-rosa", conf:"7V42YH4CWVEE", note:"Casa Rosa · \"Cowgirl Dinner\" · party of 10 · under Ben Zierten", start:"20260618T200000", end:"20260618T213000", options:[
         {name:"Casa Rosa", url:U.casaRosa, tag:"Miranda Lambert's cantina", slug:"casa-rosa",
-         conf:"7V42YH4CWVEE", confNote:"\"Cowgirl Dinner\" · party of 10 · 8:00 PM · under Ben Zierten",
          desc:"A celebrity-owned Tex-Mex spot with that famous rhinestone saddle—perfect for birthday photos.",
          celeb:{file:"miranda-lambert.jpg", name:"Miranda Lambert"}},
-        {name:"Printer's Alley", url:U.printersAlley, tag:"historic nightlife district", slug:"printers-alley",
+        {name:"Printer's Alley", url:U.printersAlley, tag:"historic nightlife district", slug:"printers-alley", alt:true,
          desc:"Explore the historic, walkable area with speakeasies and a more refined, cool vibe."},
-        {name:"Chief's on Broadway", url:U.chiefs, tag:"Eric Church's 6-story honky-tonk", slug:"chiefs",
+        {name:"Chief's on Broadway", url:U.chiefs, tag:"Eric Church's 6-story honky-tonk", slug:"chiefs", alt:true,
          desc:"Eric Church's 6-story bar. Sophisticated, high-energy, and featuring incredible whole-hog BBQ.",
          celeb:{file:"eric-church.jpg", name:"Eric Church"}}
       ]},
@@ -698,7 +755,7 @@
          desc:"Trendy neighborhood perfect for upscale shopping and rooftop drinks."}
       ]},
       {time:"4:00–6:30 PM", title:"Get-ready buffer", buffer:true, note:"Glam, round two."},
-      {time:"7:00 PM", title:"Birthday Dinner — Supper Club", confirmed:true, conf:"84804", note:"Twelve Thirty Club · the main celebration", start:"20260620T190000", end:"20260620T213000", options:[{name:"Twelve Thirty Club", url:U.twelveThirty, slug:"twelve-thirty",
+      {time:"7:00 PM", title:"Birthday Dinner — Supper Club", confirmed:true, anchor:"twelve-thirty", conf:"84804", note:"Twelve Thirty Club · the main celebration", start:"20260620T190000", end:"20260620T213000", options:[{name:"Twelve Thirty Club", url:U.twelveThirty, slug:"twelve-thirty",
         desc:"Location: Supper Club at The Twelve Thirty Club (Conf: 84804).",
         celeb:{file:"justin-timberlake.jpg", name:"Justin Timberlake"}}]},
       {time:"Late night", title:"Nightcap", pick:true, start:"20260620T214500", end:"20260620T235900", options:[
@@ -860,7 +917,7 @@
       }
 
       var box = document.createElement("div");
-      box.className = "ev-card glass rounded-2xl p-5 sm:p-6" + (ev.confirmed ? " confirmed" : "") + (ev.anchor === "opry" ? " opry-anchor" : "");
+      box.className = "ev-card glass rounded-2xl p-5 sm:p-6" + (ev.confirmed ? " confirmed" : "") + (ev.anchor ? " confirmed-anchor" : "");
 
       var header = '<div class="flex flex-wrap items-center gap-3 mb-2">'+
         '<span class="ev-time">'+ev.time+'</span>'+
@@ -884,12 +941,14 @@
         }
         vrow.className = "venue-row"
           + (opt.tier === "premium" ? " tier-premium" : "")
+          + (opt.alt ? " alt-tier" : "")
           + (hasCar ? "" : " no-carousel");
         if (hasCar) vrow.appendChild(left);
 
         var right = document.createElement("div");
         right.className = "v-col-right";
         var nameHtml = '';
+        if (opt.alt) nameHtml += '<span class="alt-prefix">OR consider</span>';
         if (opt.celeb){
           nameHtml +=
             '<div class="celeb-row">'+
@@ -1085,32 +1144,83 @@
     dots.forEach(function(d, i){ d.classList.toggle("active", i===idx); });
   });
 
-  // ---------- venue lightbox (click ACTIVE carousel slide to enlarge) ----------
+  // ---------- venue lightbox — full slideshow with L/R nav (Ben spec 2026-05-22 v5.5) ----------
   var lb = document.createElement("div");
   lb.className = "v-lightbox";
   lb.setAttribute("role","dialog");
   lb.setAttribute("aria-hidden","true");
-  lb.innerHTML = '<button type="button" class="v-lightbox-close" aria-label="Close">&times;</button><img alt="" />';
+  lb.innerHTML =
+    '<button type="button" class="v-lightbox-close" aria-label="Close">&times;</button>'+
+    '<button type="button" class="v-lightbox-nav prev" aria-label="Previous photo">&larr;</button>'+
+    '<button type="button" class="v-lightbox-nav next" aria-label="Next photo">&rarr;</button>'+
+    '<img alt="" />'+
+    '<div class="v-lightbox-counter" aria-live="polite"></div>';
   document.body.appendChild(lb);
   var lbImg = lb.querySelector("img");
-  function openLightbox(src, alt){
-    lbImg.src = src; lbImg.alt = alt || "";
+  var lbCounter = lb.querySelector(".v-lightbox-counter");
+  var lbPrev = lb.querySelector(".v-lightbox-nav.prev");
+  var lbNext = lb.querySelector(".v-lightbox-nav.next");
+  var lbState = { slides: [], idx: 0, label: "" };
+  function lbRender(){
+    if (!lbState.slides.length) return;
+    var s = lbState.slides[lbState.idx];
+    lbImg.src = s; lbImg.alt = lbState.label || "";
+    lbCounter.textContent = (lbState.idx+1) + " / " + lbState.slides.length;
+    var multi = lbState.slides.length > 1;
+    lbPrev.style.display = multi ? "" : "none";
+    lbNext.style.display = multi ? "" : "none";
+    lbCounter.style.display = multi ? "" : "none";
+  }
+  function lbStep(dir){
+    if (!lbState.slides.length) return;
+    var n = lbState.slides.length;
+    lbState.idx = (lbState.idx + dir + n) % n;
+    lbRender();
+  }
+  function openLightbox(slides, startIdx, label){
+    lbState.slides = slides; lbState.idx = startIdx|0; lbState.label = label || "";
+    lbRender();
     lb.classList.add("show"); lb.setAttribute("aria-hidden","false");
   }
   function closeLightbox(){
     lb.classList.remove("show"); lb.setAttribute("aria-hidden","true"); lbImg.src = "";
+    lbState.slides = []; lbState.idx = 0;
   }
+  lbPrev.addEventListener("click", function(e){ e.stopPropagation(); lbStep(-1); });
+  lbNext.addEventListener("click", function(e){ e.stopPropagation(); lbStep(1); });
   document.addEventListener("click", function(e){
-    // ignore arrow clicks (already handled above with stopPropagation)
-    if (e.target.closest(".v-arrow")) return;
+    // ignore carousel arrow clicks (already handled with stopPropagation above)
+    if (e.target.closest(".venue-carousel .v-arrow")) return;
     var t = e.target.closest(".v-thumb");
     if (t && t.classList.contains("active")) {
-      openLightbox(t.getAttribute("data-src"), t.getAttribute("data-label"));
+      var wrap = t.closest(".venue-carousel");
+      var thumbs = wrap ? Array.prototype.slice.call(wrap.querySelectorAll(".v-thumb")) : [t];
+      var srcs = thumbs.map(function(b){ return b.getAttribute("data-src"); });
+      var startIdx = thumbs.indexOf(t);
+      openLightbox(srcs, startIdx, t.getAttribute("data-label"));
       return;
     }
     if (e.target === lb || e.target.classList.contains("v-lightbox-close")) closeLightbox();
   });
-  document.addEventListener("keydown", function(e){ if(e.key === "Escape") closeLightbox(); });
+  document.addEventListener("keydown", function(e){
+    if (!lb.classList.contains("show")) return;
+    if (e.key === "Escape") closeLightbox();
+    else if (e.key === "ArrowLeft") lbStep(-1);
+    else if (e.key === "ArrowRight") lbStep(1);
+  });
+  // swipe nav inside lightbox (mobile)
+  var lbTouch = { x:0, y:0, active:false };
+  lb.addEventListener("touchstart", function(e){
+    if (!e.touches[0]) return;
+    lbTouch.x = e.touches[0].clientX; lbTouch.y = e.touches[0].clientY; lbTouch.active = true;
+  }, {passive:true});
+  lb.addEventListener("touchend", function(e){
+    if (!lbTouch.active) return;
+    var dx = (e.changedTouches[0]||{}).clientX - lbTouch.x;
+    var dy = (e.changedTouches[0]||{}).clientY - lbTouch.y;
+    lbTouch.active = false;
+    if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy)) lbStep(dx < 0 ? 1 : -1);
+  }, {passive:true});
 
   // ---------- scroll reveal ----------
   var io = new IntersectionObserver(function(entries){
