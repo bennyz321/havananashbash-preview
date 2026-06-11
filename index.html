@@ -638,6 +638,7 @@
   var VENUE_IMG = {
     "gigi-pip":["01-b900b7ae94.jpg","02-8acc953453.jpg"],
     "rustler-hat":["01-8558094578.jpg","02-c028ff95fc.jpg"],
+    "hampton-social":["01-9821a156f4.jpg","02-00a6401f54.jpg","03-3467d1f73e.jpg"],
     "arrington":["01-2d90bdb20e.jpg","02-2d90bdb20e.jpg","03-8013d91728.jpg","04-540022ad41.jpg","05-9442e62a9a.jpg"],
     "bode":["01-14afa7e744.jpg","02-d7cd12d4b4.jpg","03-cbfd07dd1b.jpg","04-aa9f627018.jpg","05-fa0d63e15b.jpg"],
     "casa-rosa":["01-408bb55e86.jpg","02-f04fcaf8ee.jpg","03-9c3cc98bd6.jpg","04-7d6f622d10.jpg","05-9b1c758b4c.jpg"],
@@ -736,6 +737,7 @@
     rowdyBus:"https://wildridesnash.com/nashville-party-bus/",
     gigiPip:"https://www.gigipip.com/pages/nashville-custom-hat-experience",
     rustlerHat:"https://rustlerhatco.com/pages/group-bar-experience",
+    hamptonSocial:"https://www.thehamptonsocial.com/nashville",
     opry:"https://www.opry.com/",
     nashUnderground:"https://www.nashunderground.com/",
     stageOnBroadway:"https://thestageonbroadway.com/",
@@ -778,13 +780,9 @@
     ]},
     { id:"day-fri", dow:"Friday", date:"June 19", theme:"Jess's Big 4-0", sub:"The main event of the year.",
       couple:{ left:"jess", right:"ben" }, events:[
-      {time:"10:00 AM", title:"Birthday Brunch", pick:true, start:"20260619T100000", end:"20260619T113000", options:[
-        {name:"White Limozeen", url:U.whiteLimozeen, tag:"rooftop · the must-have", slug:"white-limozeen", close:"12:00 AM",
-         desc:"The iconic, glamorous, Dolly Parton-inspired rooftop bar with pink velvet and crystal chandeliers.",
-         celeb:{file:"dolly-parton.jpg", name:"Dolly Parton (inspired)"}},
-        {name:"Von Elrod's", url:U.vonElrods, tag:"beer hall & kitchen", slug:"von-elrods", close:"12:00 AM",
-         desc:"Located in the culinary hotspot of Germantown; perfect for group day-drinking."}
-      ]},
+      {time:"10:15 AM", title:"Birthday Brunch", confirmed:true, anchor:"hampton-social", note:"The Hampton Social · party of 10 · OpenTable confirmed", start:"20260619T101500", end:"20260619T113000", options:[
+        {name:"The Hampton Social", url:U.hamptonSocial, tag:"coastal cuisine · downtown", slug:"hampton-social",
+         desc:"Confirmed: party of 10 on Friday, June 19 at 10:15 AM (booked via OpenTable). Coastal-cuisine brunch at the 3-story Hampton Social (201 1st Ave S) — the Rosé All Day lounge plus a rooftop terrace, beautifully designed and lively."}]},
       {time:"12:30 PM", title:"Custom Hat-Making", pick:true, start:"20260619T123000", end:"20260619T140000", options:[
         {name:"Gigi Pip + Two Roads Hat Bar", url:U.gigiPip, tag:"Nashville Yards · guided hat bar", slug:"gigi-pip", close:"8:00 PM", tier:"premium",
          desc:"Build your own custom hat at the Gigi Pip + Two Roads hat bar in Nashville Yards — a ~45-minute guided, one-on-one session: choose your base, dial in the fit, then layer on bands, feathers, and trims. Gigi's Choice (pre-shaped) is $250/person · The Outlaw (custom-shaped) is $400/person."},
@@ -836,7 +834,10 @@
       couple:{ left:"mike", right:"brit" }, events:[
       {time:"9:00 AM", title:"Coffee — Dawn Cafe", note:"At Bode · easy morning", start:"20260621T090000", end:"20260621T094500", options:[{name:"Dawn Cafe", url:U.dawnCafe, slug:"dawn-cafe", close:"11:00 PM", desc:"Coffee at Bode 9:00 AM."}]},
       {time:"11:00 AM", title:"Checkout — Bode Nashville", start:"20260621T110000", end:"20260621T113000", options:[{name:"Bode Nashville", url:U.bode, slug:"bode", desc:"Final checkout from the home-base — bags down, brunch up next."}]},
-      {time:"12:00 PM", title:"Farewell Lunch", pick:true, start:"20260621T120000", end:"20260621T133000", options:[
+      {time:"12:00 PM", title:"Farewell Brunch", pick:true, start:"20260621T120000", end:"20260621T133000", options:[
+        {name:"White Limozeen", url:U.whiteLimozeen, tag:"rooftop · the must-have", slug:"white-limozeen", close:"12:00 AM",
+         desc:"The iconic, glamorous, Dolly Parton-inspired rooftop bar with pink velvet and crystal chandeliers.",
+         celeb:{file:"dolly-parton.jpg", name:"Dolly Parton (inspired)"}},
         {name:"Peg Leg Porker", url:U.pegLegPorker, tag:"hot chicken & BBQ · The Gulch", slug:"peg-leg-porker", close:"4:00 PM",
          desc:"Exceptional, authentic BBQ in The Gulch."},
         {name:"Monell's", url:U.monells, tag:"family-style Southern", slug:"monells", close:"4:00 PM",
