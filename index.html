@@ -636,7 +636,6 @@
   // ---------- venue URLs (sourced + verified 2026-05-22) ----------
   // venue press-image manifest (inline; emitted by build_venue_manifest.py). dedup-on-hash done at render time.
   var VENUE_IMG = {
-    "gigi-pip":["01-b900b7ae94.jpg","02-8acc953453.jpg"],
     "rustler-hat":["01-8558094578.jpg","02-c028ff95fc.jpg"],
     "hampton-social":["01-9821a156f4.jpg","02-00a6401f54.jpg","03-3467d1f73e.jpg"],
     "bode":["01-14afa7e744.jpg","02-d7cd12d4b4.jpg","03-cbfd07dd1b.jpg","04-aa9f627018.jpg","05-fa0d63e15b.jpg"],
@@ -734,7 +733,6 @@
     pinkHummerLimo:"https://www.pinklimoparty.com/pink-limo-nashville/",
     yeehawPartyBus:"https://yeehawpartybus.com/",
     rowdyBus:"https://wildridesnash.com/nashville-party-bus/",
-    gigiPip:"https://www.gigipip.com/pages/nashville-custom-hat-experience",
     rustlerHat:"https://rustlerhatco.com/pages/group-bar-experience",
     hamptonSocial:"https://www.thehamptonsocial.com/nashville",
     opry:"https://www.opry.com/",
@@ -781,13 +779,11 @@
       {time:"10:15 AM", title:"Birthday Brunch", confirmed:true, anchor:"hampton-social", note:"The Hampton Social · party of 10 · OpenTable confirmed", start:"20260619T101500", end:"20260619T113000", options:[
         {name:"The Hampton Social", url:U.hamptonSocial, tag:"coastal cuisine · downtown", slug:"hampton-social",
          desc:"Confirmed: party of 10 on Friday, June 19 at 10:15 AM (booked via OpenTable). Coastal-cuisine brunch at the 3-story Hampton Social (201 1st Ave S) — the Rosé All Day lounge plus a rooftop terrace, beautifully designed and lively."}]},
-      {time:"12:30 PM", title:"Custom Hat-Making", pick:true, start:"20260619T123000", end:"20260619T140000", options:[
-        {name:"Gigi Pip + Two Roads Hat Bar", url:U.gigiPip, tag:"Nashville Yards · guided hat bar", slug:"gigi-pip", close:"8:00 PM", tier:"premium",
-         desc:"Build your own custom hat at the Gigi Pip + Two Roads hat bar in Nashville Yards — a ~45-minute guided, one-on-one session: choose your base, dial in the fit, then layer on bands, feathers, and trims. Gigi's Choice (pre-shaped) is $250/person · The Outlaw (custom-shaped) is $400/person."},
-        {name:"Rustler Hat Co.", url:U.rustlerHat, tag:"The Gulch · hands-on custom hats", slug:"rustler-hat", close:"6:00 PM",
-         desc:"Nashville's premiere hands-on custom hat bar in the Gulch (407 11th Ave S) — the team guides each guest through shaping, styling, and branding a hat to their own vision. Book the Group Bar Experience (5+ guests), perfect for the birthday crew."}
+      {time:"2:00 PM", title:"Custom Hat-Making", confirmed:true, anchor:"rustler-hat", note:"Rustler Hat Co. · Showroom Bar Custom Fitting · booked + paid, under Jessica", start:"20260619T140000", end:"20260619T144500", options:[
+        {name:"Rustler Hat Co.", url:U.rustlerHat, slug:"rustler-hat", close:"6:00 PM",
+         desc:"Confirmed: Showroom Bar Custom Fitting, Friday June 19, 2:00–2:45 PM (paid · $75/person · multiple appointments under Jessica). Nashville's premiere hands-on custom hat bar in the Gulch (407 11th Ave S) — the team guides each guest through shaping, styling, and branding a hat to their own vision."}
       ]},
-      {time:"2:30–5:45 PM", title:"Get-ready buffer", buffer:true, note:"Rest, refresh, glam up for the big night."},
+      {time:"2:45–5:45 PM", title:"Get-ready buffer", buffer:true, note:"Rest, refresh, glam up for the big night."},
       {time:"7:00 PM", title:"Grand Ole Opry", confirmed:true, anchor:"opry", conf:"5815229", note:"Opry House · 14 seats, group of 10 (+4 extra tickets)", start:"20260619T190000", end:"20260619T213000", options:[{name:"Grand Ole Opry", url:U.opry, slug:"opry", desc:"Location: Opry House (Conf: 5815229). Tickets: 14 seats total for your group of 10.", mission:"You have <b>4 extra tickets</b> — invite some fun people you meet earlier in the day to join!"}]},
       {time:"After the show", title:"Post-Opry Party", pick:true, start:"20260619T214500", end:"20260619T235900", options:[
         {name:"Nashville Underground", url:U.nashUnderground, tag:"multi-level on Broadway", slug:"nashville-underground", close:"3:00 AM",
