@@ -408,6 +408,10 @@
     color:var(--cream); line-height:1.2; }
   .venue-row .v-col-right .venue-tag { font-family:"Outfit",system-ui,sans-serif;
     color:rgba(247,236,221,.55); font-size:.78rem; margin-top:.2rem; }
+  .venue-row .v-col-right .venue-close { font-family:"Outfit",system-ui,sans-serif;
+    color:rgba(214,178,115,.9); font-size:.74rem; letter-spacing:.03em; margin-top:.3rem;
+    display:inline-flex; align-items:center; gap:.34rem; }
+  .venue-row .v-col-right .venue-close .vc-icon { font-size:.88rem; opacity:.95; transform:translateY(.5px); }
   .venue-row .v-col-right .v-btns { display:flex; flex-wrap:wrap; gap:.5rem; margin-top:.75rem; }
   @media (max-width: 640px) {
     .venue-row { grid-template-columns: 1fr; gap:.7rem; }
@@ -728,6 +732,8 @@
     pinkHummerLimo:"https://www.pinklimoparty.com/pink-limo-nashville/",
     yeehawPartyBus:"https://yeehawpartybus.com/",
     rowdyBus:"https://wildridesnash.com/nashville-party-bus/",
+    gigiPip:"https://www.gigipip.com/pages/nashville-custom-hat-experience",
+    rustlerHat:"https://rustlerhatco.com/pages/group-bar-experience",
     opry:"https://www.opry.com/",
     nashUnderground:"https://www.nashunderground.com/",
     stageOnBroadway:"https://thestageonbroadway.com/",
@@ -756,14 +762,14 @@
       {time:"4:25 PM", title:"Flight — Miami → Nashville", note:"MIA → BNA · lands 5:56 PM CT", start:"20260618T162500", end:"20260618T175600"},
       {time:"6:45 PM", title:"Check in — Bode Nashville", conf:"145200", note:"The Gulch · home base all weekend", start:"20260618T184500", end:"20260618T193000", options:[{name:"Bode Nashville", url:U.bode, slug:"bode", desc:"Boutique home-base in The Gulch — modern lofts, walking distance to nearly everything on the itinerary."}]},
       {time:"8:00 PM", title:"Welcome Dinner", confirmed:true, anchor:"casa-rosa", conf:"7V42YH4CWVEE", note:"Casa Rosa · \"Cowgirl Dinner\" · party of 10 · under Ben Zierten", start:"20260618T200000", end:"20260618T213000", options:[
-        {name:"Casa Rosa", url:U.casaRosa, tag:"Miranda Lambert's cantina", slug:"casa-rosa",
+        {name:"Casa Rosa", url:U.casaRosa, tag:"Miranda Lambert's cantina", slug:"casa-rosa", close:"2:00 AM",
          desc:"A celebrity-owned Tex-Mex spot with that famous rhinestone saddle—perfect for birthday photos.",
          celeb:{file:"miranda-lambert.jpg", name:"Miranda Lambert"}}
       ]},
       {time:"9:30 PM", title:"Late Night Drinks", pick:true, start:"20260618T213000", end:"20260618T235900", options:[
-        {name:"Printer's Alley", url:U.printersAlley, tag:"historic nightlife district", slug:"printers-alley",
+        {name:"Printer's Alley", url:U.printersAlley, tag:"historic nightlife district", slug:"printers-alley", close:"late · varies",
          desc:"Explore the historic, walkable area with speakeasies and a more refined, cool vibe."},
-        {name:"Chief's on Broadway", url:U.chiefs, tag:"Eric Church's 6-story honky-tonk", slug:"chiefs",
+        {name:"Chief's on Broadway", url:U.chiefs, tag:"Eric Church's 6-story honky-tonk", slug:"chiefs", close:"3:00 AM",
          desc:"Eric Church's 6-story bar. Sophisticated, high-energy, and featuring incredible whole-hog BBQ.",
          celeb:{file:"eric-church.jpg", name:"Eric Church"}}
       ]}
@@ -771,75 +777,67 @@
     { id:"day-fri", dow:"Friday", date:"June 19", theme:"Jess's Big 4-0", sub:"The main event of the year.",
       couple:{ left:"jess", right:"ben" }, events:[
       {time:"10:00 AM", title:"Birthday Brunch", pick:true, start:"20260619T100000", end:"20260619T113000", options:[
-        {name:"White Limozeen", url:U.whiteLimozeen, tag:"rooftop · the must-have", slug:"white-limozeen",
+        {name:"White Limozeen", url:U.whiteLimozeen, tag:"rooftop · the must-have", slug:"white-limozeen", close:"12:00 AM",
          desc:"The iconic, glamorous, Dolly Parton-inspired rooftop bar with pink velvet and crystal chandeliers.",
          celeb:{file:"dolly-parton.jpg", name:"Dolly Parton (inspired)"}},
-        {name:"Von Elrod's", url:U.vonElrods, tag:"beer hall & kitchen", slug:"von-elrods",
+        {name:"Von Elrod's", url:U.vonElrods, tag:"beer hall & kitchen", slug:"von-elrods", close:"12:00 AM",
          desc:"Located in the culinary hotspot of Germantown; perfect for group day-drinking."}
       ]},
-      {time:"12:30 PM", title:"Afternoon Party Tour", pick:true, start:"20260619T123000", end:"20260619T140000", options:[
-        {name:"Joyride Nashville", url:U.joyride, tag:"premium party bus + golf carts", slug:"joyride", tier:"premium",
-         desc:"Nashville's #1-rated party bus operator — choose the Tin Roof (blue) or Big Machine Vodka (pink) coach, both with full bar setup. They also run open-air golf-cart tours if the crew wants smaller-group canvas."},
-        {name:"All Stars Pink Hummer Limo", url:U.pinkHummerLimo, tag:"super-stretch pink Hummer", slug:"pink-hummer-limo", tier:"premium",
-         desc:"Bachelorette icon: a hot-pink super-stretch Hummer limo seating ~10, LED interior, full bar, professional chauffeur. Door-to-door luxury between honky-tonks."},
-        {name:"Yeehaw Party Bus", url:U.yeehawPartyBus, tag:"bachelorette-branded", slug:"yeehaw-party-bus",
-         desc:"Bachelorette-focused operator — 'Brides RIDE FREE,' BYOB, classic open-air rolling Broadway loop with the birthday girl up front."},
-        {name:"Rowdy Bus (private charter)", url:U.rowdyBus, tag:"private full-bus charter", slug:"rowdy-bus",
-         desc:"Private full-bus charter for your group only (no strangers) — flat-rate rolling-bar with route through Broadway, Hall of Fame, and The Gulch."},
-        {name:"The Nashville Tractor", url:U.nashvilleTractor, tag:"open-air party wagon", slug:"nashville-tractor",
-         desc:"A massive, high-energy party wagon pulled by a real tractor."},
-        {name:"Honky Tonk Party Express", url:U.honkyTonkPartyExpress, tag:"rolling party bus", slug:"honky-tonk-party-express",
-         desc:"Classic, loud, and wild."}
+      {time:"12:30 PM", title:"Custom Hat-Making", pick:true, start:"20260619T123000", end:"20260619T140000", options:[
+        {name:"Gigi Pip + Two Roads Hat Bar", url:U.gigiPip, tag:"Nashville Yards · guided hat bar", slug:"gigi-pip", close:"8:00 PM", tier:"premium",
+         desc:"Build your own custom hat at the Gigi Pip + Two Roads hat bar in Nashville Yards — a ~45-minute guided, one-on-one session: choose your base, dial in the fit, then layer on bands, feathers, and trims. Gigi's Choice (pre-shaped) is $250/person · The Outlaw (custom-shaped) is $400/person."},
+        {name:"Rustler Hat Co.", url:U.rustlerHat, tag:"The Gulch · hands-on custom hats", slug:"rustler-hat", close:"6:00 PM",
+         desc:"Nashville's premiere hands-on custom hat bar in the Gulch (407 11th Ave S) — the team guides each guest through shaping, styling, and branding a hat to their own vision. Book the Group Bar Experience (5+ guests), perfect for the birthday crew."}
       ]},
       {time:"2:30–5:45 PM", title:"Get-ready buffer", buffer:true, note:"Rest, refresh, glam up for the big night."},
       {time:"7:00 PM", title:"Grand Ole Opry", confirmed:true, anchor:"opry", conf:"5815229", note:"Opry House · 14 seats, group of 10 (+4 extra tickets)", start:"20260619T190000", end:"20260619T213000", options:[{name:"Grand Ole Opry", url:U.opry, slug:"opry", desc:"Location: Opry House (Conf: 5815229). Tickets: 14 seats total for your group of 10.", mission:"You have <b>4 extra tickets</b> — invite some fun people you meet earlier in the day to join!"}]},
       {time:"After the show", title:"Post-Opry Party", pick:true, start:"20260619T214500", end:"20260619T235900", options:[
-        {name:"Nashville Underground", url:U.nashUnderground, tag:"multi-level on Broadway", slug:"nashville-underground",
+        {name:"Nashville Underground", url:U.nashUnderground, tag:"multi-level on Broadway", slug:"nashville-underground", close:"3:00 AM",
          desc:"Huge, multi-level venue near the river with rooftop bars, DJs, and plenty of space for a group of 10."},
-        {name:"The Stage on Broadway", url:U.stageOnBroadway, tag:"classic honky-tonk", slug:"stage-on-broadway",
+        {name:"The Stage on Broadway", url:U.stageOnBroadway, tag:"classic honky-tonk", slug:"stage-on-broadway", close:"2:30 AM",
          desc:"A quintessential Nashville honky-tonk experience that stays packed with high energy late into the night."},
-        {name:"Honky Tonk Central", url:U.honkyTonkCentral, tag:"largest on Lower Broadway", slug:"honky-tonk-central",
+        {name:"Honky Tonk Central", url:U.honkyTonkCentral, tag:"largest on Lower Broadway", slug:"honky-tonk-central", close:"3:00 AM",
          desc:"Three floors of live music that stay open until 3:00 AM."}
       ]}
     ]},
     { id:"day-sat", dow:"Saturday", date:"June 20", theme:"Wine, Dine & Laughs", sub:"Recover, sip, and the birthday dinner.",
       couple:{ left:"ciara", right:"andrea" }, events:[
       {time:"10:30 AM", title:"Recovery Brunch", pick:true, start:"20260620T103000", end:"20260620T120000", options:[
-        {name:"Henrietta Red", url:U.henriettaRed, tag:"oyster bar · Germantown", slug:"henrietta-red",
+        {name:"Henrietta Red", url:U.henriettaRed, tag:"oyster bar · Germantown", slug:"henrietta-red", close:"10:00 PM",
          desc:"Sophisticated and highly regarded for food quality; located in Germantown."},
-        {name:"Pinewood Social", url:U.pinewoodSocial, tag:"all-day social house", slug:"pinewood-social",
+        {name:"Pinewood Social", url:U.pinewoodSocial, tag:"all-day social house", slug:"pinewood-social", close:"11:00 PM",
          desc:"Great for groups who want to bowl and socialize in a cool, renovated space."}
       ]},
       {time:"1:00 PM", title:"Afternoon", pick:true, start:"20260620T130000", end:"20260620T153000", options:[
-        {name:"Arrington Vineyards", url:U.arrington, tag:"winery · Kix Brooks co-owns", slug:"arrington",
+        {name:"Arrington Vineyards", url:U.arrington, tag:"winery · Kix Brooks co-owns", slug:"arrington", close:"8:00 PM",
          desc:"The top pick for beautiful hilltop views and a relaxed atmosphere."},
-        {name:"The Gulch", url:U.theGulch, tag:"shop & stroll the district", slug:"the-gulch",
+        {name:"The Gulch", url:U.theGulch, tag:"shop & stroll the district", slug:"the-gulch", close:"late · varies",
          desc:"Trendy neighborhood perfect for upscale shopping and rooftop drinks."}
       ]},
       {time:"4:00–6:30 PM", title:"Get-ready buffer", buffer:true, note:"Glam, round two."},
-      {time:"7:00 PM", title:"Birthday Dinner — Supper Club", confirmed:true, anchor:"twelve-thirty", conf:"84804", note:"Twelve Thirty Club · the main celebration", start:"20260620T190000", end:"20260620T213000", options:[{name:"Twelve Thirty Club", url:U.twelveThirty, slug:"twelve-thirty",
+      {time:"7:00 PM", title:"Birthday Dinner — Supper Club", confirmed:true, anchor:"twelve-thirty", conf:"84804", note:"Twelve Thirty Club · the main celebration", start:"20260620T190000", end:"20260620T213000", options:[{name:"Twelve Thirty Club", url:U.twelveThirty, slug:"twelve-thirty", close:"12:00 AM",
         desc:"Location: Supper Club at The Twelve Thirty Club (Conf: 84804).",
         celeb:{file:"justin-timberlake.jpg", name:"Justin Timberlake"}}]},
       {time:"Late night", title:"Nightcap", pick:true, start:"20260620T214500", end:"20260620T235900", options:[
-        {name:"Zanies Comedy Club", url:U.zanies, tag:"stand-up laughs · Dave Attell", slug:"zanies",
+        {name:"Zanies Comedy Club", url:U.zanies, tag:"stand-up laughs · Dave Attell", slug:"zanies", close:"11:30 PM",
          desc:"Tickets ~$48.25 (face value) but check official site for availability first. Note: Will Call only, two-item minimum per person.",
          celeb:{file:"dave-attell.jpg", name:"Dave Attell (headliner)"}},
-        {name:"The Patterson House", url:U.pattersonHouse, tag:"speakeasy cocktails", slug:"patterson-house",
+        {name:"The Patterson House", url:U.pattersonHouse, tag:"speakeasy cocktails", slug:"patterson-house", close:"2:00 AM",
          desc:"Incredibly sophisticated, speakeasy-style cocktail lounge."},
-        {name:"L.A. Jackson", url:U.laJackson, tag:"rooftop bar", slug:"la-jackson",
+        {name:"L.A. Jackson", url:U.laJackson, tag:"rooftop bar", slug:"la-jackson", close:"1:00 AM",
          desc:"Stunning rooftop bar in The Gulch with a great lounge vibe, craft cocktails, and skyline views."},
-        {name:"Sixty Vines", url:U.sixtyVines, tag:"wine on tap", slug:"sixty-vines",
+        {name:"Sixty Vines", url:U.sixtyVines, tag:"wine on tap", slug:"sixty-vines", close:"11:00 PM",
          desc:"Beautiful, outdoor atmosphere right next to your dinner location."}
       ]}
     ]},
     { id:"day-sun", dow:"Sunday", date:"June 21", theme:"Recovery & Departure", sub:"One last coffee, then wheels up.",
       couple:{ left:"mike", right:"brit" }, events:[
-      {time:"9:00 AM", title:"Coffee — Dawn Cafe", note:"At Bode · easy morning", start:"20260621T090000", end:"20260621T094500", options:[{name:"Dawn Cafe", url:U.dawnCafe, slug:"dawn-cafe", desc:"Coffee at Bode 9:00 AM."}]},
+      {time:"9:00 AM", title:"Coffee — Dawn Cafe", note:"At Bode · easy morning", start:"20260621T090000", end:"20260621T094500", options:[{name:"Dawn Cafe", url:U.dawnCafe, slug:"dawn-cafe", close:"11:00 PM", desc:"Coffee at Bode 9:00 AM."}]},
       {time:"11:00 AM", title:"Checkout — Bode Nashville", start:"20260621T110000", end:"20260621T113000", options:[{name:"Bode Nashville", url:U.bode, slug:"bode", desc:"Final checkout from the home-base — bags down, brunch up next."}]},
       {time:"12:00 PM", title:"Farewell Lunch", pick:true, start:"20260621T120000", end:"20260621T133000", options:[
-        {name:"Peg Leg Porker", url:U.pegLegPorker, tag:"hot chicken & BBQ · The Gulch", slug:"peg-leg-porker",
+        {name:"Peg Leg Porker", url:U.pegLegPorker, tag:"hot chicken & BBQ · The Gulch", slug:"peg-leg-porker", close:"4:00 PM",
          desc:"Exceptional, authentic BBQ in The Gulch."},
-        {name:"Monell's", url:U.monells, tag:"family-style Southern", slug:"monells",
+        {name:"Monell's", url:U.monells, tag:"family-style Southern", slug:"monells", close:"4:00 PM",
          desc:"Traditional, hearty Southern family-style dining."}
       ]},
       {time:"5:27 PM", title:"Flight — Nashville → Miami", note:"BNA → MIA · wheels up", start:"20260621T172700", end:"20260621T190000"}
@@ -1027,6 +1025,8 @@
             '</p>';
         }
         if (opt.tag) nameHtml += '<p class="venue-tag">'+opt.tag+'</p>';
+        if (opt.close) nameHtml += '<p class="venue-close"><span class="vc-icon" aria-hidden="true">◷</span>'
+          + (/varies/.test(opt.close) ? 'Open ' + opt.close : 'Closes ' + opt.close) + '</p>';
         right.innerHTML = nameHtml;
         if (opt.conf){
           var cf = document.createElement("p");
