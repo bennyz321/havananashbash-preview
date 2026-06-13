@@ -83,6 +83,18 @@
   .reveal { opacity:0; transform:translateY(28px); transition:opacity .8s cubic-bezier(.16,1,.3,1), transform .8s cubic-bezier(.16,1,.3,1); }
   .reveal.in { opacity:1; transform:none; }
   .deco-rule { height:2px; background:linear-gradient(90deg,transparent,var(--gold),transparent); }
+  /* per-day Nashville weather chip (Open-Meteo live forecast) */
+  .wx-chip { display:inline-flex; align-items:center; gap:.5rem; margin-top:.9rem; padding:.3rem .85rem;
+    border:1px solid rgba(244,206,122,.28); border-radius:999px; background:rgba(21,13,31,.55);
+    color:var(--cream,#F7ECDD); font-size:.85rem; line-height:1; backdrop-filter:blur(6px); }
+  .wx-chip .wx-ico { font-size:1.05rem; }
+  .wx-chip .wx-temp { font-weight:700; color:var(--gold); }
+  .wx-chip .wx-temp .wx-lo { font-weight:600; color:rgba(247,236,221,.6); }
+  .wx-chip .wx-cond { color:rgba(247,236,221,.85); }
+  .wx-chip .wx-tag { font-family:'DM Mono',ui-monospace,monospace; font-size:.6rem; text-transform:uppercase;
+    letter-spacing:.12em; color:var(--teal,#19C2A8); border:1px solid rgba(25,194,168,.35);
+    border-radius:5px; padding:.1rem .35rem; }
+  .wx-chip .wx-loading { color:rgba(247,236,221,.5); font-style:italic; }
 
   @keyframes floaty { 0%,100%{transform:translateY(0)} 50%{transform:translateY(8px)} }
   .floaty { animation:floaty 2.4s ease-in-out infinite; }
@@ -785,7 +797,7 @@
   // `desc` = verbatim copy from Ben's original itinerary where known (Casa Rosa, Chief's, White Limozeen);
   // best-effort fuller-sentence elsewhere. `celeb` = small face-icon next to venue name.
   var DAYS = [
-    { id:"day-thu", dow:"Thursday", date:"June 18", theme:"Arrival & Welcome", sub:"Touch down, check in, first toast.",
+    { id:"day-thu", dow:"Thursday", date:"June 18", iso:"2026-06-18", theme:"Arrival & Welcome", sub:"Touch down, check in, first toast.",
       couple:{ left:"eric", right:"Jenny" }, events:[
       {time:"4:25 PM", title:"Flight — Miami → Nashville", note:"Departs Miami 4:25 PM ET → Lands Nashville 5:56 PM CT", start:"20260618T162500", end:"20260618T175600"},
       {time:"6:45 PM", title:"Check in — Bode Nashville", conf:"145200", note:"The Gulch · home base all weekend", start:"20260618T184500", end:"20260618T193000", options:[{name:"Bode Nashville", url:U.bode, slug:"bode", desc:"Boutique home-base in The Gulch — modern lofts, walking distance to nearly everything on the itinerary."}]},
@@ -802,7 +814,7 @@
          celeb:{file:"eric-church.jpg", name:"Eric Church"}}
       ]}
     ]},
-    { id:"day-fri", dow:"Friday", date:"June 19", theme:"Jess's Big 4-0", sub:"The main event of the year.",
+    { id:"day-fri", dow:"Friday", date:"June 19", iso:"2026-06-19", theme:"Jess's Big 4-0", sub:"The main event of the year.",
       couple:{ left:"jess", right:"ben" }, events:[
       {time:"10:15 AM", title:"Birthday Brunch", confirmed:true, anchor:"hampton-social", note:"The Hampton Social · party of 10 · OpenTable confirmed", start:"20260619T101500", end:"20260619T113000", options:[
         {name:"The Hampton Social", url:U.hamptonSocial, tag:"coastal cuisine · downtown", slug:"hampton-social",
@@ -822,7 +834,7 @@
          desc:"Three floors of live music that stay open until 3:00 AM."}
       ]}
     ]},
-    { id:"day-sat", dow:"Saturday", date:"June 20", theme:"Wine, Dine & Laughs", sub:"Recover, sip, and the birthday dinner.",
+    { id:"day-sat", dow:"Saturday", date:"June 20", iso:"2026-06-20", theme:"Wine, Dine & Laughs", sub:"Recover, sip, and the birthday dinner.",
       couple:{ left:"ciara", right:"andrea" }, events:[
       {time:"10:30 AM", title:"Brunch — White Limozeen", note:"(tentative — reservation pending)", start:"20260620T103000", end:"20260620T120000", options:[
         {name:"White Limozeen", url:U.whiteLimozeen, tag:"rooftop · the must-have", slug:"white-limozeen", close:"12:00 AM",
@@ -849,7 +861,7 @@
          desc:"Beautiful, outdoor atmosphere right next to your dinner location."}
       ]}
     ]},
-    { id:"day-sun", dow:"Sunday", date:"June 21", theme:"Recovery & Departure", sub:"One last coffee, then wheels up.",
+    { id:"day-sun", dow:"Sunday", date:"June 21", iso:"2026-06-21", theme:"Recovery & Departure", sub:"One last coffee, then wheels up.",
       couple:{ left:"mike", right:"brit" }, events:[
       {time:"9:00 AM", title:"Coffee — Dawn Cafe", note:"At Bode · easy morning", start:"20260621T090000", end:"20260621T094500", options:[{name:"Dawn Cafe", url:U.dawnCafe, slug:"dawn-cafe", close:"11:00 PM", desc:"Coffee at Bode 9:00 AM."}]},
       {time:"11:00 AM", title:"Checkout — Bode Nashville", start:"20260621T110000", end:"20260621T113000", options:[{name:"Bode Nashville", url:U.bode, slug:"bode", desc:"Final checkout from the home-base — bags down, brunch up next."}]},
@@ -969,6 +981,7 @@
       '<p class="font-marquee tracking-[.35em] text-pink text-sm mb-2">'+day.dow.toUpperCase()+' · '+day.date.toUpperCase()+'</p>'+
       '<h2 class="font-display text-4xl sm:text-5xl grad-text neon leading-tight">'+day.theme+'</h2>'+
       '<p class="font-body text-cream/60 mt-3">'+day.sub+'</p>'+
+      '<div class="wx-chip" id="wx-'+day.id+'" data-iso="'+(day.iso||'')+'"><span class="wx-loading">Nashville forecast loading…</span></div>'+
       '<div class="deco-rule w-40 mx-auto mt-6"></div>';
     inner.appendChild(head);
 
@@ -1110,6 +1123,32 @@
       root.appendChild(div);
     }
   });
+
+  // ---------- live Nashville weather (Open-Meteo · free, no key · fetched on load so it sharpens toward the trip) ----------
+  (function loadWeather(){
+    var WX={0:["Clear","☀️"],1:["Mainly clear","🌤️"],2:["Partly cloudy","⛅"],3:["Overcast","☁️"],
+      45:["Fog","🌫️"],48:["Fog","🌫️"],51:["Light drizzle","🌦️"],53:["Drizzle","🌦️"],55:["Drizzle","🌦️"],
+      61:["Light rain","🌧️"],63:["Rain","🌧️"],65:["Heavy rain","🌧️"],66:["Freezing rain","🌧️"],67:["Freezing rain","🌧️"],
+      71:["Snow","🌨️"],73:["Snow","🌨️"],75:["Snow","🌨️"],77:["Snow","🌨️"],
+      80:["Showers","🌦️"],81:["Showers","🌦️"],82:["Heavy showers","⛈️"],
+      95:["Thunderstorm","⛈️"],96:["Thunderstorm","⛈️"],99:["Thunderstorm","⛈️"]};
+    var url="https://api.open-meteo.com/v1/forecast?latitude=36.16&longitude=-86.78"+
+      "&daily=temperature_2m_max,temperature_2m_min,weather_code&temperature_unit=fahrenheit"+
+      "&timezone=America%2FChicago&start_date=2026-06-18&end_date=2026-06-21";
+    var hideAll=function(){ document.querySelectorAll(".wx-chip").forEach(function(c){ c.style.display="none"; }); };
+    fetch(url).then(function(r){ return r.ok ? r.json() : Promise.reject(r.status); }).then(function(d){
+      var t=d.daily.time, hi=d.daily.temperature_2m_max, lo=d.daily.temperature_2m_min, wc=d.daily.weather_code;
+      document.querySelectorAll(".wx-chip").forEach(function(chip){
+        var i=t.indexOf(chip.getAttribute("data-iso"));
+        if(i<0){ chip.style.display="none"; return; }
+        var w=WX[wc[i]]||["",""];
+        chip.innerHTML='<span class="wx-ico">'+w[1]+'</span>'+
+          '<span class="wx-temp">'+Math.round(hi[i])+'°<span class="wx-lo"> / '+Math.round(lo[i])+'°</span></span>'+
+          (w[0]?'<span class="wx-cond">'+w[0]+'</span>':'')+
+          '<span class="wx-tag">forecast</span>';
+      });
+    }).catch(hideAll);
+  })();
 
   // ---------- dropdown toggle (delegation) ----------
   document.addEventListener("click", function(e){
