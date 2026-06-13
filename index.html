@@ -95,6 +95,22 @@
     letter-spacing:.12em; color:var(--teal,#19C2A8); border:1px solid rgba(25,194,168,.35);
     border-radius:5px; padding:.1rem .35rem; }
   .wx-chip .wx-loading { color:rgba(247,236,221,.5); font-style:italic; }
+  /* tappable day chip → hourly expand */
+  .wx-chip.wx-tappable { cursor:pointer; user-select:none; transition:border-color .2s, background .2s; }
+  .wx-chip.wx-tappable:hover { border-color:rgba(244,206,122,.5); background:rgba(21,13,31,.72); }
+  .wx-chip .wx-caret { font-size:.7rem; color:rgba(247,236,221,.5); transition:transform .2s; margin-left:.05rem; }
+  .wx-chip.open .wx-caret { transform:rotate(180deg); color:var(--gold); }
+  .wx-hours { margin:.55rem auto 0; max-width:min(92vw,640px); }
+  .wx-hours-strip { display:flex; gap:.5rem; overflow-x:auto; padding:.2rem .1rem .3rem; justify-content:flex-start;
+    scrollbar-width:thin; -webkit-overflow-scrolling:touch; }
+  @media (min-width:640px){ .wx-hours-strip { justify-content:center; } }
+  .wx-hr { flex:0 0 auto; display:flex; flex-direction:column; align-items:center; gap:.18rem;
+    min-width:3.4rem; padding:.5rem .35rem; border-radius:.7rem; border:1px solid rgba(255,255,255,.08);
+    background:rgba(21,13,31,.5); }
+  .wx-hr .wx-hr-t { font-size:.66rem; letter-spacing:.04em; color:rgba(247,236,221,.6); }
+  .wx-hr .wx-hr-ico { font-size:1rem; }
+  .wx-hr .wx-hr-temp { font-size:.85rem; font-weight:700; color:var(--gold); }
+  .wx-hr .wx-hr-pp { font-size:.6rem; color:var(--teal,#19C2A8); }
 
   @keyframes floaty { 0%,100%{transform:translateY(0)} 50%{transform:translateY(8px)} }
   .floaty { animation:floaty 2.4s ease-in-out infinite; }
@@ -268,7 +284,10 @@
   .tl-dot.confirmed { background:radial-gradient(circle at 35% 35%, var(--gold), var(--coral)); box-shadow:0 0 0 5px rgba(244,206,122,.18); }
 
   .ev-card { border:1px solid rgba(255,255,255,.09); }
-  .ev-card.confirmed { border:1px solid rgba(244,206,122,.45); box-shadow:0 0 0 1px rgba(244,206,122,.12), 0 12px 40px rgba(255,90,60,.10); }
+  /* Confirmed cards: FRAME matches the standard cards (Ben 2026-06-13) — the gold status signal lives
+     only in the .conf-tag CONFIRMED badge, not the outline. The Opry/Hampton .confirmed-anchor premium
+     treatment (below) is separate + intentional, so it overrides this and keeps its gold frame. */
+  .ev-card.confirmed { border:1px solid rgba(255,255,255,.09); }
   .conf-tag { background:rgba(244,206,122,.14); border:1px solid rgba(244,206,122,.4); color:var(--gold); }
   .pick-tag { color:var(--teal); border:1px solid rgba(25,194,168,.4); }
 
@@ -1133,19 +1152,41 @@
       80:["Showers","🌦️"],81:["Showers","🌦️"],82:["Heavy showers","⛈️"],
       95:["Thunderstorm","⛈️"],96:["Thunderstorm","⛈️"],99:["Thunderstorm","⛈️"]};
     var url="https://api.open-meteo.com/v1/forecast?latitude=36.16&longitude=-86.78"+
-      "&daily=temperature_2m_max,temperature_2m_min,weather_code&temperature_unit=fahrenheit"+
-      "&timezone=America%2FChicago&start_date=2026-06-18&end_date=2026-06-21";
+      "&daily=temperature_2m_max,temperature_2m_min,weather_code"+
+      "&hourly=temperature_2m,weather_code,precipitation_probability"+
+      "&temperature_unit=fahrenheit&timezone=America%2FChicago&start_date=2026-06-18&end_date=2026-06-21";
     var hideAll=function(){ document.querySelectorAll(".wx-chip").forEach(function(c){ c.style.display="none"; }); };
+    function fmtHour(iso){ var h=parseInt(iso.slice(11,13),10),ap=h<12?"a":"p",hh=h%12; if(hh===0)hh=12; return hh+ap; }
     fetch(url).then(function(r){ return r.ok ? r.json() : Promise.reject(r.status); }).then(function(d){
-      var t=d.daily.time, hi=d.daily.temperature_2m_max, lo=d.daily.temperature_2m_min, wc=d.daily.weather_code;
+      var t=d.daily.time, hi=d.daily.temperature_2m_max, lo=d.daily.temperature_2m_min, wc=d.daily.weather_code, H=d.hourly||{};
       document.querySelectorAll(".wx-chip").forEach(function(chip){
-        var i=t.indexOf(chip.getAttribute("data-iso"));
+        var iso=chip.getAttribute("data-iso"), i=t.indexOf(iso);
         if(i<0){ chip.style.display="none"; return; }
         var w=WX[wc[i]]||["",""];
         chip.innerHTML='<span class="wx-ico">'+w[1]+'</span>'+
           '<span class="wx-temp">'+Math.round(hi[i])+'°<span class="wx-lo"> / '+Math.round(lo[i])+'°</span></span>'+
           (w[0]?'<span class="wx-cond">'+w[0]+'</span>':'')+
-          '<span class="wx-tag">forecast</span>';
+          '<span class="wx-tag">forecast</span>'+
+          '<span class="wx-caret" aria-hidden="true">▾</span>';
+        // tap → expand that day's hourly strip (8a–11p, every 2h) — same data, no re-fetch
+        var hrs="";
+        if(H.time){ for(var j=0;j<H.time.length;j++){
+          if(H.time[j].slice(0,10)!==iso) continue;
+          var hh=parseInt(H.time[j].slice(11,13),10); if(hh<8||hh>23||hh%2!==0) continue;
+          var hw=WX[H.weather_code[j]]||["",""], pp=H.precipitation_probability?H.precipitation_probability[j]:null;
+          hrs+='<div class="wx-hr"><span class="wx-hr-t">'+fmtHour(H.time[j])+'</span>'+
+            '<span class="wx-hr-ico">'+hw[1]+'</span>'+
+            '<span class="wx-hr-temp">'+Math.round(H.temperature_2m[j])+'°</span>'+
+            (pp!=null?'<span class="wx-hr-pp">💧'+pp+'%</span>':'')+'</div>';
+        }}
+        if(!hrs) return;  // no hourly → chip stays a plain (non-tappable) daily chip
+        var panel=document.createElement("div"); panel.className="wx-hours"; panel.hidden=true;
+        panel.innerHTML='<div class="wx-hours-strip">'+hrs+'</div>';
+        chip.insertAdjacentElement("afterend", panel);
+        chip.classList.add("wx-tappable"); chip.setAttribute("role","button"); chip.setAttribute("tabindex","0"); chip.setAttribute("aria-expanded","false");
+        var toggle=function(){ var open=panel.hidden; panel.hidden=!open; chip.classList.toggle("open",open); chip.setAttribute("aria-expanded",String(open)); };
+        chip.addEventListener("click",toggle);
+        chip.addEventListener("keydown",function(e){ if(e.key==="Enter"||e.key===" "){ e.preventDefault(); toggle(); } });
       });
     }).catch(hideAll);
   })();
