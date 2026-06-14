@@ -695,6 +695,7 @@
   // ---------- venue URLs (sourced + verified 2026-05-22) ----------
   // venue press-image manifest (inline; emitted by build_venue_manifest.py). dedup-on-hash done at render time.
   var VENUE_IMG = {
+    "stateside-kitchen":["01.jpg","02.jpg","03.jpg"],
     "rustler-hat":["01-8558094578.jpg","02-c028ff95fc.jpg"],
     "hampton-social":["01-9821a156f4.jpg","02-00a6401f54.jpg","03-3467d1f73e.jpg"],
     "bode":["01-14afa7e744.jpg","02-d7cd12d4b4.jpg","03-cbfd07dd1b.jpg","04-aa9f627018.jpg","05-fa0d63e15b.jpg"],
@@ -884,7 +885,7 @@
       couple:{ left:"mike", right:"brit" }, events:[
       {time:"9:00 AM", title:"Coffee — Dawn Cafe", note:"At Bode · easy morning", start:"20260621T090000", end:"20260621T094500", options:[{name:"Dawn Cafe", url:U.dawnCafe, slug:"dawn-cafe", close:"11:00 PM", desc:"Coffee at Bode 9:00 AM."}]},
       {time:"11:00 AM", title:"Checkout — Bode Nashville", start:"20260621T110000", end:"20260621T113000", options:[{name:"Bode Nashville", url:U.bode, slug:"bode", desc:"Final checkout from the home-base — bags down, brunch up next."}]},
-      {time:"11:15 AM", title:"Fanny Packs & Flasks — Father's Day Turn Up", confirmed:true,
+      {time:"11:15 AM", title:"Fanny Packs & Flasks — Father's Day Turn Up", confirmed:true, anchor:"stateside-kitchen",
        note:"Stateside Kitchen · party of 8 · booked under Jennifer Velazquez",
        start:"20260621T111500", end:"20260621T133000", options:[
         {name:"Stateside Kitchen", url:"https://www.sevenrooms.com/experiences/statesidekitchenbnadz/fanny-packs-flasks---fathers-day-turn-up-5260148936065024",
